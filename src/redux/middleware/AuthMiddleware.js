@@ -1,0 +1,45 @@
+import {APIs} from '../../configs/APIs';
+import {post} from '../../configs/AxiosConfig';
+import {ActionTypes} from '../action_types';
+
+export const AuthMiddleware = {
+  Register: userData => {
+    return async dispatch => {
+      dispatch({type: ActionTypes.ShowLoading});
+      try {
+        let formData = new FormData();
+        formData.append('username', userData.username);
+        formData.append('email', userData.email);
+        formData.append('password', userData.password);
+        formData.append('confirm_password', userData.c_password);
+        formData.append('city', userData.city);
+        formData.append('role', userData.userType);
+        formData.append('phone', userData.phone);
+        if (userData.provider)
+          formData.append('provider_as', userData.provider);
+        if (userData.company_name)
+          formData.append('company_name', userData.company_name);
+        let request = await post(APIs.REGISTER, formData);
+        if (request) {
+          dispatch({type: ActionTypes.Register, payload: request});
+        }
+        dispatch({type: ActionTypes.HideLoading});
+      } catch (error) {}
+    };
+  },
+  Login: userData => {
+    return async dispatch => {
+      try {
+        dispatch({type: ActionTypes.ShowLoading});
+        let formData = new FormData();
+        formData.append('email', userData.email);
+        formData.append('password', userData.password);
+        let request = await post(APIs.LOGIN, formData);
+        if (request) {
+          dispatch({type: ActionTypes.Register, payload: request});
+        }
+        dispatch({type: ActionTypes.HideLoading});
+      } catch (error) {}
+    };
+  },
+};
