@@ -11,7 +11,7 @@ import {
 } from 'native-base';
 import React, { Component } from 'react';
 import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet } from 'react-native';
-import MyHeader from '../../components/MyHeader';
+import MyHeader from '../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
 import StarRating from 'react-native-star-rating-widget';
 
@@ -21,8 +21,7 @@ import StarRating from 'react-native-star-rating-widget';
 
 const { width } = Dimensions.get('window');
 
-export default class ServiceDetails extends Component {
-    rotation = new Animated.Value(0);
+export default class FriendList extends Component {
 
     componentDidMount() {
         // Animated.timing(this.rotation, {
@@ -37,12 +36,12 @@ export default class ServiceDetails extends Component {
         <TouchableOpacity onPress={()=> this.props.navigation.navigate('OtherProfile')}>
             <View style={{ flexDirection: 'row', backgroundColor: '#eee', padding: 10, marginVertical: 5 }}>
                 {/* <View> */}
-                <Image source={require('../../assets/1.jpeg')} style={styles.profileImg} />
+                <Image source={require('../assets/1.jpeg')} style={styles.profileImg} />
                 {/* </View> */}
                 <View style={{ paddingHorizontal: 10 }}>
                     <Text style={styles.ProfileName}>Stacy Stratus</Text>
                     <View style={{ flexDirection: 'row' }}>
-                        <Image source={require('../../assets/blueMarker.png')} style={{ width: 20, height: 20 }} />
+                        <Image source={require('../assets/blueMarker.png')} style={{ width: 20, height: 20 }} />
                         <Text style={{}}>8 miles away</Text>
                     </View>
                 </View>
@@ -69,10 +68,7 @@ export default class ServiceDetails extends Component {
     );
 
     render() {
-        let rotate = this.rotation.interpolate({
-            inputRange: [0, 1],
-            outputRange: ['0deg', '360deg'],
-        });
+       
         return (
             <View style={styles.container}>
                 <MyHeader

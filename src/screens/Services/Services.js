@@ -31,7 +31,7 @@ export default class Services extends Component {
     }
 
     renderUsersList = item => (
-        <TouchableOpacity onPress={()=> this.props.navigation.navigate('ServiceDetail')}activeOpacity={0.7} style={styles.teamContainer}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('ServicesFilter')} activeOpacity={0.7} style={styles.teamContainer}>
             <Image source={require('../../assets/realtor.jpg')} style={styles.teamImage} />
             <Text style={styles.teamName}>{item}</Text>
         </TouchableOpacity>

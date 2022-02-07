@@ -9,7 +9,7 @@ import {
   ScrollView,
   VStack,
 } from 'native-base';
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   FlatList,
   Image,
@@ -18,31 +18,31 @@ import {
   View,
   Dimensions,
 } from 'react-native';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import MyHeader from '../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 class Dashboard extends Component {
   state = {
     data: [
-      {name: 'Realtors', img: require('../assets/realtor.jpg')},
-      {name: 'Artists', img: require('../assets/realtor.jpg')},
-      {name: 'Plumber', img: require('../assets/realtor.jpg')},
-      {name: 'Electrician', img: require('../assets/realtor.jpg')},
+      { name: 'Realtors', img: require('../assets/realtor.jpg') },
+      { name: 'Artists', img: require('../assets/realtor.jpg') },
+      { name: 'Plumber', img: require('../assets/realtor.jpg') },
+      { name: 'Electrician', img: require('../assets/realtor.jpg') },
     ],
     online_friends: [
-      {img: require('../assets/1.jpeg')},
-      {img: require('../assets/2.jpeg')},
-      {img: require('../assets/3.jpeg')},
-      {img: require('../assets/4.jpeg')},
-      {img: require('../assets/5.jpeg')},
-      {img: require('../assets/1.jpeg')},
-      {img: require('../assets/2.jpeg')},
-      {img: require('../assets/3.jpeg')},
-      {img: require('../assets/4.jpeg')},
-      {img: require('../assets/5.jpeg')},
+      { img: require('../assets/1.jpeg') },
+      { img: require('../assets/2.jpeg') },
+      { img: require('../assets/3.jpeg') },
+      { img: require('../assets/4.jpeg') },
+      { img: require('../assets/5.jpeg') },
+      { img: require('../assets/1.jpeg') },
+      { img: require('../assets/2.jpeg') },
+      { img: require('../assets/3.jpeg') },
+      { img: require('../assets/4.jpeg') },
+      { img: require('../assets/5.jpeg') },
     ],
     companies: [
       {
@@ -67,12 +67,12 @@ class Dashboard extends Component {
     this.props.navigation.navigate('Development In Process');
   };
 
-  _renderItem = ({item}) => {
+  _renderItem = ({ item }) => {
     return (
-      <TouchableOpacity onPress={this.onClick} style={{marginEnd: 15}}>
+      <TouchableOpacity onPress={this.onClick} style={{ marginEnd: 15 }}>
         <Image
           source={item.img}
-          style={{width: width * 0.5, height: 120, borderRadius: 5}}
+          style={{ width: width * 0.5, height: 120, borderRadius: 5 }}
         />
         <Heading fontSize="lg" marginTop="2">
           {item.name}
@@ -81,39 +81,39 @@ class Dashboard extends Component {
     );
   };
 
-  _renderFriend = ({item}) => {
+  _renderFriend = ({ item }) => {
     return (
-      <TouchableOpacity onPress={this.onClick} style={{marginEnd: 15}}>
+      <TouchableOpacity onPress={this.onClick} style={{ marginEnd: 15 }}>
         <Avatar size="sm" source={item.img} />
       </TouchableOpacity>
     );
   };
 
-  _renderCompany = ({item}) => {
+  _renderCompany = ({ item }) => {
     return (
       <TouchableOpacity onPress={this.onClick}>
         <HStack marginBottom="2">
           <Image
             source={item.img}
-            style={{width: 50, height: 45, borderRadius: 2}}
+            style={{ width: 50, height: 45, borderRadius: 2 }}
           />
           <VStack marginLeft={3} justifyContent="center">
             <Heading fontSize="md">{item.name}</Heading>
-            <Text style={{fontSize: 12}}>{item.distance}</Text>
+            <Text style={{ fontSize: 12 }}>{item.distance}</Text>
           </VStack>
         </HStack>
       </TouchableOpacity>
     );
   };
 
- 
+
 
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: '#fff'}}>
-        <MyHeader title={'Home'} notify profile/>
-        <ScrollView style={{flex: 1}}>
-          <View style={{flex: 1, padding: 15}}>
+      <View style={{ flex: 1, backgroundColor: '#fff' }}>
+        <MyHeader title={'Home'} notify profile />
+        <ScrollView style={{ flex: 1 }}>
+          <View style={{ flex: 1, padding: 15 }}>
             <Heading fontSize="xl">Hello Sarah,</Heading>
             <Heading fontSize="2xl">Welcome Back</Heading>
             <HStack
@@ -159,7 +159,7 @@ class Dashboard extends Component {
               <Heading fontSize="md" color="#1872ea">
                 Services
               </Heading>
-              <TouchableOpacity onPress={()=> this.props.navigation.navigate('Services')}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Services')}>
                 <Text>View All</Text>
               </TouchableOpacity>
             </HStack>
