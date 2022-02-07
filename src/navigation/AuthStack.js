@@ -3,6 +3,8 @@ import React from 'react';
 import ComingSoon from '../screens/ComingSoon';
 import Login from '../screens/Login';
 import Signup from '../screens/Signup';
+import Dashboard from '../screens/Dashboard';
+
 
 const AuthStackNav = createStackNavigator();
 

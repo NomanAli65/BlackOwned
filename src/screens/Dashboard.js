@@ -159,7 +159,7 @@ class Dashboard extends Component {
               <Heading fontSize="md" color="#1872ea">
                 Services
               </Heading>
-              <TouchableOpacity onPress={this.onClick}>
+              <TouchableOpacity onPress={()=> this.props.navigation.navigate('Services')}>
                 <Text>View All</Text>
               </TouchableOpacity>
             </HStack>

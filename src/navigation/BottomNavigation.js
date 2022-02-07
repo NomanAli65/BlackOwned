@@ -3,6 +3,7 @@ import {Text} from 'native-base';
 import React from 'react';
 import {Image, View} from 'react-native';
 import ComingSoon from '../screens/ComingSoon';
+import Services from '../screens/Services/Services';
 import Dashboard from '../screens/Dashboard';
 import Settings from '../screens/Settings';
 import MainStack from './MainStack';
@@ -59,7 +60,7 @@ export default function BottomNavigation() {
         }}
       />
       <BottomTabsNav.Screen
-        component={ComingSoon}
+        component={Services}
         name="Services"
         options={{
           tabBarIcon: props => (
