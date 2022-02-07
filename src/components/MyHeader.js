@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
-import {View, Dimensions} from 'react-native';
-import {connect} from 'react-redux';
-import {ArrowBackIcon, Avatar, Heading, HStack, Icon} from 'native-base';
+import React, { Component } from 'react';
+import { View, Dimensions } from 'react-native';
+import { connect } from 'react-redux';
+import { ArrowBackIcon, Avatar, Heading, HStack, Icon } from 'native-base';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 class MyHeader extends Component {
   render() {
@@ -20,10 +20,10 @@ class MyHeader extends Component {
             <TouchableOpacity onPress={this.props.onBackPress}>
               <ArrowBackIcon />
             </TouchableOpacity>
-            <View style={{width: width * 0.14}} />
+            <View style={{ width: width * 0.14 }} />
           </HStack>
         ) : (
-          <View style={{width: width * 0.2}} />
+          <View style={{ width: width * 0.2 }} />
         )}
         <Heading fontWeight="medium">{this.props.title}</Heading>
         {this.props.notify || this.props.profile ? (
@@ -31,7 +31,7 @@ class MyHeader extends Component {
             {this.props.notify ? (
               <HStack>
                 {!this.props.profile ? (
-                  <View style={{width: width * 0.1}} />
+                  <View style={{ width: width * 0.1 }} />
                 ) : null}
                 <Icon
                   as={MaterialCommunityIcons}
@@ -44,7 +44,7 @@ class MyHeader extends Component {
             {this.props.profile ? (
               <HStack>
                 {!this.props.notify ? (
-                  <View style={{width: width * 0.1}} />
+                  <View style={{ width: width * 0.1 }} />
                 ) : null}
                 <Avatar
                   source={require('../assets/user.png')}
@@ -55,7 +55,7 @@ class MyHeader extends Component {
             ) : null}
           </HStack>
         ) : (
-          <View style={{width: width * 0.2}} />
+          <View style={{ width: width * 0.2 }} />
         )}
       </HStack>
     );

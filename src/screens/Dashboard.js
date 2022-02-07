@@ -9,7 +9,7 @@ import {
   ScrollView,
   VStack,
 } from 'native-base';
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   FlatList,
   Image,
@@ -18,31 +18,31 @@ import {
   View,
   Dimensions,
 } from 'react-native';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import MyHeader from '../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 class Dashboard extends Component {
   state = {
     data: [
-      {name: 'Realtors', img: require('../assets/realtor.jpg')},
-      {name: 'Artists', img: require('../assets/realtor.jpg')},
-      {name: 'Plumber', img: require('../assets/realtor.jpg')},
-      {name: 'Electrician', img: require('../assets/realtor.jpg')},
+      { name: 'Realtors', img: require('../assets/realtor.jpg') },
+      { name: 'Artists', img: require('../assets/realtor.jpg') },
+      { name: 'Plumber', img: require('../assets/realtor.jpg') },
+      { name: 'Electrician', img: require('../assets/realtor.jpg') },
     ],
     online_friends: [
-      {img: require('../assets/1.jpeg')},
-      {img: require('../assets/2.jpeg')},
-      {img: require('../assets/3.jpeg')},
-      {img: require('../assets/4.jpeg')},
-      {img: require('../assets/5.jpeg')},
-      {img: require('../assets/1.jpeg')},
-      {img: require('../assets/2.jpeg')},
-      {img: require('../assets/3.jpeg')},
-      {img: require('../assets/4.jpeg')},
-      {img: require('../assets/5.jpeg')},
+      { img: require('../assets/1.jpeg') },
+      { img: require('../assets/2.jpeg') },
+      { img: require('../assets/3.jpeg') },
+      { img: require('../assets/4.jpeg') },
+      { img: require('../assets/5.jpeg') },
+      { img: require('../assets/1.jpeg') },
+      { img: require('../assets/2.jpeg') },
+      { img: require('../assets/3.jpeg') },
+      { img: require('../assets/4.jpeg') },
+      { img: require('../assets/5.jpeg') },
     ],
     companies: [
       {
@@ -61,18 +61,19 @@ class Dashboard extends Component {
         distance: '2.5 miles',
       },
     ],
+    selectedButtonTop: null,
   };
 
   onClick = () => {
     this.props.navigation.navigate('Development In Process');
   };
 
-  _renderItem = ({item}) => {
+  _renderItem = ({ item }) => {
     return (
-      <TouchableOpacity onPress={this.onClick} style={{marginEnd: 15}}>
+      <TouchableOpacity onPress={this.onClick} style={{ marginEnd: 15 }}>
         <Image
           source={item.img}
-          style={{width: width * 0.5, height: 120, borderRadius: 5}}
+          style={{ width: width * 0.5, height: 120, borderRadius: 5 }}
         />
         <Heading fontSize="lg" marginTop="2">
           {item.name}
@@ -81,39 +82,40 @@ class Dashboard extends Component {
     );
   };
 
-  _renderFriend = ({item}) => {
+  _renderFriend = ({ item }) => {
     return (
-      <TouchableOpacity onPress={this.onClick} style={{marginEnd: 15}}>
+      <TouchableOpacity onPress={this.onClick} style={{ marginEnd: 15 }}>
         <Avatar size="sm" source={item.img} />
       </TouchableOpacity>
     );
   };
 
-  _renderCompany = ({item}) => {
+  _renderCompany = ({ item }) => {
     return (
       <TouchableOpacity onPress={this.onClick}>
         <HStack marginBottom="2">
           <Image
             source={item.img}
-            style={{width: 50, height: 45, borderRadius: 2}}
+            style={{ width: 50, height: 45, borderRadius: 2 }}
           />
           <VStack marginLeft={3} justifyContent="center">
             <Heading fontSize="md">{item.name}</Heading>
-            <Text style={{fontSize: 12}}>{item.distance}</Text>
+            <Text style={{ fontSize: 12 }}>{item.distance}</Text>
           </VStack>
         </HStack>
       </TouchableOpacity>
     );
   };
 
- 
+
 
   render() {
+    let { selectedButtonTop } = this.state;
     return (
-      <View style={{flex: 1, backgroundColor: '#fff'}}>
-        <MyHeader title={'Home'} notify profile/>
-        <ScrollView style={{flex: 1}}>
-          <View style={{flex: 1, padding: 15}}>
+      <View style={{ flex: 1, backgroundColor: '#fff' }}>
+        <MyHeader title={'Home'} notify profile />
+        <ScrollView style={{ flex: 1 }}>
+          <View style={{ flex: 1, padding: 15 }}>
             <Heading fontSize="xl">Hello Sarah,</Heading>
             <Heading fontSize="2xl">Welcome Back</Heading>
             <HStack
@@ -131,8 +133,8 @@ class Dashboard extends Component {
                 flex={1}
                 borderRadius={5}
                 paddingX={0}
-                bgColor="#1872ea">
-                <Heading fontSize="13" color="#fff">
+                bgColor={selectedButtonTop == 0 ? "#1872ea" : "#ddd"}>
+                <Heading fontSize="13" color={selectedButtonTop == 0 ? "#fff" : "#000"}>
                   Jobs
                 </Heading>
               </Button>
@@ -140,17 +142,17 @@ class Dashboard extends Component {
                 onPress={this.onClick}
                 flex={1}
                 borderRadius={5}
-                backgroundColor="#ddd">
-                <Heading fontSize="13" color="#000">
+                backgroundColor={selectedButtonTop == 1 ? "#1872ea" : "#ddd"}>
+                <Heading textAlign={'center'} fontSize="13" color={selectedButtonTop == 1 ? "#fff" : "#000"}>
                   Market Place
                 </Heading>
               </Button>
               <Button
-                onPress={this.onClick}
+                onPress={() => { this.setState({ selectedButtonTop: 2 }), this.props.navigation.navigate('Network') }}
                 flex={1}
                 borderRadius={5}
-                backgroundColor="#ddd">
-                <Heading fontSize="13" color="#000">
+                backgroundColor={selectedButtonTop == 2 ? "#1872ea" : "#ddd"}>
+                <Heading fontSize="13" color={selectedButtonTop == 2 ? "#fff" : "#000"}>
                   Network
                 </Heading>
               </Button>
@@ -159,7 +161,7 @@ class Dashboard extends Component {
               <Heading fontSize="md" color="#1872ea">
                 Services
               </Heading>
-              <TouchableOpacity onPress={()=> this.props.navigation.navigate('Services')}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Services')}>
                 <Text>View All</Text>
               </TouchableOpacity>
             </HStack>
@@ -197,30 +199,30 @@ class Dashboard extends Component {
             />
             <HStack marginY={3} alignSelf={'center'} space={'md'}>
               <Button
-                onPress={this.onClick}
+                onPress={() => this.props.navigation.navigate('Banks')}
                 size={'sm'}
                 borderRadius={10}
                 paddingX={0}
                 bgColor="#1872ea">
-                <Heading fontSize="13" color="#fff" fontWeight="medium">
+                <Heading fontSize="12" color="#fff" fontWeight="medium">
                   Black owned banks
                 </Heading>
               </Button>
               <Button
-                onPress={this.onClick}
+                onPress={() => this.props.navigation.navigate('News')}
                 size={'sm'}
                 borderRadius={10}
                 backgroundColor="#ddd">
-                <Heading fontSize="13" color="#000" fontWeight="medium">
+                <Heading fontSize="12" color="#000" fontWeight="medium">
                   Black News
                 </Heading>
               </Button>
               <Button
-                onPress={this.onClick}
+                onPress={() => this.props.navigation.navigate('Seminar')}
                 size={'sm'}
                 borderRadius={10}
                 backgroundColor="#ddd">
-                <Heading fontSize="13" color="#000" fontWeight="medium">
+                <Heading fontSize="12" color="#000" fontWeight="medium">
                   Seminars
                 </Heading>
               </Button>
