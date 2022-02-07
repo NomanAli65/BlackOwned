@@ -61,6 +61,7 @@ class Dashboard extends Component {
         distance: '2.5 miles',
       },
     ],
+    selectedButtonTop: null,
   };
 
   onClick = () => {
@@ -109,6 +110,7 @@ class Dashboard extends Component {
 
 
   render() {
+    let { selectedButtonTop } = this.state;
     return (
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
         <MyHeader title={'Home'} notify profile />
@@ -131,8 +133,8 @@ class Dashboard extends Component {
                 flex={1}
                 borderRadius={5}
                 paddingX={0}
-                bgColor="#1872ea">
-                <Heading fontSize="13" color="#fff">
+                bgColor={selectedButtonTop == 0 ? "#1872ea" : "#ddd"}>
+                <Heading fontSize="13" color={selectedButtonTop == 0 ? "#fff" : "#000"}>
                   Jobs
                 </Heading>
               </Button>
@@ -140,17 +142,17 @@ class Dashboard extends Component {
                 onPress={this.onClick}
                 flex={1}
                 borderRadius={5}
-                backgroundColor="#ddd">
-                <Heading fontSize="13" color="#000">
+                backgroundColor={selectedButtonTop == 1 ? "#1872ea" : "#ddd"}>
+                <Heading textAlign={'center'} fontSize="13" color={selectedButtonTop == 1 ? "#fff" : "#000"}>
                   Market Place
                 </Heading>
               </Button>
               <Button
-                onPress={this.onClick}
+                onPress={() => { this.setState({ selectedButtonTop: 2 }), this.props.navigation.navigate('Network') }}
                 flex={1}
                 borderRadius={5}
-                backgroundColor="#ddd">
-                <Heading fontSize="13" color="#000">
+                backgroundColor={selectedButtonTop == 2 ? "#1872ea" : "#ddd"}>
+                <Heading fontSize="13" color={selectedButtonTop == 2 ? "#fff" : "#000"}>
                   Network
                 </Heading>
               </Button>
@@ -197,30 +199,30 @@ class Dashboard extends Component {
             />
             <HStack marginY={3} alignSelf={'center'} space={'md'}>
               <Button
-                onPress={this.onClick}
+                onPress={() => this.props.navigation.navigate('Banks')}
                 size={'sm'}
                 borderRadius={10}
                 paddingX={0}
                 bgColor="#1872ea">
-                <Heading fontSize="13" color="#fff" fontWeight="medium">
+                <Heading fontSize="12" color="#fff" fontWeight="medium">
                   Black owned banks
                 </Heading>
               </Button>
               <Button
-                onPress={this.onClick}
+                onPress={() => this.props.navigation.navigate('News')}
                 size={'sm'}
                 borderRadius={10}
                 backgroundColor="#ddd">
-                <Heading fontSize="13" color="#000" fontWeight="medium">
+                <Heading fontSize="12" color="#000" fontWeight="medium">
                   Black News
                 </Heading>
               </Button>
               <Button
-                onPress={this.onClick}
+                onPress={() => this.props.navigation.navigate('Seminar')}
                 size={'sm'}
                 borderRadius={10}
                 backgroundColor="#ddd">
-                <Heading fontSize="13" color="#000" fontWeight="medium">
+                <Heading fontSize="12" color="#000" fontWeight="medium">
                   Seminars
                 </Heading>
               </Button>
