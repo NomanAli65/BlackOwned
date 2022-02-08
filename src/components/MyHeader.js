@@ -25,7 +25,7 @@ class MyHeader extends Component {
         ) : (
           <View style={{ width: width * 0.2 }} />
         )}
-        <Heading fontWeight="medium">{this.props.title}</Heading>
+        <Heading fontSize={this.props.size ? this.props.size : 'lg'} fontWeight="medium">{this.props.title}</Heading>
         {this.props.notify || this.props.profile ? (
           <HStack space="sm">
             {this.props.notify ? (
