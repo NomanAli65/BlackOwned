@@ -54,6 +54,7 @@ export default class SubcriptionPlans extends Component {
                 );
             })}
             <Button
+                onPress={() => this.props.navigation.navigate('Payment')}
                 backgroundColor="primary.100"
                 style={{
                     width: '90%',

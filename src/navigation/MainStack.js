@@ -19,12 +19,17 @@ import Rating from '../screens/Rating';
 import Seminar from '../screens/Seminar/Seminar';
 import ServiceDetail from '../screens/Services/ServiceDetail';
 import Services from '../screens/Services/Services';
+import AddServices from '../screens/Services/AddServices';
 import ServicesFilter from '../screens/Services/ServicesFilter';
 import SubcriptionPlans from '../screens/SubcriptionPlans/SubcriptionPlans';
 import PrivacyPolicy from '../screens/PrivacyPolicy/PrivacyPolicy';
 import TermsAndConditions from '../screens/TermsAndConditions/TermsAndConditions';
 import ContactUs from '../screens/ContactUs/ContactUs';
 import Advertise from '../screens/Advertise/Advertise';
+import Payment from '../screens/Payment/Payment';
+import AddCard from '../screens/Payment/AddCard';
+
+
 const MainStackNav = createStackNavigator();
 
 const MainStack = () => {
@@ -32,6 +37,7 @@ const MainStack = () => {
     <MainStackNav.Navigator screenOptions={{ headerShown: false }}>
       <MainStackNav.Screen name="Dashboard" component={Dashboard} />
       <MainStackNav.Screen name="Services" component={Services} />
+      <MainStackNav.Screen name="AddServices" component={AddServices} />
       <MainStackNav.Screen name="ServicesFilter" component={ServicesFilter} />
       <MainStackNav.Screen name="ServiceDetail" component={ServiceDetail} />
       <MainStackNav.Screen name="OtherProfile" component={OtherProfile} />
@@ -54,6 +60,8 @@ const MainStack = () => {
       <MainStackNav.Screen name="TermsAndConditions" component={TermsAndConditions} />
       <MainStackNav.Screen name="ContactUs" component={ContactUs} />
       <MainStackNav.Screen name="Advertise" component={Advertise} />
+      <MainStackNav.Screen name="Payment" component={Payment} />
+      <MainStackNav.Screen name="AddCard" component={AddCard} />
 
 
       <MainStackNav.Screen
