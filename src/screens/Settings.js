@@ -100,7 +100,7 @@ class Settings extends Component {
               </TouchableOpacity> */}
               <TouchableOpacity
                 onPress={() =>
-                  this.props.navigation.navigate('Development In Process')
+                  this.props.navigation.navigate('ContactUs')
                 }>
                 <HStack space="md" alignItems="center" paddingY={3}>
                   <Image
@@ -127,7 +127,7 @@ class Settings extends Component {
               ) : null} */}
               <TouchableOpacity
                 onPress={() =>
-                  this.props.navigation.navigate('Development In Process')
+                  this.props.navigation.navigate('TermsAndConditions')
                 }>
                 <HStack space="md" alignItems="center" paddingY={3}>
                   <Image
@@ -143,7 +143,7 @@ class Settings extends Component {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() =>
-                  this.props.navigation.navigate('Development In Process')
+                  this.props.navigation.navigate('PrivacyPolicy')
                 }>
                 <HStack space="md" alignItems="center" paddingY={3}>
                   <Image

@@ -21,8 +21,10 @@ import ServiceDetail from '../screens/Services/ServiceDetail';
 import Services from '../screens/Services/Services';
 import ServicesFilter from '../screens/Services/ServicesFilter';
 import SubcriptionPlans from '../screens/SubcriptionPlans/SubcriptionPlans';
-
-
+import PrivacyPolicy from '../screens/PrivacyPolicy/PrivacyPolicy';
+import TermsAndConditions from '../screens/TermsAndConditions/TermsAndConditions';
+import ContactUs from '../screens/ContactUs/ContactUs';
+import Advertise from '../screens/Advertise/Advertise';
 const MainStackNav = createStackNavigator();
 
 const MainStack = () => {
@@ -48,6 +50,10 @@ const MainStack = () => {
       <MainStackNav.Screen name="profileSettings" component={profileSettings} />
       <MainStackNav.Screen name="EditProfile" component={EditProfile} />
       <MainStackNav.Screen name="SubcriptionPlans" component={SubcriptionPlans} />
+      <MainStackNav.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+      <MainStackNav.Screen name="TermsAndConditions" component={TermsAndConditions} />
+      <MainStackNav.Screen name="ContactUs" component={ContactUs} />
+      <MainStackNav.Screen name="Advertise" component={Advertise} />
 
 
       <MainStackNav.Screen

@@ -80,7 +80,7 @@ export default class EditProfile extends Component {
                                     <Image
                                         resizeMode="contain"
                                         source={require('../../assets/dropdown.png')}
-                                        style={{ height: 15, width: 15 }}
+                                        style={{ height: 15, width: 15, tintColor: 'rgb(160, 160, 160)' }}
                                     />
                                 );
                             }}
@@ -103,7 +103,7 @@ export default class EditProfile extends Component {
                                     <Image
                                         resizeMode="contain"
                                         source={require('../../assets/dropdown.png')}
-                                        style={{ height: 15, width: 15 }}
+                                        style={{ height: 15, width: 15, tintColor: 'rgb(160, 160, 160)' }}
                                     />
                                 );
                             }}
@@ -126,7 +126,7 @@ export default class EditProfile extends Component {
                                     <Image
                                         resizeMode="contain"
                                         source={require('../../assets/dropdown.png')}
-                                        style={{ height: 15, width: 15 }}
+                                        style={{ height: 15, width: 15, tintColor: 'rgb(160, 160, 160)' }}
                                     />
                                 );
                             }}
