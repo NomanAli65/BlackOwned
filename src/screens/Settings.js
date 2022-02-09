@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   Dimensions,
   Image,
@@ -8,22 +8,22 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import MyHeader from '../components/MyHeader';
-import {Box, Button, Heading, HStack, Icon, VStack} from 'native-base';
-import {connect} from 'react-redux';
-import {AuthMiddleware} from '../redux/middleware/AuthMiddleware';
-import {ActionTypes} from '../redux/action_types';
+import { Box, Button, Heading, HStack, Icon, VStack } from 'native-base';
+import { connect } from 'react-redux';
+import { AuthMiddleware } from '../redux/middleware/AuthMiddleware';
+import { ActionTypes } from '../redux/action_types';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 const iconSize = 20;
 
 class Settings extends Component {
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: '#fff'}}>
+      <View style={{ flex: 1, backgroundColor: '#fff' }}>
         <MyHeader title={'Settings'} notify profile back />
         <ScrollView>
-          <View style={{flex: 1, padding: 20}}>
+          <View style={{ flex: 1, padding: 20 }}>
             <HStack
               padding={5}
               backgroundColor="#eee"
@@ -40,9 +40,11 @@ class Settings extends Component {
               <VStack space="lg">
                 <Box>
                   <Heading fontSize="lg">John Doe</Heading>
-                  <Text style={{fontSize: 13}}>Johndoe@blackowned.biz</Text>
+                  <Text adjustsFontSizeToFit numberOfLines={1} style={{ width: '97%', fontSize: 13, }}>Johndoe@blackowned.biz</Text>
                 </Box>
-                <Button backgroundColor="primary.100" maxWidth={120}>
+                <Button
+                  onPress={() => this.props.navigation.navigate('EditProfile')}
+                  backgroundColor="primary.100" maxWidth={120}>
                   Edit Profile
                 </Button>
               </VStack>
@@ -50,7 +52,7 @@ class Settings extends Component {
             <VStack marginTop="5" padding="5" backgroundColor="#eee">
               <TouchableOpacity
                 onPress={() =>
-                  this.props.navigation.navigate('Development In Process')
+                  this.props.navigation.navigate('profileSettings')
                 }>
                 <HStack space="md" alignItems="center" paddingY={3}>
                   <Image
@@ -66,7 +68,7 @@ class Settings extends Component {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() =>
-                  this.props.navigation.navigate('Development In Process')
+                  this.props.navigation.navigate('SubcriptionPlans')
                 }>
                 <HStack space="md" alignItems="center" paddingY={3}>
                   <Image
@@ -80,7 +82,7 @@ class Settings extends Component {
                   <Heading fontSize="lg">Subscription Plan</Heading>
                 </HStack>
               </TouchableOpacity>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={() =>
                   this.props.navigation.navigate('Development In Process')
                 }>
@@ -95,7 +97,7 @@ class Settings extends Component {
                   />
                   <Heading fontSize="lg">Invite</Heading>
                 </HStack>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <TouchableOpacity
                 onPress={() =>
                   this.props.navigation.navigate('Development In Process')
@@ -112,7 +114,7 @@ class Settings extends Component {
                   <Heading fontSize="lg">Contact Us</Heading>
                 </HStack>
               </TouchableOpacity>
-              {this.props.user.user.role == 'provider' ? (
+              {/* {this.props.user.user.role == 'provider' ? (
                 <TouchableOpacity
                   onPress={() =>
                     this.props.navigation.navigate('Development In Process')
@@ -122,7 +124,7 @@ class Settings extends Component {
                     <Heading fontSize="lg">Ratings</Heading>
                   </HStack>
                 </TouchableOpacity>
-              ) : null}
+              ) : null} */}
               <TouchableOpacity
                 onPress={() =>
                   this.props.navigation.navigate('Development In Process')
@@ -177,11 +179,11 @@ class Settings extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.AuthReducer.user,
+  // user: state.AuthReducer.user,
 });
 
 const mapDispatchToProps = dispatch => ({
-  Logout: () => dispatch({type: ActionTypes.Logout}),
+  Logout: () => dispatch({ type: ActionTypes.Logout }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);
