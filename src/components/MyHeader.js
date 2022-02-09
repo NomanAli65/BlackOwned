@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions,TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { ArrowBackIcon, Avatar, Heading, HStack, Icon } from 'native-base';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const { width } = Dimensions.get('window');
 
@@ -33,12 +32,14 @@ class MyHeader extends Component {
                 {!this.props.profile ? (
                   <View style={{ width: width * 0.1 }} />
                 ) : null}
-                <Icon
-                  as={MaterialCommunityIcons}
-                  name="bell"
-                  color="#000"
-                  size="7"
-                />
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('Notification')}>
+                  <Icon
+                    as={MaterialCommunityIcons}
+                    name="bell"
+                    color="#000"
+                    size="7"
+                  />
+                </TouchableOpacity>
               </HStack>
             ) : null}
             {this.props.profile ? (

@@ -113,7 +113,7 @@ class Dashboard extends Component {
     let { selectedButtonTop } = this.state;
     return (
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
-        <MyHeader title={'Home'} notify profile />
+        <MyHeader title={'Home'} notify profile navigation={this.props.navigation} />
         <ScrollView style={{ flex: 1 }}>
           <View style={{ flex: 1, padding: 15 }}>
             <Heading fontSize="xl">Hello Sarah,</Heading>
@@ -129,7 +129,7 @@ class Dashboard extends Component {
             </HStack>
             <HStack marginY={3} alignSelf={'center'} space={'md'}>
               <Button
-                onPress={this.onClick}
+                onPress={() => this.props.navigation.navigate('Jobs')}
                 flex={1}
                 borderRadius={5}
                 paddingX={0}
@@ -139,7 +139,7 @@ class Dashboard extends Component {
                 </Heading>
               </Button>
               <Button
-                onPress={this.onClick}
+                onPress={() => this.props.navigation.navigate('Marketplace')}
                 flex={1}
                 borderRadius={5}
                 backgroundColor={selectedButtonTop == 1 ? "#1872ea" : "#ddd"}>

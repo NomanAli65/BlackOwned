@@ -28,7 +28,7 @@ export default class NetworkList extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <MyHeader
-                    back notify profile
+                     back notify profile navigation={this.props.navigation}
                     title={'Network'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />

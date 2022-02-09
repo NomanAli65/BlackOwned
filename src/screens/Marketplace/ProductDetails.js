@@ -1,8 +1,21 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import {
+    Avatar,
+    Box,
+    Button,
+    Heading,
+    HStack,
+    Icon,
+    Input,
+    ScrollView,
+    VStack,
+} from 'native-base';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import MyHeader from '../../components/MyHeader';
+import Feather from 'react-native-vector-icons/Feather';
 
-export default class NewsDetail extends Component {
+
+export default class ProductDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,15 +27,17 @@ export default class NewsDetail extends Component {
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <MyHeader
                      back notify profile navigation={this.props.navigation}
-                    title={'News'}
+                    title={this.props.route.name}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
                 <View style={styles.ListContainer}>
 
                     <ScrollView>
+
                         <Image source={require('../../assets/realtor.jpg')} style={styles.ListImage} />
                         <View>
-                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.ListName}>Successful Trade Tips</Text>
+                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.ListName}>Electro Music Instrument</Text>
+                            <Text style={styles.sponsorPrice}>$500.50</Text>
 
                             <Text style={styles.ListDescription}>
                                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.
@@ -34,23 +49,40 @@ export default class NewsDetail extends Component {
                                 the 1500s, when an unknown printer took a galley of type and scrambled it to
                                 make a type specimen book.
                                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                Lorem Ipsum has been the industry's standard dummy text ever since
-                                the 1500s, when an unknown printer took a galley of type and scrambled it to
-                                make a type specimen book.
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                Lorem Ipsum has been the industry's standard dummy text ever since
-                                the 1500s, when an unknown printer took a galley of type and scrambled it to
-                                make a type specimen book.
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                Lorem Ipsum has been the industry's standard dummy text ever since
-                                the 1500s, when an unknown printer took a galley of type and scrambled it to
-                                make a type specimen book.
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                Lorem Ipsum has been the industry's standard dummy text ever since
-                                the 1500s, when an unknown printer took a galley of type and scrambled it to
-                                make a type specimen book.
+
                             </Text>
                         </View>
+
+                        <HStack marginY={10} alignSelf={'center'} space={'md'}>
+                            <Button
+                                onPress={this.onClick}
+                                flex={1}
+                                borderRadius={5}
+                                paddingX={0}
+                                bgColor="#1872ea">
+                                <Heading fontSize="13" color="#fff">
+                                    Chat
+                                </Heading>
+                            </Button>
+                            <Button
+                                onPress={this.onClick}
+                                flex={1}
+                                borderRadius={5}
+                                backgroundColor="#1872ea">
+                                <Heading fontSize="13" color="#fff">
+                                    Email
+                                </Heading>
+                            </Button>
+                            <Button
+                                onPress={() => this.props.navigation.navigate('FriendList')}
+                                flex={1}
+                                borderRadius={5}
+                                backgroundColor="#1872ea">
+                                <Heading fontSize="13" color="#fff">
+                                    Call
+                                </Heading>
+                            </Button>
+                        </HStack>
                     </ScrollView>
 
                 </View>
@@ -99,6 +131,12 @@ const styles = StyleSheet.create({
     },
     ListAddImage: {
         marginRight: 5,
+    },
+    sponsorPrice: {
+        fontSize: 14,
+        color: '#1D9CD9',
+        alignSelf: 'flex-start',
+        fontWeight: 'bold'
     },
 
 })

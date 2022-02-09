@@ -20,7 +20,6 @@ import Feather from 'react-native-vector-icons/Feather';
 const { width } = Dimensions.get('window');
 
 export default class Services extends Component {
-    rotation = new Animated.Value(0);
 
     componentDidMount() {
         // Animated.timing(this.rotation, {
@@ -38,14 +37,10 @@ export default class Services extends Component {
     );
 
     render() {
-        let rotate = this.rotation.interpolate({
-            inputRange: [0, 1],
-            outputRange: ['0deg', '360deg'],
-        });
         return (
             <ScrollView style={styles.container}>
                 <MyHeader
-                    back notify profile
+                     back notify profile navigation={this.props.navigation}
                     title={this.props.route.name}
                     onBackPress={() => this.props.navigation.goBack()}
                 />

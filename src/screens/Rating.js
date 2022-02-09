@@ -42,7 +42,7 @@ export default class Rating extends Component {
         return (
             <View style={styles.container}>
                 <MyHeader
-                    back notify profile
+                     back notify profile navigation={this.props.navigation}
                     title={this.props.route.name}
                     onBackPress={() => this.props.navigation.goBack()}
                 />

@@ -26,7 +26,7 @@ export default class Seminar extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <MyHeader
-                    back notify profile
+                     back notify profile navigation={this.props.navigation}
                     title={'Seminar'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />

@@ -13,6 +13,11 @@ import Seminar from '../screens/Seminar/Seminar';
 import ServiceDetail from '../screens/Services/ServiceDetail';
 import Services from '../screens/Services/Services';
 import ServicesFilter from '../screens/Services/ServicesFilter';
+import Marketplace from '../screens/Marketplace/Marketplace';
+import ProductDetails from '../screens/Marketplace/ProductDetails';
+import AddProduct from '../screens/Marketplace/AddProduct';
+import Jobs from '../screens/Jobs/Jobs';
+import Notification from '../screens/Notification/Notification';
 
 
 const MainStackNav = createStackNavigator();
@@ -32,6 +37,11 @@ const MainStack = () => {
       <MainStackNav.Screen name="Seminar" component={Seminar} />
       <MainStackNav.Screen name="News" component={News} />
       <MainStackNav.Screen name="NewsDetail" component={NewsDetail} />
+      <MainStackNav.Screen name="Marketplace" component={Marketplace} />
+      <MainStackNav.Screen name="ProductDetails" component={ProductDetails} />
+      <MainStackNav.Screen name="AddProduct" component={AddProduct} />
+      <MainStackNav.Screen name="Jobs" component={Jobs} />
+      <MainStackNav.Screen name="Notification" component={Notification} />
       <MainStackNav.Screen
         name="Development In Process"
         component={ComingSoon}

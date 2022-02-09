@@ -15,7 +15,7 @@ export default class index extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <MyHeader
-                    back notify
+                    back notify navigation={this.props.navigation}
                     title={'Network'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
