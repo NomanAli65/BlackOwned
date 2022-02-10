@@ -37,7 +37,7 @@ export default class Advertise extends Component {
                     onBackPress={() => this.props.navigation.goBack()}
                 />
                 <Button
-
+                    onPress={() => this.props.navigation.navigate('SubcriptionPlans')}
                     backgroundColor="primary.100"
                     style={{
                         alignSelf: 'flex-end',

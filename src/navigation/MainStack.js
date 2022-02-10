@@ -1,11 +1,14 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
+import Advertise from '../screens/Advertise/Advertise';
 import Banks from '../screens/Banks/Banks';
 import ComingSoon from '../screens/ComingSoon';
+import ContactUs from '../screens/ContactUs/ContactUs';
 import Dashboard from '../screens/Dashboard';
 import EditProfile from '../screens/EditProfile/EditProfile';
 import FriendList from '../screens/FriendList';
 import Jobs from '../screens/Jobs/Jobs';
+import LocalCompanyList from '../screens/LocalCompanyList/LocalCompanyList';
 import AddProduct from '../screens/Marketplace/AddProduct';
 import Marketplace from '../screens/Marketplace/Marketplace';
 import ProductDetails from '../screens/Marketplace/ProductDetails';
@@ -13,22 +16,22 @@ import Network from '../screens/Network';
 import News from '../screens/News/News';
 import NewsDetail from '../screens/News/NewsDetail';
 import Notification from '../screens/Notification/Notification';
+import AddCard from '../screens/Payment/AddCard';
+import Payment from '../screens/Payment/Payment';
+import PrivacyPolicy from '../screens/PrivacyPolicy/PrivacyPolicy';
 import OtherProfile from '../screens/Profile/OtherProfile';
+import Upload from '../screens/Profile/Upload';
+import UserProfile from '../screens/Profile/UserProfile';
 import profileSettings from '../screens/ProfileSettings/profileSettings';
 import Rating from '../screens/Rating';
 import Seminar from '../screens/Seminar/Seminar';
+import AddServices from '../screens/Services/AddServices';
 import ServiceDetail from '../screens/Services/ServiceDetail';
 import Services from '../screens/Services/Services';
-import AddServices from '../screens/Services/AddServices';
 import ServicesFilter from '../screens/Services/ServicesFilter';
 import SubcriptionPlans from '../screens/SubcriptionPlans/SubcriptionPlans';
-import PrivacyPolicy from '../screens/PrivacyPolicy/PrivacyPolicy';
 import TermsAndConditions from '../screens/TermsAndConditions/TermsAndConditions';
-import ContactUs from '../screens/ContactUs/ContactUs';
-import Advertise from '../screens/Advertise/Advertise';
-import Payment from '../screens/Payment/Payment';
-import AddCard from '../screens/Payment/AddCard';
-import LocalCompanyList from '../screens/LocalCompanyList/LocalCompanyList';
+
 
 const MainStackNav = createStackNavigator();
 
@@ -40,6 +43,8 @@ const MainStack = () => {
       <MainStackNav.Screen name="AddServices" component={AddServices} />
       <MainStackNav.Screen name="ServicesFilter" component={ServicesFilter} />
       <MainStackNav.Screen name="ServiceDetail" component={ServiceDetail} />
+      <MainStackNav.Screen name="UserProfile" component={UserProfile} />
+      <MainStackNav.Screen name="Upload" component={Upload} />
       <MainStackNav.Screen name="OtherProfile" component={OtherProfile} />
       <MainStackNav.Screen name="FriendList" component={FriendList} />
       <MainStackNav.Screen name="Rating" component={Rating} />
