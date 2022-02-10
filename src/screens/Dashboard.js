@@ -70,7 +70,7 @@ class Dashboard extends Component {
 
   _renderItem = ({ item }) => {
     return (
-      <TouchableOpacity onPress={this.onClick} style={{ marginEnd: 15 }}>
+      <TouchableOpacity onPress={()=> this.props.navigation.navigate('ServiceDetail')} style={{ marginEnd: 15 }}>
         <Image
           source={item.img}
           style={{ width: width * 0.5, height: 120, borderRadius: 5 }}
