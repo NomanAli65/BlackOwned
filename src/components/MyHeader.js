@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Dimensions,TouchableOpacity } from 'react-native';
+import { View, Dimensions, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { ArrowBackIcon, Avatar, Heading, HStack, Icon } from 'native-base';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -47,11 +47,13 @@ class MyHeader extends Component {
                 {!this.props.notify ? (
                   <View style={{ width: width * 0.1 }} />
                 ) : null}
-                <Avatar
-                  source={require('../assets/user.png')}
-                  size="sm"
-                  backgroundColor="#ddd"
-                />
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('UserProfile')}>
+                  <Avatar
+                    source={require('../assets/user.png')}
+                    size="sm"
+                    backgroundColor="#ddd"
+                  />
+                </TouchableOpacity>
               </HStack>
             ) : null}
           </HStack>
