@@ -28,7 +28,7 @@ import ContactUs from '../screens/ContactUs/ContactUs';
 import Advertise from '../screens/Advertise/Advertise';
 import Payment from '../screens/Payment/Payment';
 import AddCard from '../screens/Payment/AddCard';
-
+import LocalCompanyList from '../screens/LocalCompanyList/LocalCompanyList';
 
 const MainStackNav = createStackNavigator();
 
@@ -62,6 +62,7 @@ const MainStack = () => {
       <MainStackNav.Screen name="Advertise" component={Advertise} />
       <MainStackNav.Screen name="Payment" component={Payment} />
       <MainStackNav.Screen name="AddCard" component={AddCard} />
+      <MainStackNav.Screen name="LocalCompanyList" component={LocalCompanyList} />
 
 
       <MainStackNav.Screen
