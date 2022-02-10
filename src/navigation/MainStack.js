@@ -22,6 +22,10 @@ import Services from '../screens/Services/Services';
 import AddServices from '../screens/Services/AddServices';
 import ServicesFilter from '../screens/Services/ServicesFilter';
 import SubcriptionPlans from '../screens/SubcriptionPlans/SubcriptionPlans';
+import PrivacyPolicy from '../screens/PrivacyPolicy/PrivacyPolicy';
+import TermsAndConditions from '../screens/TermsAndConditions/TermsAndConditions';
+import ContactUs from '../screens/ContactUs/ContactUs';
+import Advertise from '../screens/Advertise/Advertise';
 import Payment from '../screens/Payment/Payment';
 import AddCard from '../screens/Payment/AddCard';
 
@@ -52,6 +56,10 @@ const MainStack = () => {
       <MainStackNav.Screen name="profileSettings" component={profileSettings} />
       <MainStackNav.Screen name="EditProfile" component={EditProfile} />
       <MainStackNav.Screen name="SubcriptionPlans" component={SubcriptionPlans} />
+      <MainStackNav.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+      <MainStackNav.Screen name="TermsAndConditions" component={TermsAndConditions} />
+      <MainStackNav.Screen name="ContactUs" component={ContactUs} />
+      <MainStackNav.Screen name="Advertise" component={Advertise} />
       <MainStackNav.Screen name="Payment" component={Payment} />
       <MainStackNav.Screen name="AddCard" component={AddCard} />
 

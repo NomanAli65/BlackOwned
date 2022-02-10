@@ -1,16 +1,17 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Text} from 'native-base';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Text } from 'native-base';
 import React from 'react';
-import {Image, View} from 'react-native';
+import { Image, View } from 'react-native';
 import ComingSoon from '../screens/ComingSoon';
 import Services from '../screens/Services/Services';
 import Dashboard from '../screens/Dashboard';
 import Settings from '../screens/Settings';
 import MainStack from './MainStack';
+import Advertise from '../screens/Advertise/Advertise';
 
 const BottomTabsNav = createBottomTabNavigator();
 
-const BottomNavIconComp = ({focused, size, icon}) => (
+const BottomNavIconComp = ({ focused, size, icon }) => (
   <View
     style={{
       height: size + 12,
@@ -21,7 +22,7 @@ const BottomNavIconComp = ({focused, size, icon}) => (
       backgroundColor: focused ? '#1872ea' : '#fff',
     }}>
     <Image
-      style={{width: size, height: size, tintColor: focused ? '#fff' : '#000'}}
+      style={{ width: size, height: size, tintColor: focused ? '#fff' : '#000' }}
       source={icon}
     />
   </View>
@@ -32,7 +33,7 @@ export default function BottomNavigation() {
     <BottomTabsNav.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarStyle: {height: 65, paddingBottom: 5},
+        tabBarStyle: { height: 65, paddingBottom: 5 },
         tabBarLabelStyle: {
           fontWeight: 'bold',
           color: '#000',
@@ -100,7 +101,7 @@ export default function BottomNavigation() {
         }}
       />
       <BottomTabsNav.Screen
-        component={ComingSoon}
+        component={Advertise}
         name="Advertise"
         options={{
           tabBarIcon: props => (
