@@ -15,7 +15,7 @@ export default class Notification extends Component {
     renderUsersList = item => (
         <View style={styles.ListContainer}>
             <Image source={require('../../assets/realtor.jpg')} style={styles.ListImage} />
-            <View style={{ flex: 1, paddingHorizontal: 10}}>
+            <View style={{ flex: 1, paddingHorizontal: 10 }}>
                 <View style={styles.inviteRecipientNameContainer}>
                     <Text style={styles.inviteRecipientName}>
                         John Doe
@@ -35,7 +35,7 @@ export default class Notification extends Component {
                             borderRadius: 5,
                             marginHorizontal: 5,
                             height: 40,
-                            elevation:5,
+                            elevation: 5,
                         }}>
                         Accept
                     </Button>
@@ -47,13 +47,13 @@ export default class Notification extends Component {
                             borderRadius: 5,
                             marginHorizontal: 5,
                             height: 40,
-                            elevation:5,
+                            elevation: 5,
                         }}>
                         Decline
                     </Button>
 
                 </View>
-                <Text style={{alignSelf:'flex-end',fontSize:10,fontWeight:'bold'}}>
+                <Text style={{ alignSelf: 'flex-end', fontSize: 10, fontWeight: 'bold' }}>
                     8:30 pm
                 </Text>
 
@@ -65,7 +65,7 @@ export default class Notification extends Component {
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <MyHeader
-                     back notify profile navigation={this.props.navigation}
+                    back notify profile navigation={this.props.navigation}
                     title={this.props.route.name}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
@@ -105,9 +105,10 @@ const styles = StyleSheet.create({
         height: 60,
     },
     ListContainer: {
-        width: '100%',
-        marginVertical: 10,
-        elevation: 2,
+        width: '92%',
+        alignSelf: 'center',
+        marginVertical: 5,
+        elevation: 3,
         alignItems: 'center',
         flexDirection: 'row',
         // justifyContent: 'space-between',

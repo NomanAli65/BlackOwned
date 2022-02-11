@@ -12,8 +12,8 @@ export default class SubcriptionPlans extends Component {
         };
     }
     renderUsersList = item => (
-        <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('NewsDetail')}
+        <View
+
             activeOpacity={0.7} style={styles.ListContainer}>
             <Button
                 backgroundColor="primary.100"
@@ -65,7 +65,7 @@ export default class SubcriptionPlans extends Component {
                 Buy Plan
             </Button>
 
-        </TouchableOpacity>
+        </View>
     );
 
     render() {

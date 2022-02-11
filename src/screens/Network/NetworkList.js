@@ -55,6 +55,7 @@ export default class NetworkList extends Component {
                         'Electrition',
                     ]}
                     renderItem={({ item }) => this.renderUsersList(item)}
+                    ListFooterComponent={<View style={{ marginBottom: 20, }}><Text></Text></View>}
                 />
             </View>
         );

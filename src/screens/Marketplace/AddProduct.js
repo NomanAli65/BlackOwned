@@ -57,13 +57,13 @@ export default class AddProduct extends Component {
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <MyHeader
-                     back notify profile navigation={this.props.navigation}
+                    back notify profile navigation={this.props.navigation}
                     title={this.props.route.name}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
                 <ScrollView style={styles.container}>
 
-                    <View style={{ paddingHorizontal: 20 }}>
+                    <View style={{ paddingHorizontal: 5 }}>
                         <View
                             style={{
                                 alignItems: 'center',
@@ -149,7 +149,7 @@ export default class AddProduct extends Component {
                                 </View>
                             </View>
                             <Button
-                                onPress={this.Login}
+                                onPress={() => this.props.navigation.goBack()}
                                 backgroundColor="primary.100"
                                 style={{
                                     width: '80%',

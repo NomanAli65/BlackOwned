@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     fabBtn: {
         width: 30,
         height: 30,
-        bottom: 35,
+        bottom: 40,
         right: 3,
         borderRadius: 100,
         alignItems: 'center',

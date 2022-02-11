@@ -85,14 +85,16 @@ class Dashboard extends Component {
   _renderFriend = ({ item }) => {
     return (
       <TouchableOpacity onPress={this.onClick} style={{ marginEnd: 15 }}>
-        <Avatar size="sm" source={item.img} />
+
+        <Avatar size="md" source={item.img} />
+        <View style={{ width: 10, height: 10, top: -10, zIndex: 1, borderRadius: 360, backgroundColor: 'rgb(21,238,86)', alignSelf: 'flex-end' }}></View>
       </TouchableOpacity>
     );
   };
 
   _renderCompany = ({ item }) => {
     return (
-      <TouchableOpacity onPress={() => this.props.navigation.navigate("LocalCompanyList")}>
+      <View>
         <HStack marginBottom="2">
           <Image
             source={item.img}
@@ -103,7 +105,7 @@ class Dashboard extends Component {
             <Text style={{ fontSize: 12 }}>{item.distance}</Text>
           </VStack>
         </HStack>
-      </TouchableOpacity>
+      </View>
     );
   };
 
@@ -189,7 +191,7 @@ class Dashboard extends Component {
               <Heading fontSize="md" color="#1872ea">
                 Local Companies Listed:
               </Heading>
-              <TouchableOpacity onPress={this.onClick}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate("LocalCompanyList")}>
                 <Text>View All</Text>
               </TouchableOpacity>
             </HStack>

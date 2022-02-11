@@ -12,15 +12,13 @@ export default class LocalCompanyList extends Component {
         };
     }
     renderUsersList = item => (
-        <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('NewsDetail')}
-            activeOpacity={0.7} style={styles.ListContainer}>
+        <View activeOpacity={0.7} style={styles.ListContainer}>
             <Image source={require('../../assets/realtor.jpg')} style={styles.ListImage} />
             <View style={{ marginHorizontal: 10 }}>
                 <Text adjustsFontSizeToFit numberOfLines={1} style={styles.ListName}>{item}</Text>
                 <Text style={styles.ListDistances}>2 miles</Text>
             </View>
-        </TouchableOpacity>
+        </View>
     );
 
     render() {

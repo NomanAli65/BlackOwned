@@ -17,7 +17,21 @@ export default class EditProfile extends Component {
             zip: '',
         };
     }
+    uploadImage = () => {
+        OpenImagePicker(img => {
+            let uri_script = img.path.split('/');
+            let name = uri_script[uri_script.length - 1];
 
+            let imgObj = {
+                name,
+                uri: img.path,
+                size: img.size,
+                type: img.mime,
+            };
+
+            this.setState({ image: imgObj });
+        });
+    };
     render() {
         return (
             <View style={styles.container}>
