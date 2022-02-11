@@ -30,6 +30,8 @@ import Services from '../screens/Services/Services';
 import ServicesFilter from '../screens/Services/ServicesFilter';
 import SubcriptionPlans from '../screens/SubcriptionPlans/SubcriptionPlans';
 import TermsAndConditions from '../screens/TermsAndConditions/TermsAndConditions';
+import Chat from '../screens/Chat/Chat';
+import BottomNavigation from './BottomNavigation';
 
 
 const MainStackNav = createStackNavigator();
@@ -37,7 +39,8 @@ const MainStackNav = createStackNavigator();
 const MainStack = () => {
   return (
     <MainStackNav.Navigator screenOptions={{ headerShown: false }}>
-      <MainStackNav.Screen name="Dashboard" component={Dashboard} />
+      {/* <MainStackNav.Screen name="BottomNavigation" component={BottomNavigation} /> */}
+      <MainStackNav.Screen name="Dashboard" component={BottomNavigation} />
       <MainStackNav.Screen name="Services" component={Services} />
       <MainStackNav.Screen name="AddServices" component={AddServices} />
       <MainStackNav.Screen name="ServicesFilter" component={ServicesFilter} />
@@ -66,6 +69,7 @@ const MainStack = () => {
       <MainStackNav.Screen name="Advertise" component={Advertise} />
       <MainStackNav.Screen name="Payment" component={Payment} />
       <MainStackNav.Screen name="AddCard" component={AddCard} />
+      <MainStackNav.Screen name="Chat" component={Chat} />
 
 
       <MainStackNav.Screen

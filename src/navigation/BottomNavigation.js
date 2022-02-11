@@ -8,6 +8,7 @@ import Dashboard from '../screens/Dashboard';
 import Settings from '../screens/Settings';
 import MainStack from './MainStack';
 import Advertise from '../screens/Advertise/Advertise';
+import Chat from '../screens/Chat/Chat';
 
 const BottomTabsNav = createBottomTabNavigator();
 
@@ -31,6 +32,7 @@ const BottomNavIconComp = ({ focused, size, icon }) => (
 export default function BottomNavigation() {
   return (
     <BottomTabsNav.Navigator
+      initialRouteName={Dashboard}
       screenOptions={{
         headerShown: false,
         tabBarStyle: { height: 65, paddingBottom: 5 },
@@ -42,7 +44,7 @@ export default function BottomNavigation() {
       }}>
       <BottomTabsNav.Screen
         name="Home"
-        component={MainStack}
+        component={Dashboard}
         options={{
           tabBarIcon: props => (
             <BottomNavIconComp
@@ -81,7 +83,7 @@ export default function BottomNavigation() {
         }}
       />
       <BottomTabsNav.Screen
-        component={ComingSoon}
+        component={Chat}
         name="Chat"
         options={{
           tabBarIcon: props => (

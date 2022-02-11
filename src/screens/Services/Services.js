@@ -13,6 +13,7 @@ import React, { Component } from 'react';
 import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet } from 'react-native';
 import MyHeader from '../../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
+import Octicons from 'react-native-vector-icons/Octicons';
 // import {Colors} from '../../Styles';
 
 
@@ -30,7 +31,7 @@ export default class Services extends Component {
     }
 
     renderUsersList = item => (
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('ServicesFilter')} activeOpacity={0.7} style={styles.teamContainer}>
+        <TouchableOpacity  activeOpacity={0.7} style={styles.teamContainer}>
             <Image source={require('../../assets/realtor.jpg')} style={styles.teamImage} />
             <Text style={styles.teamName}>{item}</Text>
         </TouchableOpacity>
@@ -40,7 +41,7 @@ export default class Services extends Component {
         return (
             <ScrollView style={styles.container}>
                 <MyHeader
-                     back notify profile navigation={this.props.navigation}
+                    back notify profile navigation={this.props.navigation}
                     title={this.props.route.name}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
@@ -51,8 +52,15 @@ export default class Services extends Component {
                         borderRadius={10}
                         alignItems="center"
                         paddingX="3">
-                        <Icon as={Feather} name="search" size="sm" color="#aaa" />
-                        <Input fontSize={14} placeholder="Search Service Provider" borderWidth={0} />
+                        <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',width:'100%'}}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center',width:'90%' }}>
+                                <Icon as={Feather} name="search" size="sm" color="#aaa" />
+                                <Input fontSize={14} placeholder="Search Service Provider" borderWidth={0} />
+                            </View>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('ServicesFilter')}>
+                                <Icon as={Octicons} name="settings" size="sm" color="#aaa" />
+                            </TouchableOpacity>
+                        </View>
                     </HStack>
                     <FlatList
                         numColumns={2}
