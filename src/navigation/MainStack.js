@@ -2,12 +2,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import Advertise from '../screens/Advertise/Advertise';
 import Banks from '../screens/Banks/Banks';
+import Chat from '../screens/Chat/Chat';
 import ComingSoon from '../screens/ComingSoon';
 import ContactUs from '../screens/ContactUs/ContactUs';
-import Dashboard from '../screens/Dashboard';
 import EditProfile from '../screens/EditProfile/EditProfile';
 import FriendList from '../screens/FriendList';
 import Jobs from '../screens/Jobs/Jobs';
+import LocalCompanyList from '../screens/LocalCompanyList/LocalCompanyList';
 import AddProduct from '../screens/Marketplace/AddProduct';
 import Marketplace from '../screens/Marketplace/Marketplace';
 import ProductDetails from '../screens/Marketplace/ProductDetails';
@@ -18,9 +19,9 @@ import Notification from '../screens/Notification/Notification';
 import AddCard from '../screens/Payment/AddCard';
 import Payment from '../screens/Payment/Payment';
 import PrivacyPolicy from '../screens/PrivacyPolicy/PrivacyPolicy';
-import UserProfile from '../screens/Profile/UserProfile';
-import Upload from '../screens/Profile/Upload';
 import OtherProfile from '../screens/Profile/OtherProfile';
+import Upload from '../screens/Profile/Upload';
+import UserProfile from '../screens/Profile/UserProfile';
 import profileSettings from '../screens/ProfileSettings/profileSettings';
 import Rating from '../screens/Rating';
 import Seminar from '../screens/Seminar/Seminar';
@@ -30,7 +31,6 @@ import Services from '../screens/Services/Services';
 import ServicesFilter from '../screens/Services/ServicesFilter';
 import SubcriptionPlans from '../screens/SubcriptionPlans/SubcriptionPlans';
 import TermsAndConditions from '../screens/TermsAndConditions/TermsAndConditions';
-import Chat from '../screens/Chat/Chat';
 import BottomNavigation from './BottomNavigation';
 
 
@@ -70,6 +70,7 @@ const MainStack = () => {
       <MainStackNav.Screen name="Payment" component={Payment} />
       <MainStackNav.Screen name="AddCard" component={AddCard} />
       <MainStackNav.Screen name="Chat" component={Chat} />
+      <MainStackNav.Screen name="LocalCompanyList" component={LocalCompanyList} />
 
 
       <MainStackNav.Screen
