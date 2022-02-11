@@ -2,9 +2,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import Advertise from '../screens/Advertise/Advertise';
 import Banks from '../screens/Banks/Banks';
+import Chat from '../screens/Chat/Chat';
 import ComingSoon from '../screens/ComingSoon';
 import ContactUs from '../screens/ContactUs/ContactUs';
-import Dashboard from '../screens/Dashboard';
 import EditProfile from '../screens/EditProfile/EditProfile';
 import FriendList from '../screens/FriendList';
 import Jobs from '../screens/Jobs/Jobs';
@@ -31,6 +31,7 @@ import Services from '../screens/Services/Services';
 import ServicesFilter from '../screens/Services/ServicesFilter';
 import SubcriptionPlans from '../screens/SubcriptionPlans/SubcriptionPlans';
 import TermsAndConditions from '../screens/TermsAndConditions/TermsAndConditions';
+import BottomNavigation from './BottomNavigation';
 
 
 const MainStackNav = createStackNavigator();
@@ -38,7 +39,8 @@ const MainStackNav = createStackNavigator();
 const MainStack = () => {
   return (
     <MainStackNav.Navigator screenOptions={{ headerShown: false }}>
-      <MainStackNav.Screen name="Dashboard" component={Dashboard} />
+      {/* <MainStackNav.Screen name="BottomNavigation" component={BottomNavigation} /> */}
+      <MainStackNav.Screen name="Dashboard" component={BottomNavigation} />
       <MainStackNav.Screen name="Services" component={Services} />
       <MainStackNav.Screen name="AddServices" component={AddServices} />
       <MainStackNav.Screen name="ServicesFilter" component={ServicesFilter} />
@@ -67,6 +69,7 @@ const MainStack = () => {
       <MainStackNav.Screen name="Advertise" component={Advertise} />
       <MainStackNav.Screen name="Payment" component={Payment} />
       <MainStackNav.Screen name="AddCard" component={AddCard} />
+      <MainStackNav.Screen name="Chat" component={Chat} />
       <MainStackNav.Screen name="LocalCompanyList" component={LocalCompanyList} />
 
 

@@ -3,7 +3,7 @@ import React from 'react';
 import {Modal, View} from 'react-native';
 import {connect} from 'react-redux';
 import AuthStack from './AuthStack';
-import BottomNavigation from './BottomNavigation';
+import MainStack from './MainStack';
 import Spinner from 'react-native-spinkit';
 import theme from '../configs/Theme';
 import SplashScreen from 'react-native-splash-screen';
@@ -15,8 +15,8 @@ const AppNav = props => {
   return (
     <View style={{flex: 1}}>
       <NativeBaseProvider theme={theme}>
-        {/* {props.logged_in ? <BottomNavigation /> : <AuthStack />} */}
-        {props.logged_in ? <BottomNavigation /> :  <BottomNavigation />}
+        {!props.logged_in ? <MainStack /> : <AuthStack />}
+        {/* {props.logged_in ? <BottomNavigation /> :  <BottomNavigation />} */}
       </NativeBaseProvider>
       <Modal visible={props.loading} transparent>
         <View
