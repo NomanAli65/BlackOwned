@@ -39,19 +39,19 @@ export default class ServiceDetails extends Component {
                 <View style={{flexDirection:'row',width:'70%'}}>
                     <Image source={require('../../assets/1.jpeg')} style={styles.profileImg} />
 
-                    <View style={{ paddingHorizontal: 10 }}>
+                    <View style={{ paddingHorizontal: 10,justifyContent:'center' }}>
                         <Text style={styles.ProfileName}>Stacy Stratus</Text>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Image source={require('../../assets/blueMarker.png')} style={{ width: 20, height: 20 }} />
-                            <Text style={{}}>8 miles away</Text>
+                        <View style={{ flexDirection: 'row',marginVertical:10 , alignItems:'center'}}>
+                            <Image source={require('../../assets/blueMarker.png')} style={{ width: 15, height: 15 }} />
+                            <Text style={{fontSize:11}}>8 miles away</Text>
                         </View>
                     </View>
                 </View>
 
-                <View style={{width:'30%'}}>
+                <View style={{width:'30%',justifyContent:'center'}}>
                     <Text style={styles.Profile}>Musician</Text>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-                        <View style={{ alignSelf: 'center' }}>
+                        <View style={{ alignSelf: 'center',marginHorizontal:5 }}>
                             <StarRating
                                 rating={4.5}
                                 onChange={() => null}
@@ -61,7 +61,7 @@ export default class ServiceDetails extends Component {
                                 starStyle={{ width: 2 }}
                             />
                         </View>
-                        <Text style={{ marginHorizontal: 5, textAlignVertical: 'center' }}>(4.5)</Text>
+                        <Text style={{ textAlignVertical: 'center',fontSize:12 }}>(4.5)</Text>
                     </View>
                 </View>
             </View>
@@ -142,14 +142,14 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     ProfileName: {
-        padding: 8,
-        fontSize: 16,
+        // padding: 8,
+        fontSize: 14,
         color: 'black',
         alignSelf: 'flex-start',
         fontWeight: '500',
     },
     Profile: {
-        padding: 8,
+        // padding: 8,
         fontSize: 12,
         // color: 'black',
         alignSelf: 'flex-end',
