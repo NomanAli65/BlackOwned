@@ -21,7 +21,7 @@ class Settings extends Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
-        <MyHeader title={'Settings'} notify profile back />
+        <MyHeader title={'Settings'} notify profile back navigation={this.props.navigation}/>
         <ScrollView>
           <View style={{ flex: 1, padding: 20 }}>
             <HStack

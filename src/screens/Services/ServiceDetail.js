@@ -34,20 +34,21 @@ export default class ServiceDetails extends Component {
 
     renderUsersList = item => (
 
-        <TouchableOpacity onPress={()=> this.props.navigation.navigate('OtherProfile')}>
-            <View style={{ flexDirection: 'row', backgroundColor: '#eee', padding: 10, marginVertical: 5 }}>
-                {/* <View> */}
-                <Image source={require('../../assets/1.jpeg')} style={styles.profileImg} />
-                {/* </View> */}
-                <View style={{ paddingHorizontal: 10 }}>
-                    <Text style={styles.ProfileName}>Stacy Stratus</Text>
-                    <View style={{ flexDirection: 'row' }}>
-                        <Image source={require('../../assets/blueMarker.png')} style={{ width: 20, height: 20 }} />
-                        <Text style={{}}>8 miles away</Text>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('OtherProfile')}>
+            <View style={{ flexDirection: 'row', backgroundColor: '#eee', padding: 10, marginVertical: 5, width: '100%' }}>
+                <View style={{flexDirection:'row',width:'70%'}}>
+                    <Image source={require('../../assets/1.jpeg')} style={styles.profileImg} />
+
+                    <View style={{ paddingHorizontal: 10 }}>
+                        <Text style={styles.ProfileName}>Stacy Stratus</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Image source={require('../../assets/blueMarker.png')} style={{ width: 20, height: 20 }} />
+                            <Text style={{}}>8 miles away</Text>
+                        </View>
                     </View>
                 </View>
 
-                <View style={{}}>
+                <View style={{width:'30%'}}>
                     <Text style={styles.Profile}>Musician</Text>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                         <View style={{ alignSelf: 'center' }}>
@@ -76,7 +77,7 @@ export default class ServiceDetails extends Component {
         return (
             <View style={styles.container}>
                 <MyHeader
-                     back notify profile navigation={this.props.navigation}
+                    back notify profile navigation={this.props.navigation}
                     title={this.props.route.name}
                     onBackPress={() => this.props.navigation.goBack()}
                 />

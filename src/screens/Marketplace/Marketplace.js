@@ -63,7 +63,8 @@ export default class Marketplace extends Component {
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <MyHeader
                      back notify profile navigation={this.props.navigation}
-                    title={this.props.route.name}
+                    // title={this.props.route.name}
+                    title={'Market Place'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
                 <ScrollView style={styles.container}>

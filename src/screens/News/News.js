@@ -18,7 +18,7 @@ export default class News extends Component {
             <Image source={require('../../assets/realtor.jpg')} style={styles.ListImage} />
             <View>
                 <Text adjustsFontSizeToFit numberOfLines={1} style={styles.ListName}>{item}</Text>
-                <Text style={styles.ListDistances}>15 january 2022 | 09:30</Text>
+                <Text style={styles.ListDistances}>15 January 2022 | 09:30</Text>
                 <Text numberOfLines={3} style={styles.ListDescription}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</Text>
             </View>
         </TouchableOpacity>
@@ -32,9 +32,9 @@ export default class News extends Component {
                     title={'News'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
-                <View style={{ marginHorizontal: 15 }}>
+                <View style={{ marginHorizontal: 15,paddingVertical:10,flex:1 }}>
                     <FlatList
-                        style={styles.flex1}
+                        // style={{flex:1}}
                         showsVerticalScrollIndicator={false}
                         data={[
                             'Realtors',
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     },
     ListDistances: {
         fontSize: 13,
-        fontWeight: 'normal',
+        fontWeight: 'bold',
     },
     ListDescription: {
         fontSize: 13,

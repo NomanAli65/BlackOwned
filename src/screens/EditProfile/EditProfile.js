@@ -35,7 +35,7 @@ export default class EditProfile extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <MyHeader title={'Edit Profile'} notify profile back onBackPress={() => this.props.navigation.goBack()} />
+                <MyHeader title={'Edit Profile'} notify profile back onBackPress={() => this.props.navigation.goBack()} navigation={this.props.navigation} />
                 <ScrollView
                     showsHorizontalScrollIndicator={false}
                     showsVerticalScrollIndicator={false}

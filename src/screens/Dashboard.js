@@ -135,7 +135,11 @@ class Dashboard extends Component {
                 flex={1}
                 borderRadius={5}
                 paddingX={0}
-                bgColor={selectedButtonTop == 0 ? "#1872ea" : "#ddd"}>
+                borderBottomWidth={2}
+                borderBottomColor={'#1872ea'}
+                borderBottomRadius={'none'}
+                bgColor={selectedButtonTop == 0 ? "#1872ea" : "#fff"}
+              >
                 <Heading fontSize="13" color={selectedButtonTop == 0 ? "#fff" : "#000"}>
                   Jobs
                 </Heading>
@@ -144,7 +148,12 @@ class Dashboard extends Component {
                 onPress={() => this.props.navigation.navigate('Marketplace')}
                 flex={1}
                 borderRadius={5}
-                backgroundColor={selectedButtonTop == 1 ? "#1872ea" : "#ddd"}>
+                borderBottomWidth={selectedButtonTop == 0 ? 2 : 0}
+                borderBottomColor={selectedButtonTop == 0 ? '#1872ea' : null}
+                borderBottomRadius={'none'}
+                bgColor={selectedButtonTop == 0 ? "#1872ea" : "#fff"}
+              // backgroundColor={selectedButtonTop == 1 ? "#1872ea" : "#ddd"}
+              >
                 <Heading textAlign={'center'} fontSize="13" color={selectedButtonTop == 1 ? "#fff" : "#000"}>
                   Market Place
                 </Heading>
@@ -153,7 +162,12 @@ class Dashboard extends Component {
                 onPress={() => { this.setState({ selectedButtonTop: 2 }), this.props.navigation.navigate('Network') }}
                 flex={1}
                 borderRadius={5}
-                backgroundColor={selectedButtonTop == 2 ? "#1872ea" : "#ddd"}>
+                borderBottomWidth={selectedButtonTop == 0 ? 2 : 0}
+                borderBottomColor={selectedButtonTop == 0 ? '#1872ea' : null}
+                borderBottomRadius={'none'}
+                bgColor={selectedButtonTop == 0 ? "#1872ea" : "#fff"}
+              // backgroundColor={selectedButtonTop == 2 ? "#1872ea" : "#ddd"}
+              >
                 <Heading fontSize="13" color={selectedButtonTop == 2 ? "#fff" : "#000"}>
                   Network
                 </Heading>
@@ -163,7 +177,7 @@ class Dashboard extends Component {
               <Heading fontSize="md" color="#1872ea">
                 Services
               </Heading>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('AddServices')}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Services')}>
                 <Text>View All</Text>
               </TouchableOpacity>
             </HStack>
@@ -189,7 +203,7 @@ class Dashboard extends Component {
               marginBottom="3"
               marginTop="5">
               <Heading fontSize="md" color="#1872ea">
-                Local Companies Listed:
+                Listed Companies:
               </Heading>
               <TouchableOpacity onPress={() => this.props.navigation.navigate("LocalCompanyList")}>
                 <Text>View All</Text>
@@ -207,7 +221,7 @@ class Dashboard extends Component {
                 paddingX={0}
                 bgColor="#1872ea">
                 <Heading fontSize="12" color="#fff" fontWeight="medium">
-                  Black owned banks
+                  Black Owned Banks
                 </Heading>
               </Button>
               <Button

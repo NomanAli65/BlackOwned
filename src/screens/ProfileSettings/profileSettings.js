@@ -14,7 +14,7 @@ export default class profileSettings extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <MyHeader title={'Profile'} notify profile back onBackPress={() => this.props.navigation.goBack()} />
+                <MyHeader title={'Profile'} notify profile back onBackPress={() => this.props.navigation.goBack()} navigation={this.props.navigation} />
                 <View style={{ flex: 1, justifyContent: 'center' }}>
                     <View style={styles.body}>
                         <Image

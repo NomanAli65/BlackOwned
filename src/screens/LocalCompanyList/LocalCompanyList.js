@@ -29,9 +29,9 @@ export default class LocalCompanyList extends Component {
                     title={'Local Companies'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
-                <View style={{ marginHorizontal: 15 }}>
+                <View style={{ marginHorizontal: 15,flex:1 }}>
                     <FlatList
-                        style={styles.flex1}
+                        // style={styles.flex1}
                         showsVerticalScrollIndicator={false}
                         data={[
                             'Realtors',

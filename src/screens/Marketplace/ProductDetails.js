@@ -27,7 +27,8 @@ export default class ProductDetails extends Component {
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <MyHeader
                      back notify profile navigation={this.props.navigation}
-                    title={this.props.route.name}
+                    // title={this.props.route.name}
+                    title={'Product Details'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
                 <View style={styles.ListContainer}>

@@ -29,7 +29,7 @@ export default class NetworkList extends Component {
             <View style={{ flex: 1 }}>
                 <MyHeader
                      back notify profile navigation={this.props.navigation}
-                    title={'Network'}
+                    title={'Blackowned Bank'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
                 <View style={{ marginHorizontal: 10, justifyContent: 'center' }}>

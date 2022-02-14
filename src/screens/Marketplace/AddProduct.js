@@ -58,7 +58,8 @@ export default class AddProduct extends Component {
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <MyHeader
                     back notify profile navigation={this.props.navigation}
-                    title={this.props.route.name}
+                    // title={this.props.route.name}
+                    title={'Add Product'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
                 <ScrollView style={styles.container}>
@@ -81,6 +82,7 @@ export default class AddProduct extends Component {
                             />
                             <Input
                                 placeholder="Price"
+                                keyboardType='numeric'
                                 style={styles.input}
                                 onChangeText={password => this.setState({ password })}
                             />

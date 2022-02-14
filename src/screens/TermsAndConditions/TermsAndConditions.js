@@ -12,7 +12,7 @@ export default class TermsAndConditions extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <MyHeader title={'Terms & Condition'} notify back onBackPress={() => this.props.navigation.goBack()} />
+                <MyHeader title={'Terms & Condition'} notify back onBackPress={() => this.props.navigation.goBack()} navigation={this.props.navigation} />
                 <ScrollView style={styles.body}>
                     <Text style={styles.TextAll}> Lorem Ipsum is simply dummy text of the
                         printing and typesetting industry. Lorem Ipsum has been the industry's

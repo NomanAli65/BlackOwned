@@ -9,7 +9,7 @@ export default class ContactUs extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            country: ['Quarries', 'Suggestions', 'Claims', 'Complaints'],
+            country: ['Queries', 'Suggestions', 'Claims', 'Complaints'],
             description: '',
         };
     }
@@ -19,7 +19,7 @@ export default class ContactUs extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <MyHeader title={'Contact Us'} notify back onBackPress={() => this.props.navigation.goBack()} />
+                <MyHeader title={'Contact Us'} notify back onBackPress={() => this.props.navigation.goBack()} navigation={this.props.navigation} />
                 <View style={styles.body}>
                     <View style={styles.selectContainer}>
                         <SelectDropdown
