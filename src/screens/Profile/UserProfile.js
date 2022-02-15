@@ -59,7 +59,7 @@ export default class UserProfile extends Component {
             <View style={styles.container}>
                 <MyHeader
                     back notify profile navigation={this.props.navigation}
-                    title={this.props.route.name}
+                    title={'Profile'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
                 <ScrollView>
@@ -99,26 +99,36 @@ export default class UserProfile extends Component {
                         </View>
 
                         <View style={{
-                            margin: 10, backgroundColor: 'white', padding: 15, shadowColor: '#000', shadowOffset: { width: 0, height: 2, }, shadowOpacity: 0.25, shadowRadius: 4, elevation: 5,
+                            margin: 10,
+                            backgroundColor: 'white',
+                            paddingHorizontal: 10,
+                            paddingVertical: 15,
+                            shadowColor: '#000',
+                            shadowOffset: { width: 0, height: 2, },
+                            shadowOpacity: 0.25,
+                            shadowRadius: 4,
+                            elevation: 5,
                         }}>
-                            <View style={{ flexDirection: 'row' }}>
-                                <View style={{ flexDirection: 'row', width: '50%' }}>
-                                    <Image source={require('../../assets/blueMarker.png')} style={{ width: 15, height: 15 }} />
-                                    <Text style={{ fontSize: 12, }}>Realtor (Professional)</Text>
+                            <View style={{}}>
+                                <View style={{ flexDirection: 'row', marginBottom: 3 }}>
+                                    <Entypo name={'briefcase'} size={15} color={'#1872ea'} />
+
+                                    {/* <Image source={require('../../assets/blueMarker.png')} style={{ width: 15, height: 15 }} /> */}
+                                    <Text style={{ fontSize: 12, marginLeft: 5 }}>Realtor (Professional)</Text>
                                 </View>
-                                <View style={{ flexDirection: 'row', width: '50%' }}>
-                                    <Image source={require('../../assets/blueMarker.png')} style={{ width: 15, height: 15 }} />
-                                    <Text style={{ fontSize: 12, }}>JohnDoe@Blackowned@gmail.com</Text>
+                                <View style={{ flexDirection: 'row', marginBottom: 3 }}>
+                                    <Entypo name={'mail'} size={15} color={'#1872ea'} />
+                                    <Text style={{ fontSize: 12, marginLeft: 5, }}>JohnDoe@Blackowned@gmail.com</Text>
                                 </View>
                             </View>
-                            <View style={{ flexDirection: 'row' }}>
-                                <View style={{ flexDirection: 'row', width: '50%' }}>
-                                    <Image source={require('../../assets/blueMarker.png')} style={{ width: 15, height: 15 }} />
-                                    <Text style={{ fontSize: 12, }}>(555)555-1234</Text>
+                            <View style={{}}>
+                                <View style={{ flexDirection: 'row', marginBottom: 3 }}>
+                                    <Entypo name={'phone'} size={15} color={'#1872ea'} />
+                                    <Text style={{ fontSize: 12, marginLeft: 5, }}>(555)555-1234</Text>
                                 </View>
-                                <View style={{ flexDirection: 'row', width: '50%' }}>
-                                    <Image source={require('../../assets/blueMarker.png')} style={{ width: 15, height: 15 }} />
-                                    <Text style={{ fontSize: 12, }}>NewYork,USA</Text>
+                                <View style={{ flexDirection: 'row', marginBottom: 3 }}>
+                                    <Entypo name={'address'} size={15} color={'#1872ea'} />
+                                    <Text style={{ fontSize: 12, marginLeft: 5, }}>NewYork,USA</Text>
                                 </View>
                             </View>
                         </View>

@@ -44,7 +44,7 @@ export default class ServiceDetails extends Component {
         return (
             <View style={styles.container}>
                 <MyHeader
-                     back notify profile navigation={this.props.navigation}
+                    back notify profile navigation={this.props.navigation}
                     title={this.props.route.name}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
@@ -214,14 +214,14 @@ export default class ServiceDetails extends Component {
 
                         <View>
                             <Text style={{ fontSize: 16, }}>Expertise</Text>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10 }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <CheckBox
                                         disabled={false}
                                         value={this.state.toggleCheckBox1}
                                         onValueChange={(newValue) => this.setState({ toggleCheckBox1: newValue, toggleCheckBox2: false, toggleCheckBox3: false })}
                                     />
-                                    <Text>Begginer</Text>
+                                    <Text style={{ fontSize: 12.5 }}>Beginner</Text>
                                 </View>
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -230,7 +230,7 @@ export default class ServiceDetails extends Component {
                                         value={this.state.toggleCheckBox2}
                                         onValueChange={(newValue) => this.setState({ toggleCheckBox2: newValue, toggleCheckBox1: false, toggleCheckBox3: false })}
                                     />
-                                    <Text>Intermediate</Text>
+                                    <Text style={{ fontSize: 12.5 }}>Intermediate</Text>
                                 </View>
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -239,12 +239,12 @@ export default class ServiceDetails extends Component {
                                         value={this.state.toggleCheckBox3}
                                         onValueChange={(newValue) => this.setState({ toggleCheckBox3: newValue, toggleCheckBox1: false, toggleCheckBox2: false })}
                                     />
-                                    <Text>Advanced</Text>
+                                    <Text style={{ fontSize: 12.5 }}>Advanced</Text>
                                 </View>
                             </View>
                         </View>
 
-                        <View style={{ marginVertical: 20,alignItems:'center' }}>
+                        <View style={{ marginVertical: 20, alignItems: 'center' }}>
                             <View style={{ width: '80%' }}>
                                 <TouchableOpacity onPress={() => this.props.navigation.navigate('ServiceDetail')}
                                     style={{ borderRadius: 10, backgroundColor: '#1872ea', height: 50, alignItems: 'center', justifyContent: 'center' }}>

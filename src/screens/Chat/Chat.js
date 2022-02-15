@@ -10,10 +10,11 @@ import {
     VStack,
 } from 'native-base';
 import React, { Component } from 'react';
-import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet,TextInput } from 'react-native';
+import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet, TextInput } from 'react-native';
 import MyHeader from '../../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
 import StarRating from 'react-native-star-rating-widget';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 export class Chat extends Component {
     state = {
@@ -37,7 +38,7 @@ export class Chat extends Component {
                 id: 1,
                 message: 'I will let you know, after checking my schedule.',
             },
-            
+
         ],
     };
 
@@ -103,7 +104,7 @@ export class Chat extends Component {
 
                 <View style={{ paddingHorizontal: 14 }}>
                     <MyHeader
-                        back notify profile navigation={this.props.navigation}
+                        notify profile navigation={this.props.navigation}
                         title={this.props.route.name}
                         onBackPress={() => this.props.navigation.goBack()}
                     />
@@ -119,10 +120,13 @@ export class Chat extends Component {
                 />
 
                 <View style={styles.footer}>
+                    <TouchableOpacity style={{ marginLeft: 10 }}>
+                        <Entypo name={'attachment'} size={22} color={'#1872ea'} />
+                    </TouchableOpacity>
                     <TextInput
                         value={this.state.text}
                         onChangeText={text => this.setState({ text })}
-                        placeholder="Write a message"
+                        placeholder="Type something"
                         placeholderTextColor={'#8D8D8D'}
                         style={styles.input}
                     />

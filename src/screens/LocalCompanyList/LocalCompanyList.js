@@ -26,10 +26,10 @@ export default class LocalCompanyList extends Component {
             <View style={{ flex: 1 }}>
                 <MyHeader
                     back notify profile navigation={this.props.navigation}
-                    title={'Local Companies'}
+                    title={'Listed Companies'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
-                <View style={{ marginHorizontal: 15,flex:1 }}>
+                <View style={{ marginHorizontal: 15, flex: 1 }}>
                     <FlatList
                         // style={styles.flex1}
                         showsVerticalScrollIndicator={false}

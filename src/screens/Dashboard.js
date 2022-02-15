@@ -140,7 +140,7 @@ class Dashboard extends Component {
                 borderBottomRadius={'none'}
                 bgColor={selectedButtonTop == 0 ? "#1872ea" : "#fff"}
               >
-                <Heading fontSize="13" color={selectedButtonTop == 0 ? "#fff" : "#000"}>
+                <Heading fontSize="13" color={"#000"}>
                   Jobs
                 </Heading>
               </Button>
@@ -151,24 +151,24 @@ class Dashboard extends Component {
                 borderBottomWidth={selectedButtonTop == 0 ? 2 : 0}
                 borderBottomColor={selectedButtonTop == 0 ? '#1872ea' : null}
                 borderBottomRadius={'none'}
-                bgColor={selectedButtonTop == 0 ? "#1872ea" : "#fff"}
+                bgColor={"#fff"}
               // backgroundColor={selectedButtonTop == 1 ? "#1872ea" : "#ddd"}
               >
-                <Heading textAlign={'center'} fontSize="13" color={selectedButtonTop == 1 ? "#fff" : "#000"}>
+                <Heading textAlign={'center'} fontSize="13" color={"#000"}>
                   Market Place
                 </Heading>
               </Button>
               <Button
-                onPress={() => { this.setState({ selectedButtonTop: 2 }), this.props.navigation.navigate('Network') }}
+                onPress={() => this.props.navigation.navigate('Network')}
                 flex={1}
                 borderRadius={5}
                 borderBottomWidth={selectedButtonTop == 0 ? 2 : 0}
                 borderBottomColor={selectedButtonTop == 0 ? '#1872ea' : null}
                 borderBottomRadius={'none'}
-                bgColor={selectedButtonTop == 0 ? "#1872ea" : "#fff"}
+                bgColor={"#ffff"}
               // backgroundColor={selectedButtonTop == 2 ? "#1872ea" : "#ddd"}
               >
-                <Heading fontSize="13" color={selectedButtonTop == 2 ? "#fff" : "#000"}>
+                <Heading fontSize="13" color={"#000"}>
                   Network
                 </Heading>
               </Button>

@@ -19,7 +19,7 @@ export default class ContactUs extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <MyHeader title={'Contact Us'} notify back onBackPress={() => this.props.navigation.goBack()} navigation={this.props.navigation} />
+                <MyHeader title={'Contact Us'} notify back profile onBackPress={() => this.props.navigation.goBack()} navigation={this.props.navigation} />
                 <View style={styles.body}>
                     <View style={styles.selectContainer}>
                         <SelectDropdown
