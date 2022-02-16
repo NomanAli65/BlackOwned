@@ -224,6 +224,7 @@ export default class ServiceDetails extends Component {
                                     <Text style={{ fontSize: 12.5 }}>Beginner</Text>
                                 </View>
 
+
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <CheckBox
                                         disabled={false}
