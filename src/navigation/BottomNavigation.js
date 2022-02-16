@@ -8,7 +8,7 @@ import Dashboard from '../screens/Dashboard';
 import Settings from '../screens/Settings';
 import MainStack from './MainStack';
 import Advertise from '../screens/Advertise/Advertise';
-import Chat from '../screens/Chat/Chat';
+import ChatList from '../screens/Chat/ChatList';
 
 const BottomTabsNav = createBottomTabNavigator();
 
@@ -83,8 +83,8 @@ export default function BottomNavigation() {
         }}
       />
       <BottomTabsNav.Screen
-        component={Chat}
-        name="Chat"
+        component={ChatList}
+        name="ChatList"
         options={{
           tabBarIcon: props => (
             <BottomNavIconComp

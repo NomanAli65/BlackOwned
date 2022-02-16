@@ -3,6 +3,7 @@ import React from 'react';
 import Advertise from '../screens/Advertise/Advertise';
 import Banks from '../screens/Banks/Banks';
 import Chat from '../screens/Chat/Chat';
+import ChatList from '../screens/Chat/ChatList';
 import ComingSoon from '../screens/ComingSoon';
 import ContactUs from '../screens/ContactUs/ContactUs';
 import EditProfile from '../screens/EditProfile/EditProfile';
@@ -70,6 +71,7 @@ const MainStack = () => {
       <MainStackNav.Screen name="Payment" component={Payment} />
       <MainStackNav.Screen name="AddCard" component={AddCard} />
       <MainStackNav.Screen name="Chat" component={Chat} />
+      <MainStackNav.Screen name="ChatList" component={ChatList} />
       <MainStackNav.Screen name="LocalCompanyList" component={LocalCompanyList} />
 
 
