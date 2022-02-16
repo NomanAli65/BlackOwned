@@ -42,7 +42,7 @@ export default class Services extends Component {
             <ScrollView style={styles.container}>
                 <MyHeader
                     notify profile navigation={this.props.navigation}
-                    title={this.props.route.name}
+                    title={'Services'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
                 <View style={{ paddingHorizontal: 20 }}>
