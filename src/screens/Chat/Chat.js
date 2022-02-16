@@ -76,7 +76,7 @@ export class Chat extends Component {
                 <Image source={require('../../assets/c1.jpeg')} style={styles.userImg} />
             </View>
 
-            <View style={{ width: '60%' }}>
+            <View style={{ width: '60%',backgroundColor:item.id == 1 ? '#ABABAB':'#EEEBEB',padding:20,borderRadius:5 }}>
                 <Text
                     style={{
                         textAlign: item.id == 1 ? 'right' : 'left',
@@ -146,7 +146,7 @@ export class Chat extends Component {
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#fff' },
     input: { flex: 1, paddingLeft: 14, color: '#636060' },
-    userImg: { width: 55, height: 55, borderRadius: 100 },
+    userImg: { width: 55, height: 55, borderRadius: 5 },
     msgDay: {
         fontWeight: 'bold',
         textAlign: 'center',
