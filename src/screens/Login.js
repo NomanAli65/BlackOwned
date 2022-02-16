@@ -18,8 +18,8 @@ const {width} = Dimensions.get('window');
 
 class Login extends Component {
   state = {
-    email: '',
-    password: '',
+    email: 'test123@gmail.com',
+    password: 'admin123',
   };
 
   Login = () => {
@@ -61,11 +61,13 @@ class Login extends Component {
               <Input
                 placeholder="Username"
                 style={styles.input}
+                value={this.state.email}
                 onChangeText={email => this.setState({email})}
               />
               <Input
                 placeholder="Password"
                 style={styles.input}
+                value={this.state.password}
                 secureTextEntry
                 onChangeText={password => this.setState({password})}
               />

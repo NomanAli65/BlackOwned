@@ -15,7 +15,7 @@ const AppNav = props => {
   return (
     <View style={{flex: 1}}>
       <NativeBaseProvider theme={theme}>
-        {!props.logged_in ? <MainStack /> : <AuthStack />}
+        {!props.logged_in ?  <AuthStack /> : <MainStack />}
         {/* {props.logged_in ? <BottomNavigation /> :  <BottomNavigation />} */}
       </NativeBaseProvider>
       <Modal visible={props.loading} transparent>

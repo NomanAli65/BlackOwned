@@ -1,6 +1,9 @@
 import {APIs} from '../../configs/APIs';
 import {post} from '../../configs/AxiosConfig';
 import {ActionTypes} from '../action_types';
+import {getHeaders} from '../../Utils';
+import Storage from '../../Utils/AsyncStorage';
+// import AuthAction from '../Actions/AuthAction';
 
 export const AuthMiddleware = {
   Register: userData => {
