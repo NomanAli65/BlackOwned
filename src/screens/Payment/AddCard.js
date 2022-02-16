@@ -86,7 +86,7 @@ export default class AddCard extends Component {
             <ScrollView style={styles.container}>
                 <MyHeader
                     back notify profile navigation={this.props.navigation}
-                    title={this.props.route.name}
+                    title={'Add Card'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
                 <View style={{ paddingHorizontal: 20 }}>

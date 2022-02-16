@@ -74,7 +74,7 @@ export default class SubcriptionPlans extends Component {
                 <MyHeader
                     back notify profile navigation={this.props.navigation}
                     size={'lg'}
-                    title={'Subcription Plans'}
+                    title={'Subscription Plan'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
                 <View style={{ marginHorizontal: 15 }}>

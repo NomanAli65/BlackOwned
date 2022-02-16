@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image } from 'react-native';
 import MyHeader from '../../components/MyHeader';
 import Foundation from 'react-native-vector-icons/Foundation';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Entypo from 'react-native-vector-icons/Entypo'
 import { Button } from 'native-base';
 export default class profileSettings extends Component {
     constructor(props) {
@@ -36,8 +37,8 @@ export default class profileSettings extends Component {
                             <Text adjustsFontSizeToFit numberOfLines={1} style={styles.emailText}>+1 555-1234</Text>
                         </View>
                         <View style={styles.RowView}>
-                            <Foundation name={'address-book'} size={25} color={'#1872ea'} />
-                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.emailText}>New York, USA</Text>
+                            <Entypo name={'address'} size={25} color={'#1872ea'} />
+                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.emailText}>Street 16, New York, USA</Text>
                         </View>
                         <View style={styles.RowView}>
                             <Foundation name={'address-book'} size={25} color={'#1872ea'} />

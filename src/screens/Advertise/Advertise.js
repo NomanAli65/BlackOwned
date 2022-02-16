@@ -30,12 +30,22 @@ export default class Advertise extends Component {
 
     render() {
         return (
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <MyHeader
-                    back notify profile navigation={this.props.navigation}
+                    notify profile navigation={this.props.navigation}
                     title={'Advertise'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
+                <HStack
+                    backgroundColor="#eee"
+                    marginTop="2"
+                    borderRadius={10}
+                    alignItems="center"
+                    marginHorizontal={15}
+                    paddingX="3">
+                    <Icon as={Feather} name="search" size="sm" color="#aaa" />
+                    <Input fontSize={14} placeholder="Search" borderWidth={0} />
+                </HStack>
                 <Button
                     onPress={() => this.props.navigation.navigate('SubcriptionPlans')}
                     backgroundColor="primary.100"

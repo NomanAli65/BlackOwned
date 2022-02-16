@@ -31,7 +31,7 @@ export default class Services extends Component {
     }
 
     renderUsersList = item => (
-        <TouchableOpacity  activeOpacity={0.7} style={styles.teamContainer}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('ServiceDetail', { name: item })} activeOpacity={0.7} style={styles.teamContainer}>
             <Image source={require('../../assets/realtor.jpg')} style={styles.teamImage} />
             <Text style={styles.teamName}>{item}</Text>
         </TouchableOpacity>
@@ -41,7 +41,7 @@ export default class Services extends Component {
         return (
             <ScrollView style={styles.container}>
                 <MyHeader
-                    back notify profile navigation={this.props.navigation}
+                    notify profile navigation={this.props.navigation}
                     title={this.props.route.name}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
@@ -52,8 +52,8 @@ export default class Services extends Component {
                         borderRadius={10}
                         alignItems="center"
                         paddingX="3">
-                        <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',width:'100%'}}>
-                            <View style={{ flexDirection: 'row', alignItems: 'center',width:'90%' }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', width: '90%' }}>
                                 <Icon as={Feather} name="search" size="sm" color="#aaa" />
                                 <Input fontSize={14} placeholder="Search Service Provider" borderWidth={0} />
                             </View>

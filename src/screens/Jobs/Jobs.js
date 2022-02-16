@@ -36,11 +36,11 @@ export default class Jobs extends Component {
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <MyHeader
-                     back notify profile navigation={this.props.navigation}
+                    back notify profile navigation={this.props.navigation}
                     title={this.props.route.name}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
-                <View style={{ marginHorizontal: 10, justifyContent: 'center' }}>
+                <View style={{ flex: 1, marginHorizontal: 10, justifyContent: 'center' }}>
 
 
                     <FlatList

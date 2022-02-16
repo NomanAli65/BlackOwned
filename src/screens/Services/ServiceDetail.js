@@ -36,22 +36,22 @@ export default class ServiceDetails extends Component {
 
         <TouchableOpacity onPress={() => this.props.navigation.navigate('OtherProfile')}>
             <View style={{ flexDirection: 'row', backgroundColor: '#eee', padding: 10, marginVertical: 5, width: '100%' }}>
-                <View style={{flexDirection:'row',width:'70%'}}>
+                <View style={{ flexDirection: 'row', width: '70%' }}>
                     <Image source={require('../../assets/1.jpeg')} style={styles.profileImg} />
 
-                    <View style={{ paddingHorizontal: 10,justifyContent:'center' }}>
+                    <View style={{ paddingHorizontal: 10, justifyContent: 'center' }}>
                         <Text style={styles.ProfileName}>Stacy Stratus</Text>
-                        <View style={{ flexDirection: 'row',marginVertical:10 , alignItems:'center'}}>
+                        <View style={{ flexDirection: 'row', marginVertical: 10, alignItems: 'center' }}>
                             <Image source={require('../../assets/blueMarker.png')} style={{ width: 15, height: 15 }} />
-                            <Text style={{fontSize:11}}>8 miles away</Text>
+                            <Text style={{ fontSize: 11 }}>8 miles away</Text>
                         </View>
                     </View>
                 </View>
 
-                <View style={{width:'30%',justifyContent:'center'}}>
+                <View style={{ width: '30%', justifyContent: 'center' }}>
                     <Text style={styles.Profile}>Musician</Text>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-                        <View style={{ alignSelf: 'center',marginHorizontal:5 }}>
+                        <View style={{ alignSelf: 'center', marginHorizontal: 5 }}>
                             <StarRating
                                 rating={4.5}
                                 onChange={() => null}
@@ -61,7 +61,7 @@ export default class ServiceDetails extends Component {
                                 starStyle={{ width: 2 }}
                             />
                         </View>
-                        <Text style={{ textAlignVertical: 'center',fontSize:12 }}>(4.5)</Text>
+                        <Text style={{ textAlignVertical: 'center', fontSize: 12 }}>(4.5)</Text>
                     </View>
                 </View>
             </View>
@@ -78,7 +78,7 @@ export default class ServiceDetails extends Component {
             <View style={styles.container}>
                 <MyHeader
                     back notify profile navigation={this.props.navigation}
-                    title={this.props.route.name}
+                    title={this.props.route.params.name}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
                 <ScrollView>
