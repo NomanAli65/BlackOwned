@@ -70,7 +70,7 @@ class Dashboard extends Component {
 
   _renderItem = ({ item }) => {
     return (
-      <TouchableOpacity onPress={() => this.props.navigation.navigate('ServiceDetail')} style={{ marginEnd: 15 }}>
+      <TouchableOpacity onPress={() => this.props.navigation.navigate('ServiceDetail', { name: item.name })} style={{ marginEnd: 15 }}>
         <Image
           source={item.img}
           style={{ width: width * 0.5, height: 120, borderRadius: 5 }}
@@ -203,7 +203,7 @@ class Dashboard extends Component {
               marginBottom="3"
               marginTop="5">
               <Heading fontSize="md" color="#1872ea">
-                Listed Companies:
+                Local  Companies Listed:
               </Heading>
               <TouchableOpacity onPress={() => this.props.navigation.navigate("LocalCompanyList")}>
                 <Text>View All</Text>

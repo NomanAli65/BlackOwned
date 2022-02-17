@@ -26,7 +26,7 @@ const { width } = Dimensions.get('window');
 
 export default class ServiceDetails extends Component {
     state = {
-        categories: ['player', 'coach', 'parent'],
+        categories: ['Realtors', 'Artists', 'Musicians',],
         toggleCheckBox1: false, toggleCheckBox2: false, toggleCheckBox3: false,
 
     };

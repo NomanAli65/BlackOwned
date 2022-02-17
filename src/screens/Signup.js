@@ -7,12 +7,12 @@ import {
   Radio,
   ScrollView,
 } from 'native-base';
-import React, {Component} from 'react';
-import {StyleSheet, Image, View, Dimensions, Text} from 'react-native';
-import {AuthMiddleware} from '../redux/middleware/AuthMiddleware';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { StyleSheet, Image, View, Dimensions, Text } from 'react-native';
+import { AuthMiddleware } from '../redux/middleware/AuthMiddleware';
+import { connect } from 'react-redux';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 class Signup extends Component {
   state = {
@@ -98,49 +98,49 @@ class Signup extends Component {
             }}>
             <Image style={styles.logo} source={require('../assets/logo.png')} />
           </View>
-          <View style={{flex: 1}}>
+          <View style={{ flex: 1 }}>
             <View
               style={{
                 alignItems: 'center',
                 borderWidth: 1,
                 borderColor: '#ccc',
-                marginHorizontal: '10%',
+                marginHorizontal: '5%',
                 marginVertical: 20,
                 borderRadius: 20,
                 padding: 20,
               }}>
-              <Heading style={{marginBottom: 25}}>Sign Up</Heading>
+              <Heading style={{ marginBottom: 25 }}>Sign Up</Heading>
               <Input
                 placeholder="Username"
                 style={styles.input}
-                onChangeText={username => this.setState({username})}
+                onChangeText={username => this.setState({ username })}
               />
               <Input
                 placeholder="Email"
                 style={styles.input}
-                onChangeText={email => this.setState({email})}
+                onChangeText={email => this.setState({ email })}
               />
               <Input
                 placeholder="City"
                 style={styles.input}
-                onChangeText={city => this.setState({city})}
+                onChangeText={city => this.setState({ city })}
               />
               <Input
                 placeholder="Phone Number"
                 style={styles.input}
-                onChangeText={phone => this.setState({phone})}
+                onChangeText={phone => this.setState({ phone })}
               />
               <Input
                 placeholder="Password"
                 style={styles.input}
                 secureTextEntry
-                onChangeText={password => this.setState({password})}
+                onChangeText={password => this.setState({ password })}
               />
               <Input
                 placeholder="Confirm Password"
                 style={styles.input}
                 secureTextEntry
-                onChangeText={c_password => this.setState({c_password})}
+                onChangeText={c_password => this.setState({ c_password })}
               />
               <Heading
                 style={{
@@ -158,13 +158,13 @@ class Signup extends Component {
                 marginBottom={3}
                 tintColor="#1872ea"
                 onChange={nextValue => {
-                  this.setState({userType: nextValue});
+                  this.setState({ userType: nextValue });
                 }}>
                 <Radio value="customer" marginRight={7}>
-                  <Text style={{color: '#aaa', marginStart: 10}}>Customer</Text>
+                  <Text style={{ color: '#aaa', marginStart: 10 }}>Customer</Text>
                 </Radio>
                 <Radio value="provider">
-                  <Text style={{color: '#aaa', marginStart: 10}}>
+                  <Text style={{ color: '#aaa', marginStart: 10 }}>
                     Service Provider
                   </Text>
                 </Radio>
@@ -188,15 +188,15 @@ class Signup extends Component {
                   marginBottom={3}
                   tintColor="#1872ea"
                   onChange={nextValue => {
-                    this.setState({provider: nextValue});
+                    this.setState({ provider: nextValue });
                   }}>
                   <Radio value="individual" marginRight={10}>
-                    <Text style={{color: '#aaa', marginStart: 10}}>
+                    <Text style={{ color: '#aaa', marginStart: 10 }}>
                       Individual
                     </Text>
                   </Radio>
                   <Radio value="business">
-                    <Text style={{color: '#aaa', marginStart: 10}}>
+                    <Text style={{ color: '#aaa', marginStart: 10 }}>
                       Business
                     </Text>
                   </Radio>
@@ -205,8 +205,8 @@ class Signup extends Component {
               {this.state.provider == 'business' ? (
                 <Input
                   placeholder="Company Name"
-                  style={{...styles.input, marginTop: 10}}
-                  onChangeText={company_name => this.setState({company_name})}
+                  style={{ ...styles.input, marginTop: 10 }}
+                  onChangeText={company_name => this.setState({ company_name })}
                 />
               ) : null}
 
@@ -222,9 +222,9 @@ class Signup extends Component {
                 Signup
               </Button>
             </View>
-            <View style={{alignItems: 'center'}}>
-              <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <Text style={{color: '#000'}}>Already have an account?</Text>
+            <View style={{ alignItems: 'center' }}>
+              <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ color: '#000' }}>Already have an account?</Text>
               </View>
               <Button
                 onPress={() => this.props.navigation.navigate('Login')}
@@ -239,7 +239,7 @@ class Signup extends Component {
                   width: '50%',
                   height: 45,
                 }}>
-                <Text style={{color: '#1872ea'}}>LOGIN</Text>
+                <Text style={{ color: '#1872ea' }}>LOGIN</Text>
               </Button>
             </View>
           </View>
