@@ -78,7 +78,7 @@ export default class ServiceDetails extends Component {
             <View style={styles.container}>
                 <MyHeader
                     back notify profile navigation={this.props.navigation}
-                    title={this.props?.route?.params?.name}
+                    title={'Service Details'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
                 <ScrollView>

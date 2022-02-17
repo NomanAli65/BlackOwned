@@ -11,6 +11,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Image, View, Dimensions, Text } from 'react-native';
 import { AuthMiddleware } from '../redux/middleware/AuthMiddleware';
 import { connect } from 'react-redux';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 const { width, height } = Dimensions.get('window');
 
@@ -127,6 +128,7 @@ class Signup extends Component {
               />
               <Input
                 placeholder="Phone Number"
+                keyboardType='numeric'
                 style={styles.input}
                 onChangeText={phone => this.setState({ phone })}
               />
@@ -155,16 +157,17 @@ class Signup extends Component {
                 name="myRadioGroup"
                 value={this.state.userType}
                 flexDirection="row"
+                style={{ justifyContent: 'space-around', width: '100%' }}
                 marginBottom={3}
                 tintColor="#1872ea"
                 onChange={nextValue => {
                   this.setState({ userType: nextValue });
                 }}>
-                <Radio value="customer" marginRight={7}>
-                  <Text style={{ color: '#aaa', marginStart: 10 }}>Customer</Text>
+                <Radio value="customer">
+                  <Text style={{ color: '#aaa', marginStart: 5 }}>Customer</Text>
                 </Radio>
                 <Radio value="provider">
-                  <Text style={{ color: '#aaa', marginStart: 10 }}>
+                  <Text style={{ color: '#aaa', marginStart: 5 }}>
                     Service Provider
                   </Text>
                 </Radio>
@@ -185,29 +188,51 @@ class Signup extends Component {
                   name="myRadioGroup"
                   value={this.state.provider}
                   flexDirection="row"
+                  style={{ justifyContent: 'space-around', width: '100%' }}
                   marginBottom={3}
                   tintColor="#1872ea"
                   onChange={nextValue => {
                     this.setState({ provider: nextValue });
                   }}>
-                  <Radio value="individual" marginRight={10}>
-                    <Text style={{ color: '#aaa', marginStart: 10 }}>
+                  <Radio value="individual" >
+                    <Text style={{ color: '#aaa', marginStart: 5 }}>
                       Individual
                     </Text>
                   </Radio>
                   <Radio value="business">
-                    <Text style={{ color: '#aaa', marginStart: 10 }}>
+                    <Text style={{ color: '#aaa', marginStart: 5 }}>
                       Business
                     </Text>
                   </Radio>
                 </Radio.Group>
               ) : null}
               {this.state.provider == 'business' ? (
-                <Input
-                  placeholder="Company Name"
-                  style={{ ...styles.input, marginTop: 10 }}
-                  onChangeText={company_name => this.setState({ company_name })}
-                />
+                <View style={{ width: '100%', alignItems: 'center' }}>
+                  <Input
+                    placeholder="Company Name"
+                    style={{ ...styles.input, marginTop: 10 }}
+                    onChangeText={company_name => this.setState({ company_name })}
+                  />
+                  {/* <Input
+                    placeholder="Location"
+                    style={{ ...styles.input, marginTop: 5 }}
+                    onChangeText={company_name => this.setState({ company_name })}
+                  /> */}
+                  <View style={styles.input}>
+                    <GooglePlacesAutocomplete
+                      placeholder='Location'
+                      onPress={(data, details = null) => {
+                        // 'details' is provided when fetchDetails = true
+                        console.log(data, details);
+                      }}
+                      // style={styles.input}
+                      query={{
+                        key: 'AIzaSyBBVMEPDktEjcindc7_NjCpFWsSWVspyKI',
+                        language: 'en',
+                      }}
+                    />
+                  </View>
+                </View>
               ) : null}
 
               <Button
