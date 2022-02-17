@@ -36,26 +36,26 @@ export default class Marketplace extends Component {
 
     renderSponsorList = item => (
         <TouchableOpacity onPress={() => this.props.navigation.navigate('ProductDetails')} style={styles.sponsorContainer}>
-            <Image source={require('../../assets/realtor.jpg')} style={styles.teamImage} />
+            <Image source={item.img} style={styles.teamImage} />
             <View style={{ position: 'absolute', right: 0, padding: 4, backgroundColor: '#fff', borderRadius: 8, margin: 5 }}>
                 {/* <TouchableOpacity onPress={() => console.warn('Touch')}> */}
                 <FontAwesome5 name={'crown'} size={15} color={'#1872ea'} />
                 {/* </TouchableOpacity> */}
             </View>
-            <Text style={styles.sponsorName}>{item}</Text>
+            <Text style={styles.sponsorName}>{item.name}</Text>
             <Text style={styles.sponsorPrice}>$500.50</Text>
         </TouchableOpacity>
     );
 
     renderProductList = item => (
         <TouchableOpacity onPress={() => this.props.navigation.navigate('ProductDetails')} style={styles.sponsorContainer}>
-            <Image source={require('../../assets/realtor.jpg')} style={styles.teamImage} />
+            <Image source={item.img} style={styles.teamImage} />
             {/* <View style={{ position: 'absolute', right: 0, padding: 4, backgroundColor: '#fff', borderRadius: 8, margin: 5 }}>
                 <TouchableOpacity onPress={() => console.warn('Touch')}>
                     <Image source={require('../../assets/blueMarker.png')} style={{ width: 20, height: 20 }} />
                 </TouchableOpacity>
             </View> */}
-            <Text style={styles.sponsorName}>{item}</Text>
+            <Text style={styles.sponsorName}>{item.name}</Text>
             <Text style={styles.sponsorPrice}>$500.50</Text>
         </TouchableOpacity>
     );
@@ -91,8 +91,9 @@ export default class Marketplace extends Component {
                             style={styles.flex1}
                             showsVerticalScrollIndicator={false}
                             data={[
-                                'Realtors',
-                                'Artists',
+                                { name: 'Realtors', img: require('../../assets/realtor.jpg') },
+                                { name: 'Artists', img: require('../../assets/c2.jpeg') },
+
                             ]}
                             renderItem={({ item }) => this.renderSponsorList(item)}
                         />
@@ -106,12 +107,18 @@ export default class Marketplace extends Component {
                             style={styles.flex1}
                             showsVerticalScrollIndicator={false}
                             data={[
-                                'Realtors',
-                                'Artists',
-                                'Musicians',
-                                'Baby Sitter',
-                                'Beautician',
-                                'Electrition',
+                                { name: 'Realtors', img: require('../../assets/realtor.jpg') },
+                                { name: 'Artists', img: require('../../assets/c1.jpeg') },
+
+                                { name: 'Baby Sitter', img: require('../../assets/c2.jpeg') },
+
+                                { name: 'Beautician', img: require('../../assets/c1.jpeg') },
+                                { name: 'Realtors', img: require('../../assets/realtor.jpg') },
+                                { name: 'Artists', img: require('../../assets/c1.jpeg') },
+
+                                { name: 'Baby Sitter', img: require('../../assets/c2.jpeg') },
+                                { name: 'Electrition', img: require('../../assets/realtor.jpg') },
+                                { name: 'Beautician', img: require('../../assets/c1.jpeg') },
                             ]}
                             renderItem={({ item }) => this.renderProductList(item)}
                         />

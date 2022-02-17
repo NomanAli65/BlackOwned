@@ -9,6 +9,8 @@ import Settings from '../screens/Settings';
 import MainStack from './MainStack';
 import Advertise from '../screens/Advertise/Advertise';
 import ChatList from '../screens/Chat/ChatList';
+import { connect } from 'react-redux';
+import AddServices from '../screens/Services/AddServices';
 
 const BottomTabsNav = createBottomTabNavigator();
 
@@ -29,7 +31,8 @@ const BottomNavIconComp = ({ focused, size, icon }) => (
   </View>
 );
 
-export default function BottomNavigation() {
+function BottomNavigation(props) {
+  console.warn("props:", props);
   return (
     <BottomTabsNav.Navigator
       initialRouteName={Dashboard}
@@ -63,7 +66,7 @@ export default function BottomNavigation() {
         }}
       />
       <BottomTabsNav.Screen
-        component={Services}
+        component={props?.user?.user?.role == 'provider' ? AddServices : Services}
         name="Services"
         options={{
           tabBarIcon: props => (
@@ -145,3 +148,13 @@ export default function BottomNavigation() {
     </BottomTabsNav.Navigator>
   );
 }
+
+const mapStateToProps = state => ({
+  user: state.AuthReducer.user,
+});
+
+const mapDispatchToProps = dispatch => ({
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BottomNavigation);

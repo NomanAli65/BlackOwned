@@ -34,8 +34,8 @@ export default class AddServices extends Component {
         <TouchableOpacity
             // onPress={() => this.props.navigation.navigate('ServicesFilter')}
             activeOpacity={0.7} style={styles.teamContainer}>
-            <Image source={require('../../assets/realtor.jpg')} style={styles.teamImage} />
-            <Text style={styles.teamName}>{item}</Text>
+            <Image source={item.img} style={styles.teamImage} />
+            <Text style={styles.teamName}>{item.name}</Text>
             <TouchableOpacity
                 onPress={() => console.warn('touch')}
                 activeOpacity={0.7}
@@ -69,12 +69,14 @@ export default class AddServices extends Component {
                         style={styles.flex1}
                         showsVerticalScrollIndicator={false}
                         data={[
-                            'Realtors',
-                            'Artists',
-                            'Musicians',
-                            'Baby Sitter',
-                            'Beautician',
-                            'Electrition',
+                            { name: 'Realtors', img: require('../../assets/realtor.jpg') },
+                            { name: 'Artists', img: require('../../assets/c1.jpeg') },
+                            { name: 'Plumber', img: require('../../assets/c3.jpeg') },
+                            { name: 'Electrician', img: require('../../assets/realtor.jpg') },
+                            { name: 'Baby Sitter', img: require('../../assets/realtor.jpg') },
+                            { name: 'Musicians', img: require('../../assets/c1.jpeg') },
+                            { name: 'Plumber', img: require('../../assets/c3.jpeg') },
+                            { name: 'Beautician', img: require('../../assets/realtor.jpg') },
                         ]}
                         renderItem={({ item }) => this.renderUsersList(item)}
                     />

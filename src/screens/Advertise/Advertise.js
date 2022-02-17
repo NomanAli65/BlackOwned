@@ -19,9 +19,9 @@ export default class Advertise extends Component {
                 value={this.state.toggleCheckBox1}
             // onValueChange={(newValue) => this.setState({ toggleCheckBox1: newValue, toggleCheckBox2: false, toggleCheckBox3: false })}
             />
-            <Image source={require('../../assets/realtor.jpg')} style={styles.ListImage} />
+            <Image source={item.img} style={styles.ListImage} />
             <View style={{ marginLeft: 5 }}>
-                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.ListName}>{item}</Text>
+                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.ListName}>{item.name}</Text>
                 <Text style={styles.ListDistances}>Price: <Text style={{ fontSize: 16, fontWeight: 'bold', color: "#1872ea" }}>$275.25</Text></Text>
                 <Text numberOfLines={3} style={styles.ListDescription}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</Text>
             </View>
@@ -64,18 +64,19 @@ export default class Advertise extends Component {
                         style={styles.flex1}
                         showsVerticalScrollIndicator={false}
                         data={[
-                            'Realtors',
-                            'Artists',
-                            'Musicians',
-                            'Baby Sitter',
-                            'Beautician',
-                            'Electrition',
-                            'Realtors',
-                            'Artists',
-                            'Musicians',
-                            'Baby Sitter',
-                            'Beautician',
-                            'Electrition',
+                            { name: 'Realtors', img: require('../../assets/realtor.jpg') },
+                            { name: 'Artists', img: require('../../assets/c1.jpeg') },
+                            { name: 'Musicians', img: require('../../assets/realtor.jpg') },
+                            { name: 'Baby Sitter', img: require('../../assets/c2.jpeg') },
+                            { name: 'Electrition', img: require('../../assets/realtor.jpg') },
+                            { name: 'Beautician', img: require('../../assets/c1.jpeg') },
+                            { name: 'Realtors', img: require('../../assets/realtor.jpg') },
+                            { name: 'Artists', img: require('../../assets/c1.jpeg') },
+                            { name: 'Musicians', img: require('../../assets/realtor.jpg') },
+                            { name: 'Baby Sitter', img: require('../../assets/c2.jpeg') },
+                            { name: 'Electrition', img: require('../../assets/realtor.jpg') },
+                            { name: 'Beautician', img: require('../../assets/c1.jpeg') },
+
                         ]}
                         renderItem={({ item }) => this.renderUsersList(item)}
                     />

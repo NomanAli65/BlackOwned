@@ -13,9 +13,9 @@ export default class LocalCompanyList extends Component {
     }
     renderUsersList = item => (
         <View activeOpacity={0.7} style={styles.ListContainer}>
-            <Image source={require('../../assets/realtor.jpg')} style={styles.ListImage} />
+            <Image source={item.img} style={styles.ListImage} />
             <View style={{ marginHorizontal: 10 }}>
-                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.ListName}>{item}</Text>
+                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.ListName}>{item.name}</Text>
                 <Text style={styles.ListDistances}>2 miles</Text>
             </View>
         </View>
@@ -45,12 +45,14 @@ export default class LocalCompanyList extends Component {
                         // style={styles.flex1}
                         showsVerticalScrollIndicator={false}
                         data={[
-                            'Realtors',
-                            'Global World',
-                            'Strategic Solution',
-                            'Trading Co',
-                            'Beautician',
-                            'Electrition',
+                            { name: 'Realtors', img: require('../../assets/realtor.jpg') },
+                            { name: 'Artists', img: require('../../assets/c1.jpeg') },
+                            { name: 'Plumber', img: require('../../assets/c3.jpeg') },
+                            { name: 'Electrician', img: require('../../assets/realtor.jpg') },
+                            { name: 'Baby Sitter', img: require('../../assets/realtor.jpg') },
+                            { name: 'Musicians', img: require('../../assets/c1.jpeg') },
+                            { name: 'Plumber', img: require('../../assets/c3.jpeg') },
+                            { name: 'Beautician', img: require('../../assets/realtor.jpg') },
 
                         ]}
                         renderItem={({ item }) => this.renderUsersList(item)}

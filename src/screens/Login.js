@@ -7,23 +7,23 @@ import {
   Pressable,
   ScrollView,
 } from 'native-base';
-import React, {Component} from 'react';
-import {StyleSheet, Image, View, Dimensions, Text} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, Image, View, Dimensions, Text } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome5Pro from 'react-native-vector-icons/FontAwesome5Pro';
-import {connect} from 'react-redux';
-import {AuthMiddleware} from '../redux/middleware/AuthMiddleware';
+import { connect } from 'react-redux';
+import { AuthMiddleware } from '../redux/middleware/AuthMiddleware';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 class Login extends Component {
   state = {
-    email: 'test123@gmail.com',
+    email: 'test@gmail.com',
     password: 'admin123',
   };
 
   Login = () => {
-    let {email, password} = this.state;
+    let { email, password } = this.state;
     if (email && password) {
       this.props.Login({
         email,
@@ -46,7 +46,7 @@ class Login extends Component {
             }}>
             <Image style={styles.logo} source={require('../assets/logo.png')} />
           </View>
-          <View style={{flex: 1}}>
+          <View style={{ flex: 1 }}>
             <View
               style={{
                 alignItems: 'center',
@@ -57,19 +57,19 @@ class Login extends Component {
                 borderRadius: 20,
                 padding: 20,
               }}>
-              <Heading style={{marginBottom: 25}}>Log In</Heading>
+              <Heading style={{ marginBottom: 25 }}>Log In</Heading>
               <Input
                 placeholder="Username"
                 style={styles.input}
                 value={this.state.email}
-                onChangeText={email => this.setState({email})}
+                onChangeText={email => this.setState({ email })}
               />
               <Input
                 placeholder="Password"
                 style={styles.input}
                 value={this.state.password}
                 secureTextEntry
-                onChangeText={password => this.setState({password})}
+                onChangeText={password => this.setState({ password })}
               />
               <Button
                 onPress={this.Login}
@@ -86,13 +86,13 @@ class Login extends Component {
                 onPress={() =>
                   this.props.navigation.navigate('Development In Process')
                 }
-                style={{padding: 5}}>
-                <Text style={{color: '#000'}}>Forgot Password?</Text>
+                style={{ padding: 5 }}>
+                <Text style={{ color: '#000' }}>Forgot Password?</Text>
               </Pressable>
             </View>
-            <View style={{alignItems: 'center'}}>
-              <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <Text style={{color: '#000'}}>Don't have an account?</Text>
+            <View style={{ alignItems: 'center' }}>
+              <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ color: '#000' }}>Don't have an account?</Text>
               </View>
               <Button
                 onPress={() => this.props.navigation.navigate('Signup')}
@@ -107,10 +107,10 @@ class Login extends Component {
                   width: '50%',
                   height: 45,
                 }}>
-                <Text style={{color: '#1872ea'}}>SIGNUP</Text>
+                <Text style={{ color: '#1872ea' }}>SIGNUP</Text>
               </Button>
-              <Text style={{color: '#000'}}>Or Sign In with</Text>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={{ color: '#000' }}>Or Sign In with</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <IconButton
                   icon={
                     <Icon

@@ -47,7 +47,7 @@ export default class EditProfile extends Component {
                         space="md"
                         alignItems="center">
                         <Image
-                            source={require('../../assets/1.jpeg')}
+                            source={require('../../assets/user.png')}
                             style={{
                                 width: width * 0.3,
                                 height: width * 0.3,

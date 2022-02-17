@@ -33,13 +33,13 @@ export default class FriendList extends Component {
 
     renderUsersList = item => (
 
-        <TouchableOpacity onPress={()=> this.props.navigation.navigate('OtherProfile')}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('OtherProfile')}>
             <View style={{ flexDirection: 'row', backgroundColor: '#eee', padding: 10, marginVertical: 5 }}>
                 {/* <View> */}
-                <Image source={require('../assets/1.jpeg')} style={styles.profileImg} />
+                <Image source={item.img} style={styles.profileImg} />
                 {/* </View> */}
                 <View style={{ paddingHorizontal: 10 }}>
-                    <Text style={styles.ProfileName}>Stacy Stratus</Text>
+                    <Text style={styles.ProfileName}>{item.name}</Text>
                     <View style={{ flexDirection: 'row' }}>
                         <Image source={require('../assets/blueMarker.png')} style={{ width: 20, height: 20 }} />
                         <Text style={{}}>8 miles away</Text>
@@ -68,11 +68,11 @@ export default class FriendList extends Component {
     );
 
     render() {
-       
+
         return (
             <View style={styles.container}>
                 <MyHeader
-                     back notify profile navigation={this.props.navigation}
+                    back notify profile navigation={this.props.navigation}
                     title={this.props.route.name}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
@@ -93,12 +93,16 @@ export default class FriendList extends Component {
                             style={styles.flex1}
                             showsVerticalScrollIndicator={false}
                             data={[
-                                'Realtors',
-                                'Artists',
-                                'Musicians',
-                                'Baby Sitter',
-                                'Beautician',
-                                'Electrition',
+                                { name: 'Alex will', img: require('../assets/1.jpeg') },
+                                { name: 'John will', img: require('../assets/2.jpeg') },
+                                { name: 'Max will', img: require('../assets/3.jpeg') },
+                                { name: 'Marry will', img: require('../assets/4.jpeg') },
+                                { name: 'Janifer will', img: require('../assets/3.jpeg') },
+                                { name: 'Alex will', img: require('../assets/1.jpeg') },
+                                { name: 'John will', img: require('../assets/2.jpeg') },
+                                { name: 'Max will', img: require('../assets/5.jpeg') },
+                                { name: 'Marry will', img: require('../assets/4.jpeg') },
+                                { name: 'Janifer will', img: require('../assets/3.jpeg') },
                             ]}
                             renderItem={({ item }) => this.renderUsersList(item)}
                         />

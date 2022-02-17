@@ -25,18 +25,22 @@ export class Chat extends Component {
             {
                 id: 2,
                 message: 'Hello, How are you?',
+                img: require('../../assets/2.jpeg')
             },
             {
                 id: 1,
                 message: 'I am doing good, Thanks',
+                img: require('../../assets/3.jpeg'),
             },
             {
                 id: 2,
                 message: 'Will you be available for an event on Thursday',
+                img: require('../../assets/2.jpeg')
             },
             {
                 id: 1,
                 message: 'I will let you know, after checking my schedule.',
+                img: require('../../assets/3.jpeg')
             },
 
         ],
@@ -73,10 +77,10 @@ export class Chat extends Component {
                 alignItems: 'center',
             }}>
             <View style={{ paddingHorizontal: 10 }}>
-                <Image source={require('../../assets/c1.jpeg')} style={styles.userImg} />
+                <Image source={item.img} style={styles.userImg} />
             </View>
 
-            <View style={{ width: '60%',backgroundColor:item.id == 1 ? '#ABABAB':'#EEEBEB',padding:20,borderRadius:5 }}>
+            <View style={{ width: '60%', backgroundColor: item.id == 1 ? '#ABABAB' : '#EEEBEB', padding: 20, borderRadius: 5 }}>
                 <Text
                     style={{
                         textAlign: item.id == 1 ? 'right' : 'left',

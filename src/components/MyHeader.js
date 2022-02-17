@@ -47,7 +47,7 @@ class MyHeader extends Component {
                 {!this.props.notify ? (
                   <View style={{ width: width * 0.1 }} />
                 ) : null}
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('UserProfile')}>
+                <TouchableOpacity onPress={() => { this.props?.user?.user?.role == 'provider' ? this.props.navigation.navigate('UserProfile') : this.props.navigation.navigate('profileSettings') }}>
                   <Avatar
                     source={require('../assets/user.png')}
                     size="sm"
@@ -65,7 +65,9 @@ class MyHeader extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  user: state.AuthReducer.user,
+});
 
 const mapDispatchToProps = {};
 

@@ -14,10 +14,10 @@ export default class Jobs extends Component {
     renderUsersList = item => (
         <TouchableOpacity activeOpacity={0.7} style={styles.ListContainer}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Image source={require('../../assets/realtor.jpg')} style={styles.ListImage} />
+                <Image source={item?.img} style={styles.ListImage} />
                 <View style={{ marginLeft: 10, }}>
                     <Text style={styles.ListName}>John Doe</Text>
-                    <Text >{item}</Text>
+                    <Text >{item.name}</Text>
                 </View>
             </View>
 
@@ -47,18 +47,19 @@ export default class Jobs extends Component {
                         style={styles.flex1}
                         showsVerticalScrollIndicator={false}
                         data={[
-                            'Realtors',
-                            'Artists',
-                            'Musicians',
-                            'Baby Sitter',
-                            'Beautician',
-                            'Electrition',
-                            'Realtors',
-                            'Artists',
-                            'Musicians',
-                            'Baby Sitter',
-                            'Beautician',
-                            'Electrition',
+                            { name: 'Realtors', img: require('../../assets/realtor.jpg') },
+                            { name: 'Artists', img: require('../../assets/c1.jpeg') },
+                            { name: 'Musicians', img: require('../../assets/realtor.jpg') },
+                            { name: 'Baby Sitter', img: require('../../assets/c2.jpeg') },
+                            { name: 'Electrition', img: require('../../assets/realtor.jpg') },
+                            { name: 'Beautician', img: require('../../assets/c1.jpeg') },
+                            { name: 'Realtors', img: require('../../assets/realtor.jpg') },
+                            { name: 'Artists', img: require('../../assets/c1.jpeg') },
+                            { name: 'Musicians', img: require('../../assets/realtor.jpg') },
+                            { name: 'Baby Sitter', img: require('../../assets/c2.jpeg') },
+                            { name: 'Electrition', img: require('../../assets/realtor.jpg') },
+                            { name: 'Beautician', img: require('../../assets/c1.jpeg') },
+
                         ]}
                         renderItem={({ item }) => this.renderUsersList(item)}
                     />

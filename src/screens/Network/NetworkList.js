@@ -13,8 +13,8 @@ export default class NetworkList extends Component {
     renderUsersList = item => (
         <TouchableOpacity activeOpacity={0.7} style={styles.ListContainer}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Image source={require('../../assets/realtor.jpg')} style={styles.ListImage} />
-                <Text style={styles.ListName}>{item}</Text>
+                <Image source={item.img} style={styles.ListImage} />
+                <Text style={styles.ListName}>{item.name}</Text>
             </View>
 
             <TouchableOpacity style={styles.ListAddImage}>
@@ -41,18 +41,16 @@ export default class NetworkList extends Component {
                     style={styles.flex1}
                     showsVerticalScrollIndicator={false}
                     data={[
-                        'Realtors',
-                        'Artists',
-                        'Musicians',
-                        'Baby Sitter',
-                        'Beautician',
-                        'Electrition',
-                        'Realtors',
-                        'Artists',
-                        'Musicians',
-                        'Baby Sitter',
-                        'Beautician',
-                        'Electrition',
+                        { name: 'Alex will', img: require('../../assets/1.jpeg') },
+                        { name: 'John will', img: require('../../assets/2.jpeg') },
+                        { name: 'Max will', img: require('../../assets/3.jpeg') },
+                        { name: 'Marry will', img: require('../../assets/4.jpeg') },
+                        { name: 'Janifer will', img: require('../../assets/3.jpeg') },
+                        { name: 'Alex will', img: require('../../assets/1.jpeg') },
+                        { name: 'John will', img: require('../../assets/2.jpeg') },
+                        { name: 'Max will', img: require('../../assets/5.jpeg') },
+                        { name: 'Marry will', img: require('../../assets/4.jpeg') },
+                        { name: 'Janifer will', img: require('../../assets/3.jpeg') },
                     ]}
                     renderItem={({ item }) => this.renderUsersList(item)}
                     ListFooterComponent={<View style={{ marginBottom: 20, }}><Text></Text></View>}

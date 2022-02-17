@@ -14,11 +14,11 @@ export default class Notification extends Component {
     }
     renderUsersList = item => (
         <View style={styles.ListContainer}>
-            <Image source={require('../../assets/realtor.jpg')} style={styles.ListImage} />
+            <Image source={item.img} style={styles.ListImage} />
             <View style={{ flex: 1, paddingHorizontal: 10 }}>
                 <View style={styles.inviteRecipientNameContainer}>
                     <Text style={styles.inviteRecipientName}>
-                        John Doe
+                        {item.name}
                     </Text>
                     <Text style={styles.fontSize16}>Wants to like this application</Text>
                     {/* <Text style={styles.inviteRecipientName}>
@@ -75,18 +75,16 @@ export default class Notification extends Component {
                     style={styles.flex1}
                     showsVerticalScrollIndicator={false}
                     data={[
-                        'Realtors',
-                        'Artists',
-                        'Musicians',
-                        'Baby Sitter',
-                        'Beautician',
-                        'Electrition',
-                        'Realtors',
-                        'Artists',
-                        'Musicians',
-                        'Baby Sitter',
-                        'Beautician',
-                        'Electrition',
+                        { name: 'Alex will', img: require('../../assets/1.jpeg') },
+                        { name: 'John will', img: require('../../assets/2.jpeg') },
+                        { name: 'Max will', img: require('../../assets/3.jpeg') },
+                        { name: 'Marry will', img: require('../../assets/4.jpeg') },
+                        { name: 'Janifer will', img: require('../../assets/3.jpeg') },
+                        { name: 'Alex will', img: require('../../assets/1.jpeg') },
+                        { name: 'John will', img: require('../../assets/2.jpeg') },
+                        { name: 'Max will', img: require('../../assets/5.jpeg') },
+                        { name: 'Marry will', img: require('../../assets/4.jpeg') },
+                        { name: 'Janifer will', img: require('../../assets/3.jpeg') },
                     ]}
                     renderItem={({ item }) => this.renderUsersList(item)}
                 />

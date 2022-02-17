@@ -13,13 +13,13 @@ export default class ChatList extends Component {
         };
     }
     renderUsersList = item => (
-        <TouchableOpacity 
-        onPress={() => this.props.navigation.navigate('Chat')}
-        activeOpacity={0.7} style={styles.ListContainer}>
+        <TouchableOpacity
+            onPress={() => this.props.navigation.navigate('Chat')}
+            activeOpacity={0.7} style={styles.ListContainer}>
             <View style={{ flexDirection: 'row', alignItems: 'center', width: '70%' }}>
-                <Image source={require('../../assets/realtor.jpg')} style={styles.ListImage} />
+                <Image source={item.img} style={styles.ListImage} />
                 <View style={{ marginLeft: 10, }}>
-                    <Text style={styles.ListName}>{item}</Text>
+                    <Text style={styles.ListName}>{item.name}</Text>
                     <Text numberOfLines={1} style={{}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</Text>
                 </View>
             </View>
@@ -41,7 +41,7 @@ export default class ChatList extends Component {
                     onBackPress={() => this.props.navigation.goBack()}
                 />
                 <View style={{ justifyContent: 'center', flex: 1 }}>
-                    <View style={{marginHorizontal:10}}>
+                    <View style={{ marginHorizontal: 10 }}>
                         <HStack
                             backgroundColor="#e1e1e1"
                             marginTop="2.5"
@@ -59,21 +59,19 @@ export default class ChatList extends Component {
                         </View>
                     </View>
                     <FlatList
-                        style={{paddingHorizontal:10,backgroundColor:'#fff'}}
+                        style={{ paddingHorizontal: 10, backgroundColor: '#fff' }}
                         showsVerticalScrollIndicator={false}
                         data={[
-                            'Realtors',
-                            'Artists',
-                            'Musicians',
-                            'Baby Sitter',
-                            'Beautician',
-                            'Electrition',
-                            'Realtors',
-                            'Artists',
-                            'Musicians',
-                            'Baby Sitter',
-                            'Beautician',
-                            'Electrition',
+                            { name: 'Alex will', img: require('../../assets/1.jpeg') },
+                            { name: 'John will', img: require('../../assets/2.jpeg') },
+                            { name: 'Max will', img: require('../../assets/3.jpeg') },
+                            { name: 'Marry will', img: require('../../assets/4.jpeg') },
+                            { name: 'Janifer will', img: require('../../assets/3.jpeg') },
+                            { name: 'Alex will', img: require('../../assets/1.jpeg') },
+                            { name: 'John will', img: require('../../assets/2.jpeg') },
+                            { name: 'Max will', img: require('../../assets/5.jpeg') },
+                            { name: 'Marry will', img: require('../../assets/4.jpeg') },
+                            { name: 'Janifer will', img: require('../../assets/3.jpeg') },
                         ]}
                         renderItem={({ item }) => this.renderUsersList(item)}
                     // ListFooterComponent={<View style={{ marginBottom: 20, }}><Text></Text></View>}
@@ -102,7 +100,7 @@ const styles = StyleSheet.create({
     ListImage: {
         width: 50,
         height: 50,
-        borderRadius:5
+        borderRadius: 5
     },
     teamsListContainer: {
         justifyContent: 'space-between',

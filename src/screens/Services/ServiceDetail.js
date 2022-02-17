@@ -37,10 +37,10 @@ export default class ServiceDetails extends Component {
         <TouchableOpacity onPress={() => this.props.navigation.navigate('OtherProfile')}>
             <View style={{ flexDirection: 'row', backgroundColor: '#eee', padding: 10, marginVertical: 5, width: '100%' }}>
                 <View style={{ flexDirection: 'row', width: '70%' }}>
-                    <Image source={require('../../assets/1.jpeg')} style={styles.profileImg} />
+                    <Image source={item.img} style={styles.profileImg} />
 
                     <View style={{ paddingHorizontal: 10, justifyContent: 'center' }}>
-                        <Text style={styles.ProfileName}>Stacy Stratus</Text>
+                        <Text style={styles.ProfileName}>{item.name}</Text>
                         <View style={{ flexDirection: 'row', marginVertical: 10, alignItems: 'center' }}>
                             <Image source={require('../../assets/blueMarker.png')} style={{ width: 15, height: 15 }} />
                             <Text style={{ fontSize: 11 }}>8 miles away</Text>
@@ -98,12 +98,16 @@ export default class ServiceDetails extends Component {
                             style={styles.flex1}
                             showsVerticalScrollIndicator={false}
                             data={[
-                                'Realtors',
-                                'Artists',
-                                'Musicians',
-                                'Baby Sitter',
-                                'Beautician',
-                                'Electrition',
+                                { name: 'Alex will', img: require('../../assets/1.jpeg') },
+                                { name: 'John will', img: require('../../assets/2.jpeg') },
+                                { name: 'Max will', img: require('../../assets/3.jpeg') },
+                                { name: 'Marry will', img: require('../../assets/4.jpeg') },
+                                { name: 'Janifer will', img: require('../../assets/3.jpeg') },
+                                { name: 'Alex will', img: require('../../assets/1.jpeg') },
+                                { name: 'John will', img: require('../../assets/2.jpeg') },
+                                { name: 'Max will', img: require('../../assets/5.jpeg') },
+                                { name: 'Marry will', img: require('../../assets/4.jpeg') },
+                                { name: 'Janifer will', img: require('../../assets/3.jpeg') },
                             ]}
                             renderItem={({ item }) => this.renderUsersList(item)}
                         />

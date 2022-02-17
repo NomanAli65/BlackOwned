@@ -28,9 +28,9 @@ class Dashboard extends Component {
   state = {
     data: [
       { name: 'Realtors', img: require('../assets/realtor.jpg') },
-      { name: 'Artists', img: require('../assets/realtor.jpg') },
-      { name: 'Plumber', img: require('../assets/realtor.jpg') },
-      { name: 'Electrician', img: require('../assets/realtor.jpg') },
+      { name: 'Artists', img: require('../assets/c1.jpeg') },
+      { name: 'Plumber', img: require('../assets/c3.jpeg') },
+      { name: 'Electrician', img: require('../assets/c2.jpeg') },
     ],
     online_friends: [
       { img: require('../assets/1.jpeg') },
@@ -84,7 +84,7 @@ class Dashboard extends Component {
 
   _renderFriend = ({ item }) => {
     return (
-      <TouchableOpacity onPress={this.onClick} style={{ marginEnd: 15 }}>
+      <TouchableOpacity style={{ marginEnd: 15 }}>
 
         <Avatar size="md" source={item.img} />
         <View style={{ width: 10, height: 10, top: -10, zIndex: 1, borderRadius: 360, backgroundColor: 'rgb(21,238,86)', alignSelf: 'flex-end' }}></View>
@@ -118,9 +118,9 @@ class Dashboard extends Component {
         <MyHeader title={'Home'} notify profile navigation={this.props.navigation} />
         <ScrollView style={{ flex: 1 }}>
           <View style={{ flex: 1, padding: 15 }}>
-            <Heading fontSize="xl">Hello Sarah,</Heading>
+            <Heading fontSize="xl">Hello {this.props?.user?.user?.username},</Heading>
             <Heading fontSize="2xl">Welcome Back</Heading>
-            <HStack
+            {/* <HStack
               backgroundColor="#eee"
               marginTop="2"
               borderRadius={10}
@@ -128,11 +128,11 @@ class Dashboard extends Component {
               paddingX="3">
               <Icon as={Feather} name="search" size="sm" color="#aaa" />
               <Input fontSize={14} placeholder="Search" borderWidth={0} />
-            </HStack>
-            <HStack marginY={3} alignSelf={'center'} space={'md'}>
+            </HStack> */}
+            <HStack flex={1} marginY={3} alignSelf={'center'} space={'md'}>
               <Button
                 onPress={() => this.props.navigation.navigate('Jobs')}
-                flex={1}
+                flex={0.3}
                 borderRadius={5}
                 paddingX={0}
                 borderBottomWidth={2}
@@ -140,13 +140,13 @@ class Dashboard extends Component {
                 borderBottomRadius={'none'}
                 bgColor={selectedButtonTop == 0 ? "#1872ea" : "#fff"}
               >
-                <Heading fontSize="13" color={"#000"}>
+                <Heading fontSize="13" color={"#000"} >
                   Jobs
                 </Heading>
               </Button>
               <Button
                 onPress={() => this.props.navigation.navigate('Marketplace')}
-                flex={1}
+                flex={0.4}
                 borderRadius={5}
                 borderBottomWidth={selectedButtonTop == 0 ? 2 : 0}
                 borderBottomColor={selectedButtonTop == 0 ? '#1872ea' : null}
@@ -160,7 +160,7 @@ class Dashboard extends Component {
               </Button>
               <Button
                 onPress={() => this.props.navigation.navigate('Network')}
-                flex={1}
+                flex={0.3}
                 borderRadius={5}
                 borderBottomWidth={selectedButtonTop == 0 ? 2 : 0}
                 borderBottomColor={selectedButtonTop == 0 ? '#1872ea' : null}
@@ -203,7 +203,7 @@ class Dashboard extends Component {
               marginBottom="3"
               marginTop="5">
               <Heading fontSize="md" color="#1872ea">
-                Local  Companies Listed:
+                Local Companies Listed:
               </Heading>
               <TouchableOpacity onPress={() => this.props.navigation.navigate("LocalCompanyList")}>
                 <Text>View All</Text>

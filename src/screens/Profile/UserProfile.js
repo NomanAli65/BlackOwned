@@ -44,7 +44,7 @@ export default class UserProfile extends Component {
 
         <TouchableOpacity >
             <View style={{ margin: 3 }}>
-                <Image source={require('../../assets/c1.jpeg')} style={{ width: 100, height: 100, borderRadius: 5 }} />
+                <Image source={item.img} style={{ width: 100, height: 100, borderRadius: 5 }} />
             </View>
         </TouchableOpacity>
 
@@ -58,7 +58,7 @@ export default class UserProfile extends Component {
         return (
             <View style={styles.container}>
                 <MyHeader
-                    back notify profile navigation={this.props.navigation}
+                    back notify navigation={this.props.navigation}
                     title={'Profile'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
@@ -195,14 +195,18 @@ export default class UserProfile extends Component {
                                 style={styles.flex1}
                                 showsVerticalScrollIndicator={false}
                                 data={[
-                                    'Realtors',
-                                    'Artists',
-                                    'Musicians',
-                                    'Baby Sitter',
-                                    'Beautician',
-                                    'Electrition',
-                                    'Electrition',
-                                    'Electrition',
+                                    { name: 'Realtors', img: require('../../assets/realtor.jpg') },
+                                    { name: 'Artists', img: require('../../assets/c1.jpeg') },
+                                    { name: 'Musicians', img: require('../../assets/realtor.jpg') },
+                                    { name: 'Baby Sitter', img: require('../../assets/c2.jpeg') },
+                                    { name: 'Electrition', img: require('../../assets/realtor.jpg') },
+                                    { name: 'Beautician', img: require('../../assets/c1.jpeg') },
+                                    { name: 'Realtors', img: require('../../assets/realtor.jpg') },
+                                    { name: 'Artists', img: require('../../assets/c1.jpeg') },
+                                    { name: 'Musicians', img: require('../../assets/realtor.jpg') },
+                                    { name: 'Baby Sitter', img: require('../../assets/c2.jpeg') },
+                                    { name: 'Electrition', img: require('../../assets/realtor.jpg') },
+                                    { name: 'Beautician', img: require('../../assets/c1.jpeg') },
                                 ]}
                                 renderItem={({ item }) => this.renderPostsList(item)}
                             />

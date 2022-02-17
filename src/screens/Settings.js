@@ -13,12 +13,15 @@ import { connect } from 'react-redux';
 import { AuthMiddleware } from '../redux/middleware/AuthMiddleware';
 import { ActionTypes } from '../redux/action_types';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { imgURL } from '../configs/AxiosConfig';
+
 
 const { width } = Dimensions.get('window');
 const iconSize = 20;
 
 class Settings extends Component {
   render() {
+    console.warn("User:", this.props.user?.user);
     return (
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
         <MyHeader title={'Settings'} notify profile navigation={this.props.navigation} />
@@ -30,7 +33,11 @@ class Settings extends Component {
               space="md"
               alignItems="center">
               <Image
-                source={require('../assets/1.jpeg')}
+                source={this.props?.user?.user?.profile_pic ?
+                  {
+                    uri: imgURL + this.props?.user?.user?.profile_pic
+                  } : require('../assets/user.png')
+                }
                 style={{
                   width: width * 0.3,
                   height: width * 0.3,
@@ -39,8 +46,8 @@ class Settings extends Component {
               />
               <VStack space="lg">
                 <Box>
-                  <Heading fontSize="lg">John Doe</Heading>
-                  <Text adjustsFontSizeToFit numberOfLines={1} style={{ width: '97%', fontSize: 13, }}>Johndoe@blackowned.biz</Text>
+                  <Heading fontSize="lg">{this.props?.user?.user?.username}</Heading>
+                  <Text adjustsFontSizeToFit numberOfLines={1} style={{ width: '97%', fontSize: 13, }}>{this.props?.user?.user?.email}</Text>
                 </Box>
                 <Button
                   onPress={() => this.props.navigation.navigate('EditProfile')}
@@ -51,8 +58,7 @@ class Settings extends Component {
             </HStack>
             <VStack marginTop="5" padding="5" backgroundColor="#eee">
               <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.navigate('profileSettings')
+                onPress={() => { this.props?.user?.user?.role == 'provider' ? this.props.navigation.navigate('UserProfile') : this.props.navigation.navigate('profileSettings') }
                 }>
                 <HStack space="md" alignItems="center" paddingY={3}>
                   <Image
@@ -172,14 +178,14 @@ class Settings extends Component {
               </TouchableOpacity>
             </VStack>
           </View>
-        </ScrollView>
-      </View>
+        </ScrollView >
+      </View >
     );
   }
 }
 
 const mapStateToProps = state => ({
-  // user: state.AuthReducer.user,
+  user: state.AuthReducer.user,
 });
 
 const mapDispatchToProps = dispatch => ({

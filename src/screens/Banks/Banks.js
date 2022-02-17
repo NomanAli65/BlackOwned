@@ -14,9 +14,9 @@ export default class NetworkList extends Component {
     renderUsersList = item => (
         <TouchableOpacity activeOpacity={0.7} style={styles.ListContainer}>
             {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}> */}
-            <Image source={require('../../assets/realtor.jpg')} style={styles.ListImage} />
+            <Image source={item.img} style={styles.ListImage} />
             <View>
-                <Text style={styles.ListName}>{item}</Text>
+                <Text style={styles.ListName}>{item.name}</Text>
                 <Text style={styles.ListDistances}>4 miles</Text>
             </View>
 
@@ -28,7 +28,7 @@ export default class NetworkList extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <MyHeader
-                     back notify profile navigation={this.props.navigation}
+                    back notify profile navigation={this.props.navigation}
                     title={'Blackowned Bank'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
@@ -48,18 +48,17 @@ export default class NetworkList extends Component {
                         style={styles.flex1}
                         showsVerticalScrollIndicator={false}
                         data={[
-                            'Realtors',
-                            'Artists',
-                            'Musicians',
-                            'Baby Sitter',
-                            'Beautician',
-                            'Electrition',
-                            'Realtors',
-                            'Artists',
-                            'Musicians',
-                            'Baby Sitter',
-                            'Beautician',
-                            'Electrition',
+                            { name: 'PNC Bank', img: require('../../assets/realtor.jpg') },
+                            { name: 'USA Bank', img: require('../../assets/c1.jpeg') },
+                            { name: 'Goldman', img: require('../../assets/realtor.jpg') },
+                            { name: 'Bank of America', img: require('../../assets/c2.jpeg') },
+                            { name: 'Standard Chartered', img: require('../../assets/realtor.jpg') },
+                            { name: 'City Bank', img: require('../../assets/c1.jpeg') },
+                            { name: 'Goldman', img: require('../../assets/realtor.jpg') },
+                            { name: 'Bank of America', img: require('../../assets/c2.jpeg') },
+                            { name: 'PNC Bank', img: require('../../assets/realtor.jpg') },
+                            { name: 'USA Bank', img: require('../../assets/c3.jpeg') },
+                            { name: 'Goldman', img: require('../../assets/realtor.jpg') },
                         ]}
                         renderItem={({ item }) => this.renderUsersList(item)}
                     />

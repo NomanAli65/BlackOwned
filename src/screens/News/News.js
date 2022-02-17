@@ -15,9 +15,9 @@ export default class News extends Component {
         <TouchableOpacity
             onPress={() => this.props.navigation.navigate('NewsDetail')}
             activeOpacity={0.7} style={styles.ListContainer}>
-            <Image source={require('../../assets/realtor.jpg')} style={styles.ListImage} />
+            <Image source={item.img} style={styles.ListImage} />
             <View>
-                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.ListName}>{item}</Text>
+                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.ListName}>{item.name}</Text>
                 <Text style={styles.ListDistances}>15 January 2022 | 09:30</Text>
                 <Text numberOfLines={3} style={styles.ListDescription}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</Text>
             </View>
@@ -28,28 +28,25 @@ export default class News extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <MyHeader
-                     back notify profile navigation={this.props.navigation}
+                    back notify profile navigation={this.props.navigation}
                     title={'News'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
-                <View style={{ marginHorizontal: 15,paddingVertical:10,flex:1 }}>
+                <View style={{ marginHorizontal: 15, paddingVertical: 10, flex: 1 }}>
                     <FlatList
                         // style={{flex:1}}
                         showsVerticalScrollIndicator={false}
                         data={[
-                            'Realtors',
-                            'Artists',
-                            'Musicians',
-                            'Baby Sitter',
-                            'Beautician',
-                            'Electrition',
-                            'Realtors',
-                            'Artists',
-                            'Musicians',
-                            'Baby Sitter',
-                            'Beautician',
-                            'Electrition',
+                            { name: 'Realtors', img: require('../../assets/realtor.jpg') },
+                            { name: 'Artists', img: require('../../assets/c1.jpeg') },
+                            { name: 'Plumber', img: require('../../assets/c3.jpeg') },
+                            { name: 'Electrician', img: require('../../assets/realtor.jpg') },
+                            { name: 'Baby Sitter', img: require('../../assets/realtor.jpg') },
+                            { name: 'Musicians', img: require('../../assets/c1.jpeg') },
+                            { name: 'Plumber', img: require('../../assets/c3.jpeg') },
+                            { name: 'Beautician', img: require('../../assets/realtor.jpg') },
                         ]}
+
                         renderItem={({ item }) => this.renderUsersList(item)}
                     />
                 </View>

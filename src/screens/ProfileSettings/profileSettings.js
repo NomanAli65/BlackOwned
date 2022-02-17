@@ -5,7 +5,12 @@ import Foundation from 'react-native-vector-icons/Foundation';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo'
 import { Button } from 'native-base';
-export default class profileSettings extends Component {
+import { connect } from 'react-redux';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { imgURL } from '../../configs/AxiosConfig';
+
+class profileSettings extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -15,11 +20,15 @@ export default class profileSettings extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <MyHeader title={'Profile'} notify profile back onBackPress={() => this.props.navigation.goBack()} navigation={this.props.navigation} />
+                <MyHeader title={'Profile'} notify back onBackPress={() => this.props.navigation.goBack()} navigation={this.props.navigation} />
                 <View style={{ flex: 1, justifyContent: 'center' }}>
                     <View style={styles.body}>
                         <Image
-                            source={require('../../assets/1.jpeg')}
+                            source={this.props?.user?.user?.profile_pic ?
+                                {
+                                    uri: imgURL + this.props?.user?.user?.profile_pic
+                                } : require('../../assets/user.png')
+                            }
                             style={{
                                 width: 130,
                                 height: 130,
@@ -27,23 +36,32 @@ export default class profileSettings extends Component {
                                 resizeMode: 'cover',
                             }}
                         />
-                        <Text adjustsFontSizeToFit numberOfLines={1} style={styles.NameHeading}>John Doe</Text>
+                        <Text adjustsFontSizeToFit numberOfLines={1} style={styles.NameHeading}>{this.props?.user?.user?.username}</Text>
                         <View style={styles.RowView}>
                             <Foundation name={'mail'} size={25} color={'#1872ea'} />
-                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.emailText}>Johndoe@blackowned.biz</Text>
+                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.emailText}>{this.props?.user?.user?.email}</Text>
                         </View>
                         <View style={styles.RowView}>
                             <FontAwesome name={'phone'} size={25} color={'#1872ea'} />
-                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.emailText}>+1 555-1234</Text>
+                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.emailText}>{this.props?.user?.user?.phone}</Text>
+                        </View>
+                        <View style={styles.RowView}>
+                            <Ionicons name={'md-male-female-sharp'} size={25} color={'#1872ea'} />
+                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.emailText}>{this.props?.user?.user?.gender}</Text>
                         </View>
                         <View style={styles.RowView}>
                             <Entypo name={'address'} size={25} color={'#1872ea'} />
-                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.emailText}>Street 16, New York, USA</Text>
+                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.emailText}>{this.props?.user?.user?.address}</Text>
                         </View>
                         <View style={styles.RowView}>
                             <Foundation name={'address-book'} size={25} color={'#1872ea'} />
-                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.emailText}>New York, USA</Text>
+                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.emailText}>{this.props?.user?.user?.city},{this.props?.user?.user?.state}</Text>
                         </View>
+                        <View style={styles.RowView}>
+                            <MaterialIcons name={'my-location'} size={25} color={'#1872ea'} />
+                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.emailText}>{this.props?.user?.user?.zip}</Text>
+                        </View>
+
 
                         <Button
                             onPress={() => this.props.navigation.navigate("EditProfile")}
@@ -63,6 +81,15 @@ export default class profileSettings extends Component {
         );
     }
 }
+const mapStateToProps = state => ({
+    user: state.AuthReducer.user,
+});
+
+const mapDispatchToProps = dispatch => ({
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(profileSettings);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
