@@ -14,7 +14,7 @@ import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, St
 import MyHeader from '../../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
 import StarRating from 'react-native-star-rating-widget';
-
+import Entypo from 'react-native-vector-icons/Entypo';
 // import {Colors} from '../../Styles';
 
 
@@ -57,8 +57,8 @@ export default class OtherProfile extends Component {
         return (
             <View style={styles.container}>
                 <MyHeader
-                     back notify profile navigation={this.props.navigation}
-                    title={this.props.route.name}
+                    back notify profile navigation={this.props.navigation}
+                    title={'Profile'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
                 <ScrollView>
@@ -66,7 +66,7 @@ export default class OtherProfile extends Component {
 
                         <View style={{ flexDirection: 'row', backgroundColor: '#eee', padding: 15, marginVertical: 5 }}>
                             <Image source={require('../../assets/1.jpeg')} style={styles.profileImg} />
-                            <View style={{ paddingHorizontal: 10,  }}>
+                            <View style={{ paddingHorizontal: 10, }}>
                                 <Text style={styles.ProfileName}>Stacy Stratus</Text>
                                 <View style={{ flexDirection: 'row' }}>
                                     <View style={{ alignSelf: 'center' }}>
@@ -85,12 +85,12 @@ export default class OtherProfile extends Component {
                                     <Image source={require('../../assets/blueMarker.png')} style={{ width: 20, height: 20 }} />
                                     <Text style={{}}>8 miles away</Text>
                                 </View>
-        
+
                             </View>
                             <View>
-                                <View style={{marginVertical:20}}>
+                                <View style={{ marginVertical: 20 }}>
                                     <TouchableOpacity onPress={() => this.props.navigation.navigate('Rating')}
-                                        style={{ borderRadius: 10, backgroundColor: '#1872ea',  alignItems: 'center', justifyContent: 'center' ,paddingVertical:5,paddingHorizontal:10}}>
+                                        style={{ borderRadius: 10, backgroundColor: '#1872ea', alignItems: 'center', justifyContent: 'center', paddingVertical: 5, paddingHorizontal: 10 }}>
                                         <Text style={{ color: '#fff', fontSize: 14, fontWeight: 'bold' }}>Rate</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -100,24 +100,26 @@ export default class OtherProfile extends Component {
                         <View style={{
                             margin: 10, backgroundColor: 'white', padding: 15, shadowColor: '#000', shadowOffset: { width: 0, height: 2, }, shadowOpacity: 0.25, shadowRadius: 4, elevation: 5,
                         }}>
-                            <View style={{ flexDirection: 'row' }}>
-                                <View style={{ flexDirection: 'row', width: '50%' }}>
-                                    <Image source={require('../../assets/blueMarker.png')} style={{ width: 15, height: 15 }} />
-                                    <Text style={{ fontSize: 12, }}>Realtor (Professional)</Text>
+                            <View style={{}}>
+                                <View style={{ flexDirection: 'row', marginBottom: 3 }}>
+                                    <Entypo name={'briefcase'} size={15} color={'#1872ea'} />
+
+                                    {/* <Image source={require('../../assets/blueMarker.png')} style={{ width: 15, height: 15 }} /> */}
+                                    <Text style={{ fontSize: 12, marginLeft: 5 }}>Realtor (Professional)</Text>
                                 </View>
-                                <View style={{ flexDirection: 'row', width: '50%' }}>
-                                    <Image source={require('../../assets/blueMarker.png')} style={{ width: 15, height: 15 }} />
-                                    <Text style={{ fontSize: 12, }}>JohnDoe@Blackowned@gmail.com</Text>
+                                <View style={{ flexDirection: 'row', marginBottom: 3 }}>
+                                    <Entypo name={'mail'} size={15} color={'#1872ea'} />
+                                    <Text style={{ fontSize: 12, marginLeft: 5, }}>JohnDoe@Blackowned@gmail.com</Text>
                                 </View>
                             </View>
-                            <View style={{ flexDirection: 'row' }}>
-                                <View style={{ flexDirection: 'row', width: '50%' }}>
-                                    <Image source={require('../../assets/blueMarker.png')} style={{ width: 15, height: 15 }} />
-                                    <Text style={{ fontSize: 12, }}>(555)555-1234</Text>
+                            <View style={{}}>
+                                <View style={{ flexDirection: 'row', marginBottom: 3 }}>
+                                    <Entypo name={'phone'} size={15} color={'#1872ea'} />
+                                    <Text style={{ fontSize: 12, marginLeft: 5, }}>(555)555-1234</Text>
                                 </View>
-                                <View style={{ flexDirection: 'row', width: '50%' }}>
-                                    <Image source={require('../../assets/blueMarker.png')} style={{ width: 15, height: 15 }} />
-                                    <Text style={{ fontSize: 12, }}>NewYork,USA</Text>
+                                <View style={{ flexDirection: 'row', marginBottom: 3 }}>
+                                    <Entypo name={'address'} size={15} color={'#1872ea'} />
+                                    <Text style={{ fontSize: 12, marginLeft: 5, }}>NewYork,USA</Text>
                                 </View>
                             </View>
                         </View>

@@ -188,9 +188,10 @@ const styles = StyleSheet.create({
     },
     input: {
         width: '100%',
+        height: 50,
         borderRadius: 3,
         textAlign: 'left',
-        marginBottom: 10,
+        marginBottom: 5,
         backgroundColor: '#eee',
         elevation: 3,
         borderWidth: 0,

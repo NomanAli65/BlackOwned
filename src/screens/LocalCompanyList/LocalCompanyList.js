@@ -23,12 +23,23 @@ export default class LocalCompanyList extends Component {
 
     render() {
         return (
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <MyHeader
                     back notify profile navigation={this.props.navigation}
                     title={'Listed Companies'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
+                <HStack
+                    backgroundColor="#eee"
+                    marginTop="2"
+                    borderRadius={10}
+                    alignItems="center"
+                    marginVertical={10}
+                    marginHorizontal={15}
+                    paddingX="3">
+                    <Icon as={Feather} name="search" size="sm" color="#aaa" />
+                    <Input fontSize={14} placeholder="Search" borderWidth={0} />
+                </HStack>
                 <View style={{ marginHorizontal: 15, flex: 1 }}>
                     <FlatList
                         // style={styles.flex1}
@@ -45,7 +56,7 @@ export default class LocalCompanyList extends Component {
                         renderItem={({ item }) => this.renderUsersList(item)}
                     />
                 </View>
-            </View>
+            </View >
         );
     }
 }

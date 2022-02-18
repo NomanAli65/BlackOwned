@@ -118,7 +118,7 @@ class Signup extends Component {
                 alignItems: 'center',
                 borderWidth: 1,
                 borderColor: '#ccc',
-                marginHorizontal: '10%',
+                marginHorizontal: '5%',
                 marginVertical: 20,
                 borderRadius: 20,
                 padding: 20,

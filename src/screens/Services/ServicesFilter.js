@@ -26,7 +26,7 @@ const { width } = Dimensions.get('window');
 
 export default class ServiceDetails extends Component {
     state = {
-        categories: ['player', 'coach', 'parent'],
+        categories: ['Realtors', 'Artists', 'Musicians',],
         toggleCheckBox1: false, toggleCheckBox2: false, toggleCheckBox3: false,
 
     };
@@ -223,6 +223,7 @@ export default class ServiceDetails extends Component {
                                     />
                                     <Text style={{ fontSize: 12.5 }}>Beginner</Text>
                                 </View>
+
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <CheckBox

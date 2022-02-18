@@ -10,7 +10,7 @@ import {
     VStack,
 } from 'native-base';
 import React, { Component } from 'react';
-import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet } from 'react-native';
+import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet, Modal } from 'react-native';
 import MyHeader from '../../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -23,7 +23,9 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 const { width } = Dimensions.get('window');
 
 export default class Marketplace extends Component {
-
+    state = {
+        SponsorModal: true,
+    };
     componentDidMount() {
         // Animated.timing(this.rotation, {
         //   toValue: 1,
@@ -62,7 +64,7 @@ export default class Marketplace extends Component {
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <MyHeader
-                     back notify profile navigation={this.props.navigation}
+                    back notify profile navigation={this.props.navigation}
                     // title={this.props.route.name}
                     title={'Market Place'}
                     onBackPress={() => this.props.navigation.goBack()}
@@ -122,6 +124,64 @@ export default class Marketplace extends Component {
                     style={styles.fabBtn}>
                     <Entypo name="plus" size={28} color={'#fff'} />
                 </TouchableOpacity>
+
+                <Modal
+                    animationType={'fade'}
+                    transparent={true}
+                    visible={this.state.SponsorModal}
+                    onRequestClose={() => this.setState({ SponsorModal: false })}>
+                    <View
+                        style={{
+                            flex: 1,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: 'rgba(0,0,0,0.50)',
+                        }}>
+                        <View
+
+                            style={{
+                                height: 360,
+                                width: '90%',
+                                borderRadius: 14,
+                                //alignItems: 'center',
+                                backgroundColor: '#fff',
+                                // justifyContent: 'center',
+                            }}>
+
+                            <View style={{ width: '100%', alignItems: 'center' }}>
+                                <TouchableOpacity
+                                    style={{ position: 'absolute', zIndex: 1, alignSelf: 'flex-end', right: 8 }}
+                                    onPress={() => {
+                                        this.setState({ SponsorModal: false });
+                                    }}>
+                                    <Entypo
+                                        name={'circle-with-cross'}
+                                        size={24}
+                                        //  color={'#1872ea'}
+                                        color={'#fff'}
+                                        style={{ marginLeft: 5, marginTop: 7 }}
+                                    />
+                                </TouchableOpacity>
+                                <Image source={require('../../assets/realtor.jpg')} style={{
+                                    width: '100%',
+                                    height: 220,
+                                    resizeMode: 'cover',
+                                    borderTopLeftRadius: 14,
+                                    borderTopRightRadius: 14,
+                                }} />
+                                <Text style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }}>Guitar</Text>
+                                <Text style={{ fontSize: 16, color: '#000', fontWeight: 'bold' }}>$259.50</Text>
+                                <Text numberOfLines={3} style={{ fontSize: 13, color: '#000', fontWeight: 'normal', textAlign: 'center' }}> Lorem Ipsum is simply dummy text of
+                                    the printing and typesetting industry.
+                                    Lorem Ipsum has been the industry's
+                                    standard dummy text ever since
+                                </Text>
+                            </View>
+
+                        </View>
+                    </View>
+                </Modal>
+
             </View>
         );
     }

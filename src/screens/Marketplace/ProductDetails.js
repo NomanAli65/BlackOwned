@@ -26,7 +26,7 @@ export default class ProductDetails extends Component {
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <MyHeader
-                     back notify profile navigation={this.props.navigation}
+                    back notify profile navigation={this.props.navigation}
                     // title={this.props.route.name}
                     title={'Product Details'}
                     onBackPress={() => this.props.navigation.goBack()}
@@ -75,7 +75,6 @@ export default class ProductDetails extends Component {
                                 </Heading>
                             </Button>
                             <Button
-                                onPress={() => this.props.navigation.navigate('FriendList')}
                                 flex={1}
                                 borderRadius={5}
                                 backgroundColor="#1872ea">
