@@ -88,7 +88,7 @@ class Settings extends Component {
                   <Heading fontSize="lg">Subscription Plan</Heading>
                 </HStack>
               </TouchableOpacity>
-              {/* <TouchableOpacity
+              <TouchableOpacity
                 onPress={() =>
                   this.props.navigation.navigate('Development In Process')
                 }>
@@ -103,7 +103,7 @@ class Settings extends Component {
                   />
                   <Heading fontSize="lg">Invite</Heading>
                 </HStack>
-              </TouchableOpacity> */}
+              </TouchableOpacity>
               <TouchableOpacity
                 onPress={() =>
                   this.props.navigation.navigate('ContactUs')
@@ -120,7 +120,8 @@ class Settings extends Component {
                   <Heading fontSize="lg">Contact Us</Heading>
                 </HStack>
               </TouchableOpacity>
-              {/* {this.props.user.user.role == 'provider' ? (
+
+              {this.props.user.user.role == 'provider' ? (
                 <TouchableOpacity
                   onPress={() =>
                     this.props.navigation.navigate('Development In Process')
@@ -130,7 +131,7 @@ class Settings extends Component {
                     <Heading fontSize="lg">Ratings</Heading>
                   </HStack>
                 </TouchableOpacity>
-              ) : null} */}
+              ) : null}
               <TouchableOpacity
                 onPress={() =>
                   this.props.navigation.navigate('TermsAndConditions')

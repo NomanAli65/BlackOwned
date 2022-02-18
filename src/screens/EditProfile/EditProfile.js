@@ -1,20 +1,32 @@
-import { Box, Button, Heading, HStack, Input, VStack } from 'native-base';
+import { Box, Button, Heading, HStack, Input, Radio, VStack } from 'native-base';
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, Dimensions } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
+import { connect } from 'react-redux';
 import MyHeader from '../../components/MyHeader';
+import { OpenImagePicker } from '../../configs';
+
 const { width } = Dimensions.get('window');
-export default class EditProfile extends Component {
+class EditProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            phone: '',
-            address: "",
+            name: this.props?.user?.user?.username ? this.props?.user?.user?.username : '',
+            phone: this.props?.user?.user?.phone ? this.props?.user?.user?.phone : '',
+            address: this.props?.user?.user?.address ? this.props?.user?.user?.address : '',
             country: ['USA', 'Canada', 'UK'],
+            selectedCountry: this.props.user.user?.country ? this.props.user.user?.country : "Country",
+            selectedCity: this.props.user.user?.city ? this.props.user.user?.city : "City",
+            selectedState: this.props.user.user?.state ? this.props.user.user?.state : "State",
             city: ['Newyork', 'California', 'New Mexico', 'Washington'],
             state: ['Newyork', 'California', 'New Mexico', 'Washington'],
-            zip: '',
+            zip: this.props?.user?.user?.zip ? this.props?.user?.user?.zip : '',
+            Profile_Image: this.props?.user?.user?.profile_pic ?
+                { uri: this.props?.user?.user?.profile_pic }
+                : require('../../assets/user.png'),
+            gender: ['Male', 'Female'],
+            selectedgender: this.props?.user?.user?.gender ? this.props?.user?.user?.gender : '',
+            provider_as: this.props?.user?.user?.provider_as ? this.props?.user?.user?.provider_as : '',
         };
     }
     uploadImage = () => {
@@ -29,10 +41,14 @@ export default class EditProfile extends Component {
                 type: img.mime,
             };
 
-            this.setState({ image: imgObj });
+            this.setState({ Profile_Image: imgObj });
         });
     };
+    UpdateProfile = () => {
+        let { name, phone, address, zip, Profile_Image, selectedCountry, selectedCity, selectedState } = this.state
+    }
     render() {
+        console.warn("User", this.props.user.user);
         return (
             <View style={styles.container}>
                 <MyHeader title={'Edit Profile'} notify profile back onBackPress={() => this.props.navigation.goBack()} navigation={this.props.navigation} />
@@ -47,7 +63,7 @@ export default class EditProfile extends Component {
                         space="md"
                         alignItems="center">
                         <Image
-                            source={require('../../assets/user.png')}
+                            source={this.state.Profile_Image}
                             style={{
                                 width: width * 0.3,
                                 height: width * 0.3,
@@ -56,10 +72,10 @@ export default class EditProfile extends Component {
                         />
                         <VStack space="lg">
                             <Box>
-                                <Heading fontSize="lg">John Doe</Heading>
-                                <Text adjustsFontSizeToFit numberOfLines={1} style={{ width: '97%', fontSize: 13, }}>Johndoe@blackowned.biz</Text>
+                                <Heading fontSize="lg">{this.props?.user?.user?.username}</Heading>
+                                <Text adjustsFontSizeToFit numberOfLines={1} style={{ width: '97%', fontSize: 13, }}>{this.props?.user?.user?.email}</Text>
                             </Box>
-                            <Button backgroundColor="primary.100" maxWidth={150}>
+                            <Button onPress={this.uploadImage} backgroundColor="primary.100" maxWidth={150}>
                                 Change Photo
                             </Button>
                         </VStack>
@@ -83,11 +99,35 @@ export default class EditProfile extends Component {
                         onChangeText={address => this.setState({ address })}
                         value={this.state.address}
                     />
+                    {this.props.user?.user?.role == 'provider' ? (
+                        <Radio.Group
+                            name="myRadioGroup"
+                            value={this.state.provider_as}
+                            flexDirection="row"
+                            // style={{ justifyContent: 'space-around', width: '100%' }}
+                            style={styles.Radioinput}
+                            marginBottom={3}
+                            tintColor="#1872ea"
+                            onChange={nextValue => {
+                                this.setState({ provider_as: nextValue });
+                            }}>
+                            <Radio value="individual" >
+                                <Text style={{ color: '#aaa', marginStart: 5 }}>
+                                    Individual
+                                </Text>
+                            </Radio>
+                            <Radio marginLeft={5} value="business">
+                                <Text style={{ color: '#aaa', marginStart: 5 }}>
+                                    Business
+                                </Text>
+                            </Radio>
+                        </Radio.Group>
+                    ) : null}
                     <View style={styles.selectContainer}>
                         <SelectDropdown
-                            data={this.state.country}
+                            data={this.state.gender}
                             // defaultValue={this.state.country[0]}
-                            defaultButtonText="Country"
+                            defaultButtonText={this.state.selectedgender}
                             dropdownIconPosition="right"
                             renderDropdownIcon={() => {
                                 return (
@@ -101,16 +141,16 @@ export default class EditProfile extends Component {
                             buttonTextStyle={styles.dropDownBtnText}
                             buttonStyle={styles.btnStyle}
                             onSelect={(selectedItem, index) => {
-                                // this.setState({ selectedRole: selectedItem, selectedUsersIDs: [] });
+                                this.setState({ selectedgender: selectedItem });
                                 // this.props.getUsersByType({ role: selectedItem });
                             }}
                         />
                     </View>
                     <View style={styles.selectContainer}>
                         <SelectDropdown
-                            data={this.state.city}
-                            // defaultValue={this.state.city[0]}
-                            defaultButtonText="City"
+                            data={this.state.country}
+                            // defaultValue={this.state.country[0]}
+                            defaultButtonText={this.state.selectedCountry}
                             dropdownIconPosition="right"
                             renderDropdownIcon={() => {
                                 return (
@@ -124,7 +164,7 @@ export default class EditProfile extends Component {
                             buttonTextStyle={styles.dropDownBtnText}
                             buttonStyle={styles.btnStyle}
                             onSelect={(selectedItem, index) => {
-                                // this.setState({ selectedRole: selectedItem, selectedUsersIDs: [] });
+                                this.setState({ selectedCountry: selectedItem, });
                                 // this.props.getUsersByType({ role: selectedItem });
                             }}
                         />
@@ -133,7 +173,7 @@ export default class EditProfile extends Component {
                         <SelectDropdown
                             data={this.state.state}
                             // defaultValue={this.state.state[0]}
-                            defaultButtonText="State"
+                            defaultButtonText={this.state.selectedState}
                             dropdownIconPosition="right"
                             renderDropdownIcon={() => {
                                 return (
@@ -147,11 +187,35 @@ export default class EditProfile extends Component {
                             buttonTextStyle={styles.dropDownBtnText}
                             buttonStyle={styles.btnStyle}
                             onSelect={(selectedItem, index) => {
-                                // this.setState({ selectedRole: selectedItem, selectedUsersIDs: [] });
+                                this.setState({ selectedState: selectedItem, });
                                 // this.props.getUsersByType({ role: selectedItem });
                             }}
                         />
                     </View>
+                    <View style={styles.selectContainer}>
+                        <SelectDropdown
+                            data={this.state.city}
+                            // defaultValue={this.state.city[0]}
+                            defaultButtonText={this.state.selectedCity}
+                            dropdownIconPosition="right"
+                            renderDropdownIcon={() => {
+                                return (
+                                    <Image
+                                        resizeMode="contain"
+                                        source={require('../../assets/dropdown.png')}
+                                        style={{ height: 15, width: 15, tintColor: 'rgb(160, 160, 160)' }}
+                                    />
+                                );
+                            }}
+                            buttonTextStyle={styles.dropDownBtnText}
+                            buttonStyle={styles.btnStyle}
+                            onSelect={(selectedItem, index) => {
+                                this.setState({ selectedCity: selectedItem, });
+                                // this.props.getUsersByType({ role: selectedItem });
+                            }}
+                        />
+                    </View>
+
                     <Input
                         placeholder="Zip code"
                         style={styles.input}
@@ -160,7 +224,7 @@ export default class EditProfile extends Component {
                         keyboardType={'numeric'}
                     />
                     <Button
-                        onPress={() => this.props.navigation.goBack()}
+                        onPress={() => this.UpdateProfile()}
                         backgroundColor="primary.100"
                         style={{
                             width: '100%',
@@ -176,6 +240,15 @@ export default class EditProfile extends Component {
         );
     }
 }
+const mapStateToProps = state => ({
+    user: state.AuthReducer.user,
+});
+
+const mapDispatchToProps = {
+
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);
 
 const styles = StyleSheet.create({
     container: {
@@ -200,8 +273,25 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
 
     },
+    Radioinput: {
+        width: '100%',
+        // justifyContent: 'space-around',
+        height: 50,
+        borderRadius: 3,
+        textAlign: 'left',
+        marginBottom: 5,
+        backgroundColor: '#eee',
+        elevation: 3,
+        borderWidth: 0,
+        alignItems: 'center',
+        marginVertical: 5,
+        paddingLeft: 15,
+
+
+    },
     dropDownBtnText: {
-        color: 'rgb(160,160,160)',
+        //  color: 'rgb(160,160,160)',
+        color: '#000',
         fontSize: 14,
         textAlign: 'left',
     },
