@@ -1,25 +1,30 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Box, Button, Heading, HStack, Icon, VStack } from 'native-base';
 import React, { Component } from 'react';
 import {
   Dimensions,
   Image,
   ScrollView,
-  Text,
-  View,
-  TouchableOpacity,
+  Text, TouchableOpacity, View
 } from 'react-native';
-import MyHeader from '../components/MyHeader';
-import { Box, Button, Heading, HStack, Icon, VStack } from 'native-base';
-import { connect } from 'react-redux';
-import { AuthMiddleware } from '../redux/middleware/AuthMiddleware';
-import { ActionTypes } from '../redux/action_types';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { connect } from 'react-redux';
+import MyHeader from '../components/MyHeader';
 import { imgURL } from '../configs/AxiosConfig';
+import { ActionTypes } from '../redux/action_types';
 
 
 const { width } = Dimensions.get('window');
 const iconSize = 20;
 
 class Settings extends Component {
+
+  Logout = () => {
+    console.warn("dasas");
+    AsyncStorage.removeItem('@BB-user')
+    AsyncStorage.removeItem('@token')
+    this.props.Logout()
+  }
   render() {
     console.warn("User:", this.props.user?.user);
     return (
@@ -164,7 +169,7 @@ class Settings extends Component {
                   <Heading fontSize="lg">Privacy Policy</Heading>
                 </HStack>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => this.props.Logout()}>
+              <TouchableOpacity onPress={this.Logout}>
                 <HStack space="md" alignItems="center" paddingY={3}>
                   <Image
                     style={{

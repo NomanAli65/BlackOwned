@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from 'native-base';
 import React, { Component } from 'react';
-import { StyleSheet, Image, View, Dimensions, Text } from 'react-native';
+import { StyleSheet, Image, View, Dimensions, Text, TouchableOpacity, Modal } from 'react-native';
 import { AuthMiddleware } from '../redux/middleware/AuthMiddleware';
 import { connect } from 'react-redux';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
@@ -26,6 +26,12 @@ class Signup extends Component {
     password: '',
     c_password: '',
     company_name: '',
+    modalVisible: false,
+    geoLocationAddress: '',
+    geoLocationCoordinates: [],
+    lat:'',
+    lng:'',
+    showResult: false
   };
 
   Signup = () => {
@@ -39,6 +45,8 @@ class Signup extends Component {
       provider,
       userType,
       company_name,
+      lat,
+      lng,
     } = this.state;
     console.warn({
       email,
@@ -50,6 +58,8 @@ class Signup extends Component {
       userType,
       provider,
       company_name,
+      lat,
+      lng,
     });
     if (
       username &&
@@ -81,6 +91,8 @@ class Signup extends Component {
         userType,
         provider,
         company_name,
+        lat,
+        lng,
       });
     } else {
       alert('Please enter your information');
@@ -88,6 +100,7 @@ class Signup extends Component {
   };
 
   render() {
+    console.log(this.state.lat, this.state.lng);
     return (
       <ScrollView style={styles.container}>
         <View style={styles.container}>
@@ -213,25 +226,19 @@ class Signup extends Component {
                     style={{ ...styles.input, marginTop: 10 }}
                     onChangeText={company_name => this.setState({ company_name })}
                   />
-                  {/* <Input
-                    placeholder="Location"
-                    style={{ ...styles.input, marginTop: 5 }}
-                    onChangeText={company_name => this.setState({ company_name })}
-                  /> */}
-                  <View style={styles.input}>
-                    <GooglePlacesAutocomplete
-                      placeholder='Location'
-                      onPress={(data, details = null) => {
-                        // 'details' is provided when fetchDetails = true
-                        console.log(data, details);
-                      }}
-                      // style={styles.input}
-                      query={{
-                        key: 'AIzaSyBBVMEPDktEjcindc7_NjCpFWsSWVspyKI',
-                        language: 'en',
-                      }}
-                    />
-                  </View>
+                  <TouchableOpacity style={styles.input} onPress={() => this.setState({ modalVisible: true })}>
+                    {this.state.geoLocationAddress  == '' ?
+                      (
+                        <View style={{height:40,alignItems:'center',justifyContent:'center'}}>
+                          <Text style={{ textAlign: 'center' }}>Select Location</Text>
+                        </View>
+                      ) : (
+                        <View style={{height:40,alignItems:'center',justifyContent:'center'}}>
+                        <Text>{this.state.geoLocationAddress}</Text>
+                        </View>
+                      )}
+                  </TouchableOpacity>
+                  
                 </View>
               ) : null}
 
@@ -268,6 +275,55 @@ class Signup extends Component {
               </Button>
             </View>
           </View>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+              this.setState({ modalVisible: false });
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>Select Location</Text>
+                <GooglePlacesAutocomplete
+                  placeholder='Search'
+                  GooglePlacesDetailsQuery={{ fields: "geometry" }}
+                  onPress={(data, details = null) => {
+                    
+                    this.setState(
+                      {
+                        geoLocationAddress: data.description, // selected address
+                        geoLocationCoordinates: `${details.geometry.location.lat},${details.geometry.location.lng}`, // selected coordinates,
+                        modalVisible: false,
+                        lat: details.geometry.location.lat,
+                        lng:details.geometry.location.lng,
+                      }
+                    );
+                    // console.warn(data, details);
+                  }}
+                  value={this.state.geoLocationAddress}
+                  onChangeText={this.state.geoLocationAddress}
+                  fetchDetails={true}
+                  onBlur={() => console.warn(("ok"))}
+                  styles={{
+                    container: {
+                      width: "100%",
+                    },
+                    textInputContainer: {
+                      elevation: 5,
+                      backgroundColor: "#fff",
+                      borderRadius: 5,
+                    },
+                  }}
+                  query={{
+                    key: 'AIzaSyBBVMEPDktEjcindc7_NjCpFWsSWVspyKI',
+                    language: 'en',
+                  }}
+                />
+              </View>
+            </View>
+          </Modal>
         </View>
       </ScrollView>
     );
@@ -297,5 +353,39 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     elevation: 3,
     borderWidth: 0,
+    flex: 1
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    // alignItems: "center",
+  },
+  modalView: {
+    flex: 1,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 25,
+    alignItems: "center",
+
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  }
 });

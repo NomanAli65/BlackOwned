@@ -15,20 +15,73 @@ import MyHeader from '../../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
 import Octicons from 'react-native-vector-icons/Octicons';
 // import {Colors} from '../../Styles';
-
+import { connect } from 'react-redux';
+import { ServicesMiddleware } from '../../redux/middleware/ServicesMiddleware';
 
 
 const { width } = Dimensions.get('window');
 
-export default class Services extends Component {
+class Services extends Component {
 
+    state = {
+        loader: true,
+        search: '',
+    };
     componentDidMount() {
-        // Animated.timing(this.rotation, {
-        //   toValue: 1,
-        //   duration: 1000,
-        //   useNativeDriver: true,
-        // }).start();
+        this.props.getAllServices({ name: '' })
+        // .then(() => this.setState({ loader: false }))
+        // .catch(() => this.setState({ loader: false }));
     }
+
+    onPressLoadMore = () => {
+        this.setState({ loader: true }, () => {
+            const { services } = this.props;
+            this.props
+                .getAllServices(services.next_page_url, '')
+                .then(() => this.setState({ loader: false }))
+                .catch(() => this.setState({ loader: false }));
+        });
+    };
+
+    renderLoaderMoreButton = () => {
+        const { services } = this.props;
+        const { loader } = this.state;
+        return services.next_page_url ? (
+            loader ? (
+                <ActivityIndicator
+                    size={'large'}
+                    color={'#1D9CD9'}
+                    style={styles.loadMoreContentContainer}
+                />
+            ) : (
+                <TouchableOpacity
+                    style={{ width: 110, alignSelf: 'center', marginVertical: 13 }}
+                    onPress={this.onPressLoadMore}>
+                    <View style={styles.loadMoreContainer}>
+                        <Text style={styles.loadMoreText}>Load more</Text>
+                    </View>
+                </TouchableOpacity>
+            )
+        ) : null;
+    };
+
+    onRefreshServices = () => {
+        this.setState({ loader: true }, () => {
+            this.props
+                .getAllServices(undefined, this.state.search)
+                .then(() => this.setState({ loader: false }))
+                .catch(() => this.setState({ loader: false }));
+        });
+    };
+    onChangeSearchText = text => {
+        this.setState({ loader: true, search: text }, () => {
+            console.log(this.state.search, text, 'TEXT====>');
+            this.props
+                .getAllServices(undefined, text)
+                .then(() => this.setState({ loader: false }))
+                .catch(() => this.setState({ loader: false }));
+        });
+    };
 
     renderUsersList = item => (
         <TouchableOpacity onPress={() => this.props.navigation.navigate('ServiceDetail', { name: item })} activeOpacity={0.7} style={styles.teamContainer}>
@@ -38,6 +91,8 @@ export default class Services extends Component {
     );
 
     render() {
+        const { getServicesData, getServicesData_list, loader } = this.props;
+        console.warn('Dataa', getServicesData_list, getServicesData);
         return (
             <ScrollView style={styles.container}>
                 <MyHeader
@@ -55,7 +110,7 @@ export default class Services extends Component {
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', width: '90%' }}>
                                 <Icon as={Feather} name="search" size="sm" color="#aaa" />
-                                <Input fontSize={14} placeholder="Search Service Provider" borderWidth={0} />
+                                <Input fontSize={14} placeholder="Search Service Provider" borderWidth={0} value={this.state.search} />
                             </View>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('ServicesFilter')}>
                                 <Icon as={Octicons} name="settings" size="sm" color="#aaa" />
@@ -85,6 +140,23 @@ export default class Services extends Component {
         );
     }
 }
+const mapStateToProps = state => {
+    return {
+        // role: state.Auth.role,
+        // user: state.Auth.user,
+        getServicesData: state.ServicesReducer.getServicesData,
+        getServicesData_list: state.ServicesReducer.getServicesData_list,
+    };
+};
+const mapDispatchToProps = dispatch => ({
+    // Login: data => dispatch(AuthMiddleware.Login(data)),
+    // Login: data => dispatch(AuthMiddleware.Login(data)),
+
+    getAllServices: (payload) =>
+        dispatch(ServicesMiddleware.getAllServices(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Services);
 
 const styles = StyleSheet.create({
     container: {

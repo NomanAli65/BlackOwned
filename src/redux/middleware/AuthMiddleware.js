@@ -22,6 +22,8 @@ export const AuthMiddleware = {
           formData.append('provider_as', userData.provider);
         if (userData.company_name)
           formData.append('company_name', userData.company_name);
+        formData.append('lat', userData.lat);
+        formData.append('lng', userData.lng);
         let request = await post(APIs.REGISTER, formData);
         if (request) {
           dispatch({ type: ActionTypes.Register, payload: request });
@@ -40,7 +42,10 @@ export const AuthMiddleware = {
         let request = await post(APIs.LOGIN, formData);
         console.warn("Login Data:", request);
         if (request) {
-          dispatch({ type: ActionTypes.Register, payload: request });
+          // console.warn(request);
+          await Storage.setToken(request.token);
+          await Storage.set("@BB-user", JSON.stringify(request))
+          dispatch({ type: ActionTypes.Login, payload: request });
         }
         dispatch({ type: ActionTypes.HideLoading });
       } catch (error) { }
