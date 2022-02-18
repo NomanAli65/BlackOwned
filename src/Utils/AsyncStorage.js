@@ -3,13 +3,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 class Storage {
   static getToken = async () => {
     try {
-      return await AsyncStorage.getItem('@token');
+      return  await AsyncStorage.getItem('@token');
+    
     } catch (e) {
       return null;
     }
   };
   static setToken = async token => {
     try {
+      console.warn('async',token);
       return await AsyncStorage.setItem('@token', token);
     } catch (e) {
       return null;

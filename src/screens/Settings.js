@@ -13,11 +13,19 @@ import { connect } from 'react-redux';
 import { AuthMiddleware } from '../redux/middleware/AuthMiddleware';
 import { ActionTypes } from '../redux/action_types';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('window');
 const iconSize = 20;
 
 class Settings extends Component {
+
+  Logout = () => {
+    console.warn("dasas");
+    AsyncStorage.removeItem('@BB-user')
+    AsyncStorage.removeItem('@token')
+    this.props.Logout()
+  }
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -157,7 +165,7 @@ class Settings extends Component {
                   <Heading fontSize="lg">Privacy Policy</Heading>
                 </HStack>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => this.props.Logout()}>
+              <TouchableOpacity onPress={this.Logout}>
                 <HStack space="md" alignItems="center" paddingY={3}>
                   <Image
                     style={{

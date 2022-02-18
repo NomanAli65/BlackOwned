@@ -1,14 +1,14 @@
-import {APIs} from '../../configs/APIs';
-import {post} from '../../configs/AxiosConfig';
-import {ActionTypes} from '../action_types';
-import {getHeaders} from '../../Utils';
+import { APIs } from '../../configs/APIs';
+import { post } from '../../configs/AxiosConfig';
+import { ActionTypes } from '../action_types';
+import { getHeaders } from '../../Utils';
 import Storage from '../../Utils/AsyncStorage';
 // import AuthAction from '../Actions/AuthAction';
 
 export const AuthMiddleware = {
   Register: userData => {
     return async dispatch => {
-      dispatch({type: ActionTypes.ShowLoading});
+      dispatch({ type: ActionTypes.ShowLoading });
       try {
         let formData = new FormData();
         formData.append('username', userData.username);
@@ -22,27 +22,32 @@ export const AuthMiddleware = {
           formData.append('provider_as', userData.provider);
         if (userData.company_name)
           formData.append('company_name', userData.company_name);
+        formData.append('lat', userData.lat);
+        formData.append('lng', userData.lng);
         let request = await post(APIs.REGISTER, formData);
         if (request) {
-          dispatch({type: ActionTypes.Register, payload: request});
+          dispatch({ type: ActionTypes.Register, payload: request });
         }
-        dispatch({type: ActionTypes.HideLoading});
-      } catch (error) {}
+        dispatch({ type: ActionTypes.HideLoading });
+      } catch (error) { }
     };
   },
   Login: userData => {
     return async dispatch => {
       try {
-        dispatch({type: ActionTypes.ShowLoading});
+        dispatch({ type: ActionTypes.ShowLoading });
         let formData = new FormData();
         formData.append('email', userData.email);
         formData.append('password', userData.password);
         let request = await post(APIs.LOGIN, formData);
         if (request) {
-          dispatch({type: ActionTypes.Register, payload: request});
+          // console.warn(request);
+          await Storage.setToken(request.token);
+          await Storage.set("@BB-user", JSON.stringify(request))
+          dispatch({ type: ActionTypes.Login, payload: request });
         }
-        dispatch({type: ActionTypes.HideLoading});
-      } catch (error) {}
+        dispatch({ type: ActionTypes.HideLoading });
+      } catch (error) { }
     };
   },
 };

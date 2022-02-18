@@ -1,4 +1,4 @@
-import {ActionTypes} from '../action_types';
+import { ActionTypes } from '../action_types';
 
 const initialState = {
   loading: false,
@@ -7,10 +7,10 @@ const initialState = {
 export const GeneralReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.ShowLoading:
-      state = {loading: true};
+      state = { loading: true };
       break;
     case ActionTypes.HideLoading:
-      state = {loading: false};
+      state = { loading: false };
       break;
     default:
       break;
