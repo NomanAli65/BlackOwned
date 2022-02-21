@@ -8,4 +8,5 @@ export const APIs = {
     next_page_url
       ? next_page_url
       : 'customers/services',
+  storeService: `storeService`,
 };

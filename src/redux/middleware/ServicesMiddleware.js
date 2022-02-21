@@ -27,18 +27,16 @@ export const ServicesMiddleware = {
 
       // return new Promise(async (resolve, reject) => {
       try {
-        if (next_page_url == undefined) {
-          dispatch({type: ActionTypes.Reset_Customer_Services});
+        if (next_page_url == undefined || name) {
+          dispatch({ type: ActionTypes.Reset_Customer_Services, payload: request });
         }
         // dispatch({ type: ActionTypes.ShowLoading });
         let formData = new FormData();
-
-        // if (name) 
         formData.append('search', name);
+        console.warn(formData)
         let request = await post(
           APIs.CUSTOMER_SERVICES(next_page_url),
-          // name ? formData : 
-          {},
+          formData,
           await getHeaders(),
         );
         console.warn('request', request);
@@ -49,6 +47,29 @@ export const ServicesMiddleware = {
         }
       } catch (error) { }
       // });
+    };
+  },
+
+  storeService : ({ id }) => {
+    // console.warn("ghgjgj", name);
+    return dispatch => {
+      return new Promise(async () => {
+        try {
+          let formData = new FormData();
+          formData.append('service_id', id)
+          let request = await post(
+            APIs.storeService,
+            formData,
+            await getHeaders(),
+          );
+          console.warn("response=============", request)
+          if (request) {
+            dispatch({ type: ActionTypes.Store_Service, payload: request });
+          } else {
+            dispatch({ type: ActionTypes.HideLoading });
+          }
+        } catch (error) { }
+      });
     };
   }
 };

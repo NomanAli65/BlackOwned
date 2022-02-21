@@ -10,34 +10,132 @@ import {
     VStack,
 } from 'native-base';
 import React, { Component } from 'react';
-import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet } from 'react-native';
+import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet, ActivityIndicator, RefreshControl } from 'react-native';
 import MyHeader from '../../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
 // import {Colors} from '../../Styles';
 import Entypo from 'react-native-vector-icons/Entypo';
-
+import Octicons from 'react-native-vector-icons/Octicons';
+import { connect } from 'react-redux';
+import { ServicesMiddleware } from '../../redux/middleware/ServicesMiddleware';
+import { imgURL } from '../../configs/AxiosConfig';
 
 
 const { width } = Dimensions.get('window');
 
-export default class AddServices extends Component {
+class AddServices extends Component {
 
+    state = {
+        loader: true,
+        search: '',
+        getServicesData: null,
+        getServicesDataCopy: [],
+    };
     componentDidMount() {
-        // Animated.timing(this.rotation, {
-        //   toValue: 1,
-        //   duration: 1000,
-        //   useNativeDriver: true,
-        // }).start();
+        this.props.getAllServices({ name: '' })
+        // .then(() => this.setState({ loader: false }))
+        // .catch(() => this.setState({ loader: false }));
     }
+
+    storedService = item => {
+        console.warn('stored', item);
+        // let getServicesDataCopy = this.props.getServicesData;
+    
+        // let index = getServicesDataCopy.findIndex(val => val.id === item.id);
+    
+        // if (!getServicesDataCopy[index].stored) {
+        //   let updateItem = {...item, stored: true, };
+    
+        // getServicesDataCopy.splice(index, 1, updateItem);
+        // } else {
+        //   let index = getServicesDataCopy.findIndex(val => val.id === item.id);
+        //   let updateItem = {
+        //     ...item,
+        //     stored: false,
+        //   };
+    
+        //   getServicesDataCopy.splice(index, 1, updateItem);
+        // }
+        // this.setState({getServicesDataCopy});
+        // this.props.storeService({ id: item.id });
+      };
+
+    // StoreService = (item) => {
+
+    //     this.props.storeService({ id: item.id });
+    //     setTimeout(() => {
+    //         this.props.getUserInfoById({
+    //             id: this.props.route.params.type == 'highlights' ? (id = this.props.route.params.item.user_id) : (id = this.props.route.params.item.id)
+    //         });
+    //     }, 3000);
+
+    // };
+
+    onPressLoadMore = () => {
+        this.setState({ loader: true }, () => {
+            const { getServicesData } = this.props;
+            this.props
+                .getAllServices(getServicesData.next_page_url, '')
+                .then(() => this.setState({ loader: false }))
+                .catch(() => this.setState({ loader: false }));
+        });
+    };
+
+    renderLoaderMoreButton = () => {
+        const { getServicesData } = this.props;
+        const { loader } = this.state;
+        return getServicesData.next_page_url ? (
+            loader ? (
+                <ActivityIndicator
+                    size={'large'}
+                    color={'#1D9CD9'}
+                    style={styles.loadMoreContentContainer}
+                />
+            ) : (
+                <TouchableOpacity
+                    style={{ width: 110, alignSelf: 'center', marginVertical: 13 }}
+                    onPress={this.onPressLoadMore}>
+                    <View style={styles.loadMoreContainer}>
+                        <Text style={styles.loadMoreText}>Load more</Text>
+                    </View>
+                </TouchableOpacity>
+            )
+        ) : null;
+    };
+
+    onRefreshServices = () => {
+        this.setState({ loader: true }, () => {
+            this.props.getAllServices({ name: '' })
+        });
+    };
+
+
+    onChangeSearchText = text => {
+        clearTimeout(this.searchTimeout)
+        this.searchTimeout = setTimeout(() => {
+            this.setState({ loader: true, search: text }, () => {
+                console.log(this.state.search, text, 'TEXT====>');
+                this.props
+                    .getAllServices({ name: text })
+                // .then(() => this.setState({ loader: false }))
+                // .catch(() => this.setState({ loader: false }));
+            });
+        }, 500)
+
+    };
 
     renderUsersList = item => (
         <TouchableOpacity
             // onPress={() => this.props.navigation.navigate('ServicesFilter')}
             activeOpacity={0.7} style={styles.teamContainer}>
-            <Image source={item.img} style={styles.teamImage} />
+            <Image source={item.image ?
+                {
+                    uri: imgURL + item.image
+                } : require('../../assets/user.png')
+            } style={styles.teamImage} />
             <Text style={styles.teamName}>{item.name}</Text>
             <TouchableOpacity
-                onPress={() => console.warn('touch')}
+                onPress={() => this.storedService(item)}
                 activeOpacity={0.7}
                 style={styles.fabBtn}>
                 <Entypo name="plus" size={18} color={'#fff'} />
@@ -46,11 +144,12 @@ export default class AddServices extends Component {
     );
 
     render() {
+        const { getServicesData, getServicesData_list, loader } = this.props;
         return (
             <ScrollView style={styles.container}>
                 <MyHeader
-                    back notify profile navigation={this.props.navigation}
-                    title={this.props.route.name}
+                    notify profile navigation={this.props.navigation}
+                    title={'Services'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
                 <View style={{ paddingHorizontal: 20 }}>
@@ -60,31 +159,66 @@ export default class AddServices extends Component {
                         borderRadius={10}
                         alignItems="center"
                         paddingX="3">
-                        <Icon as={Feather} name="search" size="sm" color="#aaa" />
-                        <Input fontSize={14} placeholder="Search Service Provider" borderWidth={0} />
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', width: '90%' }}>
+                                <Icon as={Feather} name="search" size="sm" color="#aaa" />
+                                <Input fontSize={14} placeholder="Search Service Provider" borderWidth={0} onChangeText={this.onChangeSearchText} />
+                            </View>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('ServicesFilter')}>
+                                <Icon as={Octicons} name="settings" size="sm" color="#aaa" />
+                            </TouchableOpacity>
+                        </View>
                     </HStack>
-                    <FlatList
-                        numColumns={2}
-                        columnWrapperStyle={styles.teamsListContainer}
-                        style={styles.flex1}
-                        showsVerticalScrollIndicator={false}
-                        data={[
-                            { name: 'Realtors', img: require('../../assets/realtor.jpg') },
-                            { name: 'Artists', img: require('../../assets/c1.jpeg') },
-                            { name: 'Plumber', img: require('../../assets/c3.jpeg') },
-                            { name: 'Electrician', img: require('../../assets/realtor.jpg') },
-                            { name: 'Baby Sitter', img: require('../../assets/realtor.jpg') },
-                            { name: 'Musicians', img: require('../../assets/c1.jpeg') },
-                            { name: 'Plumber', img: require('../../assets/c3.jpeg') },
-                            { name: 'Beautician', img: require('../../assets/realtor.jpg') },
-                        ]}
-                        renderItem={({ item }) => this.renderUsersList(item)}
-                    />
+                    {!getServicesData ? (
+                        <ActivityIndicator
+                            size={'large'}
+                            color={'#1D9CD9'}
+                            style={styles.loadMoreContentContainer}
+                        />
+                    ) : null}
+                    {getServicesData_list && getServicesData_list?.length ? (
+                        <FlatList
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={loader}
+                                    onRefresh={this.onRefreshServices}
+                                />
+                            }
+                            style={styles.flex1}
+                            numColumns={2}
+                            columnWrapperStyle={styles.teamsListContainer}
+                            showsVerticalScrollIndicator={false}
+                            data={getServicesData_list}
+                            renderItem={({ item, index }) => this.renderUsersList(item)}
+                            ListFooterComponent={this.renderLoaderMoreButton()}
+                        />
+                    ) : null}
+
                 </View>
             </ScrollView>
         );
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        // role: state.Auth.role,
+        // user: state.Auth.user,
+        getServicesData: state.ServicesReducer.getServicesData,
+        getServicesData_list: state.ServicesReducer.getServicesData_list,
+    };
+};
+const mapDispatchToProps = dispatch => ({
+    // Login: data => dispatch(AuthMiddleware.Login(data)),
+    // Login: data => dispatch(AuthMiddleware.Login(data)),
+
+    getAllServices: (payload) =>
+        dispatch(ServicesMiddleware.getAllServices(payload)),
+    storeService: payload => dispatch(ServicesMiddleware.storeService(payload)),
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddServices);
 
 const styles = StyleSheet.create({
     container: {

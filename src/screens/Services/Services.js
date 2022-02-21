@@ -10,13 +10,14 @@ import {
     VStack,
 } from 'native-base';
 import React, { Component } from 'react';
-import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet } from 'react-native';
+import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet, ActivityIndicator, RefreshControl } from 'react-native';
 import MyHeader from '../../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
 import Octicons from 'react-native-vector-icons/Octicons';
 // import {Colors} from '../../Styles';
 import { connect } from 'react-redux';
 import { ServicesMiddleware } from '../../redux/middleware/ServicesMiddleware';
+import { imgURL } from '../../configs/AxiosConfig';
 
 
 const { width } = Dimensions.get('window');
@@ -35,18 +36,18 @@ class Services extends Component {
 
     onPressLoadMore = () => {
         this.setState({ loader: true }, () => {
-            const { services } = this.props;
+            const { getServicesData } = this.props;
             this.props
-                .getAllServices(services.next_page_url, '')
+                .getAllServices(getServicesData.next_page_url, '')
                 .then(() => this.setState({ loader: false }))
                 .catch(() => this.setState({ loader: false }));
         });
     };
 
     renderLoaderMoreButton = () => {
-        const { services } = this.props;
+        const { getServicesData } = this.props;
         const { loader } = this.state;
-        return services.next_page_url ? (
+        return getServicesData.next_page_url ? (
             loader ? (
                 <ActivityIndicator
                     size={'large'}
@@ -67,25 +68,40 @@ class Services extends Component {
 
     onRefreshServices = () => {
         this.setState({ loader: true }, () => {
-            this.props
-                .getAllServices(undefined, this.state.search)
-                .then(() => this.setState({ loader: false }))
-                .catch(() => this.setState({ loader: false }));
+            this.props.getAllServices({ name: '' })
         });
     };
+    // onChangeSearchText = text => {
+    //     let { search } = this.state
+    //     this.setState({ loader: true, search: text }, () => {
+    //         console.log(this.state.search, text, 'TEXT====>');
+    //         this.props
+    //             .getAllServices({ search })
+
+    //     });
+    // };
+
     onChangeSearchText = text => {
-        this.setState({ loader: true, search: text }, () => {
-            console.log(this.state.search, text, 'TEXT====>');
-            this.props
-                .getAllServices(undefined, text)
-                .then(() => this.setState({ loader: false }))
-                .catch(() => this.setState({ loader: false }));
-        });
+        clearTimeout(this.searchTimeout)
+        this.searchTimeout = setTimeout(() => {
+            this.setState({ loader: true, search: text }, () => {
+                console.log(this.state.search, text, 'TEXT====>');
+                this.props
+                    .getAllServices({ name:text })
+                    // .then(() => this.setState({ loader: false }))
+                    // .catch(() => this.setState({ loader: false }));
+            });
+        }, 500)
+
     };
 
     renderUsersList = item => (
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('ServiceDetail', { name: item })} activeOpacity={0.7} style={styles.teamContainer}>
-            <Image source={item.img} style={styles.teamImage} />
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('ServiceDetail', { data: item })} activeOpacity={0.7} style={styles.teamContainer}>
+            <Image source={item.image ?
+                {
+                    uri: imgURL + item.image
+                } : require('../../assets/user.png')
+            } style={styles.teamImage} />
             <Text style={styles.teamName}>{item.name}</Text>
         </TouchableOpacity>
     );
@@ -110,14 +126,38 @@ class Services extends Component {
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', width: '90%' }}>
                                 <Icon as={Feather} name="search" size="sm" color="#aaa" />
-                                <Input fontSize={14} placeholder="Search Service Provider" borderWidth={0} value={this.state.search} />
+                                <Input fontSize={14} placeholder="Search Service Provider" borderWidth={0} onChangeText={this.onChangeSearchText} />
                             </View>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('ServicesFilter')}>
                                 <Icon as={Octicons} name="settings" size="sm" color="#aaa" />
                             </TouchableOpacity>
                         </View>
                     </HStack>
-                    <FlatList
+                    {!getServicesData ? (
+                        <ActivityIndicator
+                            size={'large'}
+                            color={'#1D9CD9'}
+                            style={styles.loadMoreContentContainer}
+                        />
+                    ) : null}
+                    {getServicesData_list && getServicesData_list?.length ? (
+                        <FlatList
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={loader}
+                                    onRefresh={this.onRefreshServices}
+                                />
+                            }
+                            style={styles.flex1}
+                            numColumns={2}
+                            columnWrapperStyle={styles.teamsListContainer}
+                            showsVerticalScrollIndicator={false}
+                            data={getServicesData_list}
+                            renderItem={({ item, index }) => this.renderUsersList(item)}
+                            ListFooterComponent={this.renderLoaderMoreButton()}
+                        />
+                    ) : null}
+                    {/* <FlatList
                         numColumns={2}
                         columnWrapperStyle={styles.teamsListContainer}
                         style={styles.flex1}
@@ -134,7 +174,7 @@ class Services extends Component {
 
                         ]}
                         renderItem={({ item }) => this.renderUsersList(item)}
-                    />
+                    /> */}
                 </View>
             </ScrollView>
         );
@@ -191,5 +231,25 @@ const styles = StyleSheet.create({
         color: 'black',
         alignSelf: 'flex-start',
         fontWeight: '500',
+    },
+    loadMoreContainer: {
+        paddingHorizontal: 10,
+        backgroundColor: '#1D9CD9',
+        paddingVertical: 5,
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderRadius: 2,
+    },
+    loadMoreContentContainer: {
+        justifyContent: 'center',
+        alignSelf: 'center',
+        width: 120,
+        marginVertical: 20,
+    },
+    loadMoreText: {
+        color: '#fff',
+        fontWeight: '500',
+        fontSize: 16,
+        marginLeft: 5,
     },
 });
