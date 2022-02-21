@@ -26,7 +26,7 @@ class Settings extends Component {
     this.props.Logout()
   }
   render() {
-    console.warn("User:", this.props.user?.user);
+    //  console.warn("User:", this.props.user?.user);
     return (
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
         <MyHeader title={'Settings'} notify profile navigation={this.props.navigation} />

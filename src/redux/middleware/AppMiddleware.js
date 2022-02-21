@@ -1,5 +1,5 @@
 import { APIs } from '../../configs/APIs';
-import { post } from '../../configs/AxiosConfig';
+import { post, get } from '../../configs/AxiosConfig';
 import { ActionTypes } from '../action_types';
 import { getHeaders } from '../../Utils';
 import Storage from '../../Utils/AsyncStorage';
@@ -68,4 +68,25 @@ export const AppMiddleware = {
             } catch (error) { }
         };
     },
+    Data: ({
+        callback,
+    }) => {
+        return async dispatch => {
+            try {
+                let response = await get(
+                    `${APIs.DATA}`,
+                    await getHeaders(),
+                );
+                console.warn("Terms response: ", response);
+                if (response.success) {
+                    callback(response);
+                }
+            } catch (error) {
+                callback(false);
+                console.warn('err ', error);
+            }
+
+        };
+    },
+
 };

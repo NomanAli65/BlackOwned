@@ -9,4 +9,9 @@ export const APIs = {
       ? next_page_url
       : 'customers/services',
   storeService: `storeService`,
+
+  DATA: `data`,
+  GET_BANKS: `getBanks`,
+  GET_NEWS: `getNews`,
+  GET_SEMINAR: `getSeminars`,
 };

@@ -29,8 +29,8 @@ class Signup extends Component {
     modalVisible: false,
     geoLocationAddress: '',
     geoLocationCoordinates: [],
-    lat:'',
-    lng:'',
+    lat: '',
+    lng: '',
     showResult: false
   };
 
@@ -230,9 +230,9 @@ class Signup extends Component {
                     onChangeText={company_name => this.setState({ company_name })}
                   />
                   <TouchableOpacity style={styles.input} onPress={() => this.setState({ modalVisible: true })}>
-                    {this.state.geoLocationAddress  == '' ?
+                    {this.state.geoLocationAddress == '' ?
                       (
-                        <View style={{height:40,alignItems:'center',justifyContent:'center'}}>
+                        <View style={{ height: 40, alignItems: 'center', justifyContent: 'center' }}>
                           <Text style={{ textAlign: 'center' }}>Select Location</Text>
                         </View>
                       ) : (
@@ -241,7 +241,7 @@ class Signup extends Component {
                         </View>
                       )}
                   </TouchableOpacity>
-                  
+
                 </View>
               ) : null}
 
@@ -293,14 +293,14 @@ class Signup extends Component {
                   placeholder='Search'
                   GooglePlacesDetailsQuery={{ fields: "geometry" }}
                   onPress={(data, details = null) => {
-                    
+
                     this.setState(
                       {
                         geoLocationAddress: data.description, // selected address
                         geoLocationCoordinates: `${details.geometry.location.lat},${details.geometry.location.lng}`, // selected coordinates,
                         modalVisible: false,
                         lat: details.geometry.location.lat,
-                        lng:details.geometry.location.lng,
+                        lng: details.geometry.location.lng,
                       }
                     );
                     console.warn(data, details);
