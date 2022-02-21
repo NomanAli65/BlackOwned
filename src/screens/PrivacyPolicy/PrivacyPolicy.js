@@ -1,60 +1,64 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, RefreshControl } from 'react-native';
+import { connect } from 'react-redux';
 import MyHeader from '../../components/MyHeader';
+import { AppMiddleware } from '../../redux/middleware/AppMiddleware';
 
-export default class PrivacyPolicy extends Component {
+class PrivacyPolicy extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            refreshing: false,
+            privacy: "",
         };
     }
+    componentDidMount() {
+        this.setState({ refreshing: true })
+        this.Privacy()
+    }
+    Privacy = () => {
+        this.props.DATA({
+            callback: response => {
 
+                if (response) {
+                    console.warn("DATA,", response);
+                    this.setState({
+                        privacy: response?.data?.privacy,
+                        refreshing: false,
+                    })
+
+                } else {
+                    this.setState({ loading: false, refreshing: false, });
+                }
+            },
+        });
+    }
     render() {
         return (
             <View style={styles.container}>
                 <MyHeader title={'Privacy Policy'} notify back onBackPress={() => this.props.navigation.goBack()} navigation={this.props.navigation} />
-                <ScrollView style={styles.body}>
-                    <Text style={styles.TextAll}> Lorem Ipsum is simply dummy text of the
-                        printing and typesetting industry. Lorem Ipsum has been the industry's
-                        standard dummy text ever since the 1500s, when an unknown printer took a
-                        galley of type and scrambled it to make a type specimen book. It has survived
-                        not only five centuries, but also the leap into electronic typesetting,
-                        remaining essentially unchanged. It was popularised in the
-                        1960s with the release of Letraset sheets containing Lorem Ipsum
-                        passages, and more recently with desktop publishing software
-                        like Aldus PageMaker including versions of Lorem Ipsum.
-                        Lorem Ipsum is simply dummy text of the
-                        printing and typesetting industry. Lorem Ipsum has been the industry's
-                        standard dummy text ever since the 1500s, when an unknown printer took a
-                        galley of type and scrambled it to make a type specimen book. It has survived
-                        not only five centuries, but also the leap into electronic typesetting,
-                        remaining essentially unchanged. It was popularised in the
-                        1960s with the release of Letraset sheets containing Lorem Ipsum
-                        passages, and more recently with desktop publishing software
-                        like Aldus PageMaker including versions of Lorem Ipsum.
-                        Lorem Ipsum is simply dummy text of the
-                        printing and typesetting industry. Lorem Ipsum has been the industry's
-                        standard dummy text ever since the 1500s, when an unknown printer took a
-                        galley of type and scrambled it to make a type specimen book. It has survived
-                        not only five centuries, but also the leap into electronic typesetting,
-                        remaining essentially unchanged. It was popularised in the
-                        1960s with the release of Letraset sheets containing Lorem Ipsum
-                        passages, and more recently with desktop publishing software
-                        like Aldus PageMaker including versions of Lorem Ipsum.
-                        Lorem Ipsum is simply dummy text of the
-                        printing and typesetting industry. Lorem Ipsum has been the industry's
-                        standard dummy text ever since the 1500s, when an unknown printer took a
-                        galley of type and scrambled it to make a type specimen book. It has survived
-                        not only five centuries, but also the leap into electronic typesetting,
-                        remaining essentially unchanged. It was popularised in the
-                        1960s with the release of Letraset sheets containing Lorem Ipsum
-                        passages, and more recently with desktop publishing software
-                        like Aldus PageMaker including versions of Lorem Ipsum.</Text>
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this.Privacy}
+                        />
+                    }
+                    style={styles.body}>
+                    <Text style={styles.TextAll}>{this.state.privacy}</Text>
                 </ScrollView>
             </View>
         );
     }
 }
+const mapStateToProps = state => ({
+
+})
+const mapDispatchToProps = dispatch => ({
+    DATA: paylaod => dispatch(AppMiddleware.Data(paylaod)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PrivacyPolicy);
 
 const styles = StyleSheet.create({
     container: {
@@ -69,7 +73,7 @@ const styles = StyleSheet.create({
     TextAll: {
         fontSize: 13,
         color: '#000',
-        marginBottom: 10,
+        marginVertical: 10,
 
 
     },

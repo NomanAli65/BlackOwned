@@ -1,6 +1,7 @@
 import { Box, Button, Heading, HStack, Input, Radio, VStack } from 'native-base';
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, Dimensions, TouchableOpacity, Modal } from 'react-native';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import SelectDropdown from 'react-native-select-dropdown';
 import { connect } from 'react-redux';
 import MyHeader from '../../components/MyHeader';
@@ -25,8 +26,14 @@ class EditProfile extends Component {
                 { uri: this.props?.user?.user?.profile_pic }
                 : require('../../assets/user.png'),
             gender: ['Male', 'Female'],
-            selectedgender: this.props?.user?.user?.gender ? this.props?.user?.user?.gender : '',
+            selectedgender: this.props?.user?.user?.gender ? this.props?.user?.user?.gender : 'Gender',
             provider_as: this.props?.user?.user?.provider_as ? this.props?.user?.user?.provider_as : '',
+            company_name: this.props?.user?.user?.company_name ? this.props?.user?.user?.company_name : '',
+            modalVisible: false,
+            geoLocationAddress: this.props?.user?.user?.company_address ? this.props?.user?.user?.company_address : '',
+            geoLocationCoordinates: [],
+            lat: '',
+            lng: '',
         };
     }
     uploadImage = () => {
@@ -122,11 +129,37 @@ class EditProfile extends Component {
                                 </Text>
                             </Radio>
                         </Radio.Group>
+
+
+
+                    ) : null}
+
+                    {this.state.provider_as == 'business' ? (
+                        <View style={{ width: '100%', alignItems: 'center' }}>
+                            <Input
+                                placeholder="Company Name"
+                                style={styles.input}
+                                value={this.state.company_name}
+                                onChangeText={company_name => this.setState({ company_name })}
+                            />
+                            <TouchableOpacity style={styles.inputAddress} onPress={() => this.setState({ modalVisible: true })}>
+                                {this.state.geoLocationAddress == '' ?
+                                    (
+                                        <View style={{ height: 50, alignItems: 'flex-start', justifyContent: 'center' }}>
+                                            <Text style={{ textAlign: 'center' }}>Select Location</Text>
+                                        </View>
+                                    ) : (
+                                        <View style={{ height: 50, alignItems: 'flex-start', justifyContent: 'center' }}>
+                                            <Text style={styles.dropDownBtnText} numberOfLines={1}>{this.state.geoLocationAddress}</Text>
+                                        </View>
+                                    )}
+                            </TouchableOpacity>
+                        </View>
                     ) : null}
                     <View style={styles.selectContainer}>
                         <SelectDropdown
                             data={this.state.gender}
-                            // defaultValue={this.state.country[0]}
+                            // defaultValue={'Gender'}
                             defaultButtonText={this.state.selectedgender}
                             dropdownIconPosition="right"
                             renderDropdownIcon={() => {
@@ -236,6 +269,56 @@ class EditProfile extends Component {
                         Update
                     </Button>
                 </ScrollView>
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setState({ modalVisible: false });
+                    }}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <Text style={styles.modalText}>Select Location</Text>
+                            <GooglePlacesAutocomplete
+                                placeholder='Search'
+                                GooglePlacesDetailsQuery={{ fields: "geometry" }}
+                                onPress={(data, details = null) => {
+
+                                    this.setState(
+                                        {
+                                            geoLocationAddress: data.description, // selected address
+                                            geoLocationCoordinates: `${details.geometry.location.lat},${details.geometry.location.lng}`, // selected coordinates,
+                                            modalVisible: false,
+                                            lat: details.geometry.location.lat,
+                                            lng: details.geometry.location.lng,
+                                        }
+                                    );
+                                    // console.warn(data, details);
+                                }}
+                                value={this.state.geoLocationAddress}
+                                onChangeText={this.state.geoLocationAddress}
+                                fetchDetails={true}
+                                onBlur={() => console.warn(("ok"))}
+                                styles={{
+                                    container: {
+                                        width: "100%",
+                                    },
+                                    textInputContainer: {
+                                        elevation: 5,
+                                        backgroundColor: "#fff",
+                                        borderRadius: 5,
+                                    },
+                                }}
+                                query={{
+                                    key: 'AIzaSyBBVMEPDktEjcindc7_NjCpFWsSWVspyKI',
+                                    language: 'en',
+                                }}
+                            />
+                        </View>
+                    </View>
+                </Modal>
             </View>
         );
     }
@@ -286,8 +369,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginVertical: 5,
         paddingLeft: 15,
-
-
+    },
+    inputAddress: {
+        width: '100%',
+        // justifyContent: 'space-around',
+        height: 50,
+        borderRadius: 3,
+        textAlign: 'left',
+        marginBottom: 5,
+        backgroundColor: '#eee',
+        elevation: 3,
+        borderWidth: 0,
+        alignItems: 'center',
+        marginVertical: 5,
+        // paddingLeft: 15,
     },
     dropDownBtnText: {
         //  color: 'rgb(160,160,160)',
@@ -310,5 +405,22 @@ const styles = StyleSheet.create({
         backgroundColor: '#eee',
         width: '40%'
         // paddingVertical: 10,
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        // alignItems: "center",
+    },
+    modalView: {
+        flex: 1,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 25,
+        alignItems: "center",
+
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center"
     },
 })
