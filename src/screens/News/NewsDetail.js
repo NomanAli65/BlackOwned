@@ -1,55 +1,42 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import MyHeader from '../../components/MyHeader';
+import { imgURL } from '../../configs/AxiosConfig';
 
 export default class NewsDetail extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
+    state = {
+        loader: true,
+        detailsData: [],
+    };
+
+    componentDidMount() {
+        let data = this.props.route.params.data
+        this.setState({ detailsData: data })
+        
     }
 
     render() {
+        const { detailsData } = this.state;
+        console.warn(detailsData);
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <MyHeader
-                     back notify profile navigation={this.props.navigation}
+                    back notify profile navigation={this.props.navigation}
                     title={'News'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
                 <View style={styles.ListContainer}>
 
                     <ScrollView>
-                        <Image source={require('../../assets/realtor.jpg')} style={styles.ListImage} />
+                        <Image source={detailsData.image ?
+                            {
+                                uri: imgURL + detailsData.image
+                            } : require('../../assets/user.png')
+                        } style={styles.ListImage} />
                         <View>
-                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.ListName}>Successful Trade Tips</Text>
+                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.ListName}>{detailsData.name}</Text>
 
-                            <Text style={styles.ListDescription}>
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                Lorem Ipsum has been the industry's standard dummy text ever since
-                                the 1500s, when an unknown printer took a galley of type and scrambled it to
-                                make a type specimen book.
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                Lorem Ipsum has been the industry's standard dummy text ever since
-                                the 1500s, when an unknown printer took a galley of type and scrambled it to
-                                make a type specimen book.
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                Lorem Ipsum has been the industry's standard dummy text ever since
-                                the 1500s, when an unknown printer took a galley of type and scrambled it to
-                                make a type specimen book.
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                Lorem Ipsum has been the industry's standard dummy text ever since
-                                the 1500s, when an unknown printer took a galley of type and scrambled it to
-                                make a type specimen book.
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                Lorem Ipsum has been the industry's standard dummy text ever since
-                                the 1500s, when an unknown printer took a galley of type and scrambled it to
-                                make a type specimen book.
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                Lorem Ipsum has been the industry's standard dummy text ever since
-                                the 1500s, when an unknown printer took a galley of type and scrambled it to
-                                make a type specimen book.
-                            </Text>
+                            <Text style={styles.ListDescription}>{detailsData.description}</Text>
                         </View>
                     </ScrollView>
 

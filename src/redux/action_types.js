@@ -8,6 +8,10 @@ export const ActionTypes = {
   Reset_Customer_Services: 'Reset_Customer_Services',
   Get_Banks: 'Get_Banks',
   Reset_Get_Banks: 'Reset_Get_Banks',
+  Get_News: 'Get_News',
+  Reset_Get_News: 'Reset_Get_News',
+  Get_Seminars: 'Get_Seminars',
+  Reset_Get_Seminars: 'Reset_Get_Seminars',
   ShowLoading: 'SHOW_LOADING',
   HideLoading: 'HIDE_LOADING',
 };

@@ -16,6 +16,14 @@ export const APIs = {
     next_page_url
       ? next_page_url
       : 'customers/getBanks',
-  GET_NEWS: `getNews`,
+  getNews: (next_page_url) =>
+    next_page_url
+      ? next_page_url
+      : 'customers/getNews',
+  getSeminars: (next_page_url) =>
+    next_page_url
+      ? next_page_url
+      : 'customers/getSeminars',
+
   GET_SEMINAR: `getSeminars`,
 };
