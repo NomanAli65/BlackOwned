@@ -29,7 +29,7 @@ class Settings extends Component {
     console.warn("User:", this.props?.user?.user);
     return (
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
-        <MyHeader title={'Settings'} notify profile navigation={this.props.navigation} />
+        <MyHeader title={'Settings'} image={this.props.user?.user?.profile_pic} notify profile navigation={this.props.navigation} />
         <ScrollView>
           <View style={{ flex: 1, padding: 20 }}>
             <HStack

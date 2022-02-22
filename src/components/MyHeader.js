@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Dimensions, TouchableOpacity, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { ArrowBackIcon, Avatar, Heading, HStack, Icon } from 'native-base';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -9,8 +9,18 @@ const { width } = Dimensions.get('window');
 
 class MyHeader extends Component {
 
+  // state = {
+  //   profile_pic: this.props.user?.user?.profile_pic
+  // }
+
+
+  // componentDidUpdate(prevProps, prevState, snapshot) {
+  //   if (prevProps.user?.user?.profile_pic != this.props.user?.user?.profile_pic) {
+  //     this.setState({ profile_pic: this.props.user?.user?.profile_pic })
+  //   }
+  // }
+
   render() {
-    console.warn("user Header", this.props.user?.user);
     return (
       <HStack
         backgroundColor="white"
@@ -51,11 +61,15 @@ class MyHeader extends Component {
                   <View style={{ width: width * 0.1 }} />
                 ) : null}
                 <TouchableOpacity onPress={() => { this.props?.user?.user?.role == 'provider' ? this.props.navigation.navigate('UserProfile') : this.props.navigation.navigate('profileSettings') }}>
-                  <Avatar
+                  <Image
+                    style={{ width: 30, height: 30, borderRadius: 30 }}
                     source={this.props.user?.user?.profile_pic ? { uri: imgURL + this.props.user?.user?.profile_pic } : require('../assets/user.png')}
+                  />
+                  {/* <Avatar
+                    source={this.state.profile_pic ? { uri: imgURL + this.state.profile_pic } : require('../assets/user.png')}
                     size="sm"
                     backgroundColor="#ddd"
-                  />
+                  /> */}
                 </TouchableOpacity>
               </HStack>
             ) : null}
@@ -74,4 +88,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyHeader);
+export default connect(mapStateToProps, null)(MyHeader);
