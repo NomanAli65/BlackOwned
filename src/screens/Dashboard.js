@@ -78,8 +78,12 @@ class Dashboard extends Component {
 
   _renderItem = item => {
     // console.warn(item);
+    const { user } = this.props;
     return (
-      <TouchableOpacity onPress={() => this.props.navigation.navigate('ServiceDetail', { name: item.name })} style={{ marginEnd: 15 }}>
+      <TouchableOpacity
+        // onPress={() => this.props.navigation.navigate('ServiceDetail', { name: item.name })}
+        onPress={() => this.props.navigation.navigate(user.user.role == 'provider' ? 'AddServices' : 'Services')}
+        style={{ marginEnd: 15 }}>
         <Image
           source={item.image ?
             {
@@ -126,8 +130,8 @@ class Dashboard extends Component {
 
   render() {
     let { selectedButtonTop } = this.state;
-    const { getServicesData_list, } = this.props;
-    // console.warn('Dataa', getServicesData_list);
+    const { getServicesData_list, user } = this.props;
+    console.warn('Dataa', user);
     return (
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
         <MyHeader title={'Home'} notify profile navigation={this.props.navigation} />
@@ -192,7 +196,7 @@ class Dashboard extends Component {
               <Heading fontSize="md" color="#1872ea">
                 Services
               </Heading>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('Services')}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate(user.user.role == 'provider' ? 'AddServices' : 'Services')}>
                 <Text>View All</Text>
               </TouchableOpacity>
             </HStack>
@@ -214,7 +218,7 @@ class Dashboard extends Component {
               data={this.state.online_friends}
               horizontal
               renderItem={this._renderFriend}
-              // renderItem={({ item, index }) => this._renderFriend(item)}
+            // renderItem={({ item, index }) => this._renderFriend(item)}
             />
             <HStack
               justifyContent="space-between"

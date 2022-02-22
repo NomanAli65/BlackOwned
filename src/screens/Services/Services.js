@@ -157,24 +157,7 @@ class Services extends Component {
                             ListFooterComponent={this.renderLoaderMoreButton()}
                         />
                     ) : null}
-                    {/* <FlatList
-                        numColumns={2}
-                        columnWrapperStyle={styles.teamsListContainer}
-                        style={styles.flex1}
-                        showsVerticalScrollIndicator={false}
-                        data={[
-                            { name: 'Realtors', img: require('../../assets/realtor.jpg') },
-                            { name: 'Artists', img: require('../../assets/c1.jpeg') },
-                            { name: 'Plumber', img: require('../../assets/c3.jpeg') },
-                            { name: 'Electrician', img: require('../../assets/c2.jpeg') },
-                            { name: 'Baby Sitter', img: require('../../assets/realtor.jpg') },
-                            { name: 'Musicians', img: require('../../assets/c1.jpeg') },
-                            { name: 'Plumber', img: require('../../assets/c3.jpeg') },
-                            { name: 'Beautician', img: require('../../assets/c2.jpeg') },
-
-                        ]}
-                        renderItem={({ item }) => this.renderUsersList(item)}
-                    /> */}
+                    
                 </View>
             </ScrollView>
         );

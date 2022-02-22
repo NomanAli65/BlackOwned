@@ -8,10 +8,14 @@ export const APIs = {
     next_page_url
       ? next_page_url
       : 'customers/services',
-  storeService: `storeService`,
+  storeService: `provider/storeService`,
+  removeService: `provider/removeService`,
 
   DATA: `data`,
-  GET_BANKS: `getBanks`,
+  getBanks: (next_page_url) =>
+    next_page_url
+      ? next_page_url
+      : 'customers/getBanks',
   GET_NEWS: `getNews`,
   GET_SEMINAR: `getSeminars`,
 };

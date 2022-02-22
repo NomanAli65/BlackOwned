@@ -38,38 +38,85 @@ class AddServices extends Component {
     }
 
     storedService = item => {
-        console.warn('stored', item);
-        // let getServicesDataCopy = this.props.getServicesData;
-    
-        // let index = getServicesDataCopy.findIndex(val => val.id === item.id);
-    
-        // if (!getServicesDataCopy[index].stored) {
-        //   let updateItem = {...item, stored: true, };
-    
-        // getServicesDataCopy.splice(index, 1, updateItem);
-        // } else {
-        //   let index = getServicesDataCopy.findIndex(val => val.id === item.id);
-        //   let updateItem = {
-        //     ...item,
-        //     stored: false,
-        //   };
-    
-        //   getServicesDataCopy.splice(index, 1, updateItem);
-        // }
-        // this.setState({getServicesDataCopy});
-        // this.props.storeService({ id: item.id });
-      };
+        // console.warn('stored', item);
+        let getServicesDataCopy = this.props.getServicesData_list;
 
-    // StoreService = (item) => {
+        let index = getServicesDataCopy.findIndex(val => val.id === item.id);
 
-    //     this.props.storeService({ id: item.id });
-    //     setTimeout(() => {
-    //         this.props.getUserInfoById({
-    //             id: this.props.route.params.type == 'highlights' ? (id = this.props.route.params.item.user_id) : (id = this.props.route.params.item.id)
-    //         });
-    //     }, 3000);
+        if (!getServicesDataCopy[index].stored) {
+            let updateItem = { ...item, stored: true, };
 
-    // };
+            getServicesDataCopy.splice(index, 1, updateItem);
+        } else {
+            let index = getServicesDataCopy.findIndex(val => val.id === item.id);
+            let updateItem = {
+                ...item,
+                stored: false,
+            };
+
+            getServicesDataCopy.splice(index, 1, updateItem);
+        }
+        this.setState({ getServicesDataCopy });
+        this.props.storeService({ service_id: item.id });
+    };
+
+    removeService = item => {
+        // console.warn('stored', item);
+        let getServicesDataCopy = this.props.getServicesData_list;
+
+        let index = getServicesDataCopy.findIndex(val => val.id === item.id);
+
+        if (!getServicesDataCopy[index].stored) {
+            let updateItem = { ...item, stored: true, };
+
+            getServicesDataCopy.splice(index, 1, updateItem);
+        } else {
+            let index = getServicesDataCopy.findIndex(val => val.id === item.id);
+            let updateItem = {
+                ...item,
+                stored: false,
+            };
+
+            getServicesDataCopy.splice(index, 1, updateItem);
+        }
+        this.setState({ getServicesDataCopy });
+        this.props.removeService({ service_id: item.id });
+    };
+
+    // storedService = (item) => {
+    //     let getServicesDataCopy = this.props.getServicesData_list
+
+    //     let index = getServicesDataCopy.findIndex(val => val.id === item.id)
+
+    //     if (!getServicesDataCopy[index].stored) {
+    //       let updateItem = { ...item, stored: true, }
+
+
+    //       getServicesDataCopy.splice(index, 1, updateItem)
+
+    //     } else {
+    //       let index = getServicesDataCopy.findIndex(val => val.id === item.id)
+    //       let updateItem = { ...item, stored: false, }
+
+    //       getServicesDataCopy.splice(index, 1, updateItem)
+
+    //     }
+    //     this.setState({ getServicesDataCopy })
+    //     console.warn('getServicesDataCopy',getServicesDataCopy);
+    //     this.props
+    //       .storeService({ service_id: item.id })
+    //   };
+
+
+
+//     storedService = (item) => {
+// console.warn(item.id);
+//         // this.props.storeService({ id: item.id });
+//         setTimeout(() => {
+//             this.props.storeService({ service_id: item.id });
+//         }, 3000);
+
+//     };
 
     onPressLoadMore = () => {
         this.setState({ loader: true }, () => {
@@ -134,12 +181,21 @@ class AddServices extends Component {
                 } : require('../../assets/user.png')
             } style={styles.teamImage} />
             <Text style={styles.teamName}>{item.name}</Text>
-            <TouchableOpacity
-                onPress={() => this.storedService(item)}
-                activeOpacity={0.7}
-                style={styles.fabBtn}>
-                <Entypo name="plus" size={18} color={'#fff'} />
-            </TouchableOpacity>
+            {item.stored == true ? (
+                <TouchableOpacity
+                    onPress={() => this.removeService(item)}
+                    activeOpacity={0.7}
+                    style={styles.fabBtn}>
+                    <Entypo name="minus" size={18} color={'#fff'} />
+                </TouchableOpacity>
+            ) : (
+                <TouchableOpacity
+                    onPress={() => this.storedService(item)}
+                    activeOpacity={0.7}
+                    style={styles.fabBtn}>
+                    <Entypo name="plus" size={18} color={'#fff'} />
+                </TouchableOpacity>
+            )}
         </TouchableOpacity>
     );
 
@@ -206,6 +262,8 @@ const mapStateToProps = state => {
         // user: state.Auth.user,
         getServicesData: state.ServicesReducer.getServicesData,
         getServicesData_list: state.ServicesReducer.getServicesData_list,
+        storeServiceData: state.ServicesReducer.storeServiceData,
+        removeServiceData: state.ServicesReducer.removeServiceData,
     };
 };
 const mapDispatchToProps = dispatch => ({
@@ -215,6 +273,7 @@ const mapDispatchToProps = dispatch => ({
     getAllServices: (payload) =>
         dispatch(ServicesMiddleware.getAllServices(payload)),
     storeService: payload => dispatch(ServicesMiddleware.storeService(payload)),
+    removeService: payload => dispatch(ServicesMiddleware.removeService(payload)),
 
 });
 

@@ -3,6 +3,7 @@ import { post } from '../../configs/AxiosConfig';
 import { ActionTypes } from '../action_types';
 import { getHeaders } from '../../Utils';
 import Storage from '../../Utils/AsyncStorage';
+import axios, { Axios } from 'axios';
 // import AuthAction from '../Actions/AuthAction';
 
 export const ServicesMiddleware = {
@@ -33,13 +34,13 @@ export const ServicesMiddleware = {
         // dispatch({ type: ActionTypes.ShowLoading });
         let formData = new FormData();
         formData.append('search', name);
-        console.warn(formData)
+        console.warn('search', formData)
         let request = await post(
           APIs.CUSTOMER_SERVICES(next_page_url),
           formData,
           await getHeaders(),
         );
-        console.warn('request', request);
+        console.warn('request', request?.success);
         if (request) {
           dispatch({ type: ActionTypes.Customer_Services, payload: request });
         } else {
@@ -50,26 +51,51 @@ export const ServicesMiddleware = {
     };
   },
 
-  storeService : ({ id }) => {
+  storeService: ({ service_id }) => {
     // console.warn("ghgjgj", name);
-    return dispatch => {
-      return new Promise(async () => {
-        try {
-          let formData = new FormData();
-          formData.append('service_id', id)
-          let request = await post(
-            APIs.storeService,
-            formData,
-            await getHeaders(),
-          );
-          console.warn("response=============", request)
-          if (request) {
-            dispatch({ type: ActionTypes.Store_Service, payload: request });
-          } else {
-            dispatch({ type: ActionTypes.HideLoading });
-          }
-        } catch (error) { }
-      });
+    return async dispatch => {
+      // return new Promise(async () => {
+      try {
+        let formData = new FormData();
+        formData.append('service_id', service_id);
+        console.warn('service_id', formData)
+        let request = await post(
+          APIs.storeService,
+          formData,
+          await getHeaders(),
+        );
+        console.warn("response=============", request?.success)
+        if (request.success) {
+          dispatch({ type: ActionTypes.Store_Service, payload: request });
+        } else {
+          dispatch({ type: ActionTypes.HideLoading });
+        }
+      } catch (error) { }
+      // });
+    };
+  },
+
+  removeService: ({ service_id }) => {
+    // console.warn("ghgjgj", name);
+    return async dispatch => {
+      // return new Promise(async () => {
+      try {
+        let formData = new FormData();
+        formData.append('service_id', service_id);
+        console.warn('service_id', formData)
+        let request = await post(
+          APIs.removeService,
+          formData,
+          await getHeaders(),
+        );
+        console.warn("response=============", request?.success)
+        if (request.success) {
+          dispatch({ type: ActionTypes.Remove_Service, payload: request });
+        } else {
+          dispatch({ type: ActionTypes.HideLoading });
+        }
+      } catch (error) { }
+      // });
     };
   }
 };
