@@ -19,8 +19,10 @@ import {
   Dimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { ServicesMiddleware } from '../redux/middleware/ServicesMiddleware';
 import MyHeader from '../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
+import { imgURL } from '../configs/AxiosConfig';
 
 const { width } = Dimensions.get('window');
 
@@ -64,15 +66,30 @@ class Dashboard extends Component {
     selectedButtonTop: null,
   };
 
+  componentDidMount() {
+    this.props.getAllServices({ name: '' })
+    // .then(() => this.setState({ loader: false }))
+    // .catch(() => this.setState({ loader: false }));
+  }
+
   onClick = () => {
     this.props.navigation.navigate('Development In Process');
   };
 
-  _renderItem = ({ item }) => {
+  _renderItem = item => {
+    // console.warn(item);
+    const { user } = this.props;
     return (
-      <TouchableOpacity onPress={() => this.props.navigation.navigate('ServiceDetail', { name: item.name })} style={{ marginEnd: 15 }}>
+      <TouchableOpacity
+        // onPress={() => this.props.navigation.navigate('ServiceDetail', { name: item.name })}
+        onPress={() => this.props.navigation.navigate(user.user.role == 'provider' ? 'AddServices' : 'Services')}
+        style={{ marginEnd: 15 }}>
         <Image
-          source={item.img}
+          source={item.image ?
+            {
+              uri: imgURL + item.image
+            } : require('../assets/user.png')
+          }
           style={{ width: width * 0.5, height: 120, borderRadius: 5 }}
         />
         <Heading fontSize="lg" marginTop="2">
@@ -113,6 +130,8 @@ class Dashboard extends Component {
 
   render() {
     let { selectedButtonTop } = this.state;
+    const { getServicesData_list, user } = this.props;
+    console.warn('Dataa', user);
     return (
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
         <MyHeader title={'Home'} notify profile navigation={this.props.navigation} />
@@ -177,14 +196,16 @@ class Dashboard extends Component {
               <Heading fontSize="md" color="#1872ea">
                 Services
               </Heading>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('Services')}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate(user.user.role == 'provider' ? 'AddServices' : 'Services')}>
                 <Text>View All</Text>
               </TouchableOpacity>
             </HStack>
             <FlatList
-              data={this.state.data}
+              data={getServicesData_list}
               horizontal
-              renderItem={this._renderItem}
+              // initialNumToRender={5}
+              maxToRenderPerBatch={5}
+              renderItem={({ item, index }) => this._renderItem(item)}
             />
             <Heading
               fontSize="md"
@@ -197,6 +218,7 @@ class Dashboard extends Component {
               data={this.state.online_friends}
               horizontal
               renderItem={this._renderFriend}
+            // renderItem={({ item, index }) => this._renderFriend(item)}
             />
             <HStack
               justifyContent="space-between"
@@ -250,8 +272,23 @@ class Dashboard extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.AuthReducer.user,
+// const mapStateToProps = state => ({
+//   user: state.AuthReducer.user,
+// });
+
+const mapStateToProps = state => {
+  return {
+    user: state.AuthReducer.user,
+    getServicesData: state.ServicesReducer.getServicesData,
+    getServicesData_list: state.ServicesReducer.getServicesData_list,
+  };
+};
+const mapDispatchToProps = dispatch => ({
+  // Login: data => dispatch(AuthMiddleware.Login(data)),
+  // Login: data => dispatch(AuthMiddleware.Login(data)),
+
+  getAllServices: (payload) =>
+    dispatch(ServicesMiddleware.getAllServices(payload)),
 });
 
-export default connect(mapStateToProps, null)(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

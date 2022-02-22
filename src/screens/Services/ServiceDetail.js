@@ -22,9 +22,15 @@ import StarRating from 'react-native-star-rating-widget';
 const { width } = Dimensions.get('window');
 
 export default class ServiceDetails extends Component {
-    rotation = new Animated.Value(0);
+    state = {
+        loader: true,
+        detailsData: [],
+    };
 
     componentDidMount() {
+        let data = this.props.route.params.data
+        this.setState({ detailsData: data })
+        // console.warn(data);
         // Animated.timing(this.rotation, {
         //   toValue: 1,
         //   duration: 1000,
@@ -70,10 +76,8 @@ export default class ServiceDetails extends Component {
     );
 
     render() {
-        let rotate = this.rotation.interpolate({
-            inputRange: [0, 1],
-            outputRange: ['0deg', '360deg'],
-        });
+        const { detailsData } = this.state;
+        console.warn(detailsData);
         return (
             <View style={styles.container}>
                 <MyHeader

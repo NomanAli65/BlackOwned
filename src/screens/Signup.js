@@ -47,6 +47,7 @@ class Signup extends Component {
       company_name,
       lat,
       lng,
+      geoLocationAddress,
     } = this.state;
     console.warn({
       email,
@@ -60,6 +61,7 @@ class Signup extends Component {
       company_name,
       lat,
       lng,
+      geoLocationAddress,
     });
     if (
       username &&
@@ -93,6 +95,7 @@ class Signup extends Component {
         company_name,
         lat,
         lng,
+        geoLocationAddress,
       });
     } else {
       alert('Please enter your information');
@@ -233,8 +236,8 @@ class Signup extends Component {
                           <Text style={{ textAlign: 'center' }}>Select Location</Text>
                         </View>
                       ) : (
-                        <View style={{ height: 40, alignItems: 'center', justifyContent: 'center' }}>
-                          <Text>{this.state.geoLocationAddress}</Text>
+                        <View style={{height:40,alignItems:'center',justifyContent:'center'}}>
+                        <Text numberOfLines={1} style={{ textAlign: 'center',padding:10 }}>{this.state.geoLocationAddress}</Text>
                         </View>
                       )}
                   </TouchableOpacity>
@@ -300,7 +303,7 @@ class Signup extends Component {
                         lng: details.geometry.location.lng,
                       }
                     );
-                    // console.warn(data, details);
+                    console.warn(data, details);
                   }}
                   value={this.state.geoLocationAddress}
                   onChangeText={this.state.geoLocationAddress}

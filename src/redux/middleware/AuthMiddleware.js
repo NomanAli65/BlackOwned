@@ -24,6 +24,7 @@ export const AuthMiddleware = {
           formData.append('company_name', userData.company_name);
         formData.append('lat', userData.lat);
         formData.append('lng', userData.lng);
+        formData.append('company_address', userData.geoLocationAddress);
         let request = await post(APIs.REGISTER, formData);
         if (request) {
           dispatch({ type: ActionTypes.Register, payload: request });

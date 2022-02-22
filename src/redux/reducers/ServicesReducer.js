@@ -4,6 +4,8 @@ let initialState = {
     getServicesData: null,
     getServicesData_list: [],
     loading: false,
+    storeServiceData: [],
+    storeServiceData: [],
 };
 
 export const ServicesReducer = (state = initialState, action) => {
@@ -26,6 +28,14 @@ export const ServicesReducer = (state = initialState, action) => {
                 getServicesData: null,
                 getServicesData_list: [],
             };
+            break;
+
+        case ActionTypes.Store_Service:
+            state = { ...state, storeServiceData: action.payload };
+            break;
+
+        case ActionTypes.Remove_Service:
+            state = { ...state, removeServiceData: action.payload };
             break;
 
         default:
