@@ -1,11 +1,13 @@
 import { Box, Button, Heading, HStack, Input, Radio, VStack } from 'native-base';
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, Dimensions, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, Dimensions, TouchableOpacity, Modal, Alert } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import SelectDropdown from 'react-native-select-dropdown';
 import { connect } from 'react-redux';
 import MyHeader from '../../components/MyHeader';
 import { OpenImagePicker } from '../../configs';
+import { imgURL } from '../../configs/AxiosConfig';
+import { AppMiddleware } from '../../redux/middleware/AppMiddleware';
 
 const { width } = Dimensions.get('window');
 class EditProfile extends Component {
@@ -23,8 +25,9 @@ class EditProfile extends Component {
             state: ['Newyork', 'California', 'New Mexico', 'Washington'],
             zip: this.props?.user?.user?.zip ? this.props?.user?.user?.zip : '',
             Profile_Image: this.props?.user?.user?.profile_pic ?
-                { uri: this.props?.user?.user?.profile_pic }
+                { uri: imgURL + this.props?.user?.user?.profile_pic }
                 : require('../../assets/user.png'),
+            NewProfile_Image: '',
             gender: ['Male', 'Female'],
             selectedgender: this.props?.user?.user?.gender ? this.props?.user?.user?.gender : 'Gender',
             provider_as: this.props?.user?.user?.provider_as ? this.props?.user?.user?.provider_as : '',
@@ -32,8 +35,8 @@ class EditProfile extends Component {
             modalVisible: false,
             geoLocationAddress: this.props?.user?.user?.company_address ? this.props?.user?.user?.company_address : '',
             geoLocationCoordinates: [],
-            lat: '',
-            lng: '',
+            lat: this.props?.user?.user?.company_lat ? this.props?.user?.user?.company_lat : '',
+            lng: this.props?.user?.user?.company_lng ? this.props?.user?.user?.company_lng : '',
         };
     }
     uploadImage = () => {
@@ -48,17 +51,83 @@ class EditProfile extends Component {
                 type: img.mime,
             };
 
-            this.setState({ Profile_Image: imgObj });
+            this.setState({ Profile_Image: imgObj, NewProfile_Image: imgObj });
         });
     };
     UpdateProfile = () => {
-        let { name, phone, address, zip, Profile_Image, selectedCountry, selectedCity, selectedState } = this.state
+        console.warn("Update Click");
+        let { name, phone, address, zip,
+            Profile_Image, selectedCountry,
+            selectedCity, selectedState, selectedgender,
+            company_name, geoLocationAddress,
+            provider_as, lat, lng, NewProfile_Image
+        } = this.state
+
+        if (name == '' || phone == '' || address == '' || zip == '' || selectedCity == '' || selectedState == '' || selectedgender == '' || provider_as == '') {
+            console.warn("name:", name, phone, address, zip, selectedCity, selectedState, selectedgender, provider_as);
+            Alert.alert("Note", "Please fill all fields.")
+        }
+        else if (provider_as == 'business') {
+            if (company_name == '' || geoLocationAddress == '') {
+                console.warn("Company name:", company_name, 'location:', geoLocationAddress);
+                Alert.alert("Note", "Please fill company details.")
+
+            }
+
+
+        }
+        else {
+            console.warn("hello Api");
+            let userData = {
+                username: name,
+                phone,
+                address,
+                provider_as,
+                ...provider_as == 'business' ?
+                    {
+                        company_name,
+                        company_address: geoLocationAddress,
+                        lat, lng
+                    } : {
+                        company_name: '',
+                        company_address: '',
+
+                    },
+                gender: selectedgender,
+                // country:selectedCountry
+                state: selectedState,
+                city: selectedCity,
+                zip,
+                ...NewProfile_Image == '' ?
+                    {} : { profile_pic: NewProfile_Image }
+            }
+
+            console.warn("UserData: ", userData);
+            this.props.user?.user?.role == 'provider' ?
+
+                this.props.UpdateProfileProvider({
+                    userData,
+                    callback: response => {
+
+                        if (response) {
+                            console.warn("DATA:", response);
+                            this.props.navigation.goBack()
+                        } else {
+                            this.setState({ loading: false, refreshing: false, });
+
+                        }
+                    },
+                })
+
+                :
+                null
+        }
     }
     render() {
         console.warn("User", this.props.user.user);
         return (
             <View style={styles.container}>
-                <MyHeader title={'Edit Profile'} notify profile back onBackPress={() => this.props.navigation.goBack()} navigation={this.props.navigation} />
+                <MyHeader title={'Edit Profile'} notify back onBackPress={() => this.props.navigation.goBack()} navigation={this.props.navigation} />
                 <ScrollView
                     showsHorizontalScrollIndicator={false}
                     showsVerticalScrollIndicator={false}
@@ -106,6 +175,29 @@ class EditProfile extends Component {
                         onChangeText={address => this.setState({ address })}
                         value={this.state.address}
                     />
+                    <View style={styles.selectContainer}>
+                        <SelectDropdown
+                            data={this.state.gender}
+                            // defaultValue={'Gender'}
+                            defaultButtonText={this.state.selectedgender}
+                            dropdownIconPosition="right"
+                            renderDropdownIcon={() => {
+                                return (
+                                    <Image
+                                        resizeMode="contain"
+                                        source={require('../../assets/dropdown.png')}
+                                        style={{ height: 15, width: 15, tintColor: 'rgb(160, 160, 160)' }}
+                                    />
+                                );
+                            }}
+                            buttonTextStyle={styles.dropDownBtnText}
+                            buttonStyle={styles.btnStyle}
+                            onSelect={(selectedItem, index) => {
+                                this.setState({ selectedgender: selectedItem });
+                                // this.props.getUsersByType({ role: selectedItem });
+                            }}
+                        />
+                    </View>
                     {this.props.user?.user?.role == 'provider' ? (
                         <Radio.Group
                             name="myRadioGroup"
@@ -156,29 +248,7 @@ class EditProfile extends Component {
                             </TouchableOpacity>
                         </View>
                     ) : null}
-                    <View style={styles.selectContainer}>
-                        <SelectDropdown
-                            data={this.state.gender}
-                            // defaultValue={'Gender'}
-                            defaultButtonText={this.state.selectedgender}
-                            dropdownIconPosition="right"
-                            renderDropdownIcon={() => {
-                                return (
-                                    <Image
-                                        resizeMode="contain"
-                                        source={require('../../assets/dropdown.png')}
-                                        style={{ height: 15, width: 15, tintColor: 'rgb(160, 160, 160)' }}
-                                    />
-                                );
-                            }}
-                            buttonTextStyle={styles.dropDownBtnText}
-                            buttonStyle={styles.btnStyle}
-                            onSelect={(selectedItem, index) => {
-                                this.setState({ selectedgender: selectedItem });
-                                // this.props.getUsersByType({ role: selectedItem });
-                            }}
-                        />
-                    </View>
+
                     <View style={styles.selectContainer}>
                         <SelectDropdown
                             data={this.state.country}
@@ -256,18 +326,21 @@ class EditProfile extends Component {
                         value={this.state.zip}
                         keyboardType={'numeric'}
                     />
-                    <Button
+                    <TouchableOpacity
                         onPress={() => this.UpdateProfile()}
-                        backgroundColor="primary.100"
+                        //backgroundColor="primary.100"
                         style={{
                             width: '100%',
                             borderRadius: 4,
                             marginVertical: 5,
                             height: 45,
                             marginVertical: 10,
+                            backgroundColor: "#1872ea",
+                            justifyContent: 'center',
+                            alignItems: 'center',
                         }}>
-                        Update
-                    </Button>
+                        <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Update</Text>
+                    </TouchableOpacity>
                 </ScrollView>
 
                 <Modal
@@ -326,10 +399,10 @@ class EditProfile extends Component {
 const mapStateToProps = state => ({
     user: state.AuthReducer.user,
 });
+const mapDispatchToProps = dispatch => ({
+    UpdateProfileProvider: paylaod => dispatch(AppMiddleware.UpdateProfileProvider(paylaod)),
+});
 
-const mapDispatchToProps = {
-
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);
 

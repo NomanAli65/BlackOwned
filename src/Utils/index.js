@@ -21,7 +21,7 @@ function numberToDoubleFigure(n) {
 
 async function getHeaders() {
   let token = await Storage.getToken();
-  console.warn('headers',token);
+  // console.warn('headers',token);
   return {
     headers: {
       Accept: 'application/json',
@@ -31,4 +31,4 @@ async function getHeaders() {
   };
 }
 
-export {getDates, numberToDoubleFigure, getHeaders};
+export { getDates, numberToDoubleFigure, getHeaders };

@@ -3,13 +3,14 @@ import { View, Dimensions, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { ArrowBackIcon, Avatar, Heading, HStack, Icon } from 'native-base';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { imgURL } from '../configs/AxiosConfig';
 
 const { width } = Dimensions.get('window');
 
 class MyHeader extends Component {
 
   render() {
-    // console.warn("user", this.props.user?.user);
+    console.warn("user Header", this.props.user?.user);
     return (
       <HStack
         backgroundColor="white"
@@ -51,7 +52,7 @@ class MyHeader extends Component {
                 ) : null}
                 <TouchableOpacity onPress={() => { this.props?.user?.user?.role == 'provider' ? this.props.navigation.navigate('UserProfile') : this.props.navigation.navigate('profileSettings') }}>
                   <Avatar
-                    source={this.props.user?.user?.profile_pic ? { uri: this.props.user?.user?.profile_pic } : require('../assets/user.png')}
+                    source={this.props.user?.user?.profile_pic ? { uri: imgURL + this.props.user?.user?.profile_pic } : require('../assets/user.png')}
                     size="sm"
                     backgroundColor="#ddd"
                   />

@@ -6,4 +6,5 @@ export const ActionTypes = {
   Reset_Customer_Services: 'Reset_Customer_Services',
   ShowLoading: 'SHOW_LOADING',
   HideLoading: 'HIDE_LOADING',
+  Update_Profile: 'UPDATE_PROFILE',
 };

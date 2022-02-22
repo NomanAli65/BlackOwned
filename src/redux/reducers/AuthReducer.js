@@ -19,6 +19,9 @@ export const AuthReducer = (state = initialState, action) => {
     case ActionTypes.Logout:
       state = { user: null, is_logged_in: false };
       break;
+    case ActionTypes.Update_Profile:
+      state = { ...state, user: { ...state.user, user: action.payload }, is_logged_in: true };
+      break;
     default:
       break;
   }

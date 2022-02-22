@@ -1,5 +1,5 @@
 import { APIs } from '../../configs/APIs';
-import { post } from '../../configs/AxiosConfig';
+import { post, get } from '../../configs/AxiosConfig';
 import { ActionTypes } from '../action_types';
 import { getHeaders } from '../../Utils';
 import Storage from '../../Utils/AsyncStorage';
@@ -28,7 +28,7 @@ export const ServicesMiddleware = {
       // return new Promise(async (resolve, reject) => {
       try {
         if (next_page_url == undefined) {
-          dispatch({type: ActionTypes.Reset_Customer_Services});
+          dispatch({ type: ActionTypes.Reset_Customer_Services });
         }
         // dispatch({ type: ActionTypes.ShowLoading });
         let formData = new FormData();
@@ -50,5 +50,25 @@ export const ServicesMiddleware = {
       } catch (error) { }
       // });
     };
-  }
+  },
+  Service_Index: ({
+    callback,
+  }) => {
+    return async dispatch => {
+      try {
+        let response = await get(
+          `${APIs.SERVICE_INDEX}`,
+          await getHeaders(),
+        );
+        console.warn("ServicesIndex response: ", response);
+        if (response.success) {
+          callback(response);
+        }
+      } catch (error) {
+        callback(false);
+        console.warn('err ', error);
+      }
+
+    };
+  },
 };
