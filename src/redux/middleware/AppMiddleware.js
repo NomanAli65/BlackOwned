@@ -59,8 +59,38 @@ export const AppMiddleware = {
                 formData.append('provider_as', userData?.userData?.provider_as);
                 formData.append('company_name', userData?.userData?.company_name);
                 formData.append('company_address', userData?.userData?.company_address);
-                //formData.append('lat', userData?.userData?.lat);
-                // formData.append('lng', userData?.userData?.lng);
+                formData.append('company_lat', userData?.userData?.lat);
+                formData.append('company_lng', userData?.userData?.lng);
+                // formData.append('country', userData.country);
+                formData.append('city', userData?.userData?.city);
+                formData.append('state', userData?.userData?.state);
+                formData.append('zip', userData?.userData?.zip);
+                formData.append('profile_pic', userData?.userData?.profile_pic)
+                console.warn('formDataa', formData);
+                let request = await post(APIs.UPDATEPROFILE,
+                    formData,
+                    await getHeaders(),
+
+                );
+                console.warn("userData Data:", request);
+                if (request) {
+                    dispatch({ type: ActionTypes.Update_Profile, payload: request });
+
+                }
+                dispatch({ type: ActionTypes.HideLoading });
+            } catch (error) { }
+        };
+    },
+    UpdateProfileCustomer: userData => {
+        return async dispatch => {
+            try {
+                dispatch({ type: ActionTypes.ShowLoading });
+                let formData = new FormData();
+                console.warn('userData Middleware', userData?.userData);
+                formData.append('username', userData?.userData?.username);
+                formData.append('phone', userData?.userData?.phone);
+                formData.append('address', userData?.userData?.address);
+                formData.append('gender', userData?.userData?.gender);
                 // formData.append('country', userData.country);
                 formData.append('city', userData?.userData?.city);
                 formData.append('state', userData?.userData?.state);
