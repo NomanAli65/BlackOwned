@@ -1,8 +1,9 @@
 import { APIs } from '../../configs/APIs';
-import { post, get } from '../../configs/AxiosConfig';
+import { post, get, POST } from '../../configs/AxiosConfig';
 import { ActionTypes } from '../action_types';
 import { getHeaders } from '../../Utils';
 import Storage from '../../Utils/AsyncStorage';
+import { Alert } from 'react-native';
 
 
 export const AppMiddleware = {
@@ -129,6 +130,31 @@ export const AppMiddleware = {
                 console.warn('err ', error);
             }
 
+        };
+    },
+    Contact_us: (userData, callback) => {
+        return async dispatch => {
+            try {
+                dispatch({ type: ActionTypes.ShowLoading });
+                let formData = new FormData();
+                console.warn('userData Middleware', userData?.userData);
+                formData.append('querry', userData?.userData?.option);
+                formData.append('description', userData?.userData?.description);
+
+                console.warn('formDataa', formData);
+                let request = await POST(APIs.CONTACT_US,
+                    formData,
+                    await getHeaders(),
+
+                );
+                console.warn("userData Data:", request);
+                if (request.success) {
+                    Alert.alert('Note', request?.message)
+                    // callback(request?.data)
+                    dispatch({ type: ActionTypes.HideLoading });
+                }
+                dispatch({ type: ActionTypes.HideLoading });
+            } catch (error) { }
         };
     },
 
