@@ -43,4 +43,6 @@ export const APIs = {
   GET_SEMINAR: `getSeminars`,
   SERVICE_INDEX: `provider/serviceIndex`,
   CONTACT_US: `customers/contactUs`,
+  ALL_PRODUCTS: `customers/getAllProducts`,
+  SUBMIT_RATING: `customers/submitRating`,
 };

@@ -10,10 +10,14 @@ import {
     VStack,
 } from 'native-base';
 import React, { Component } from 'react';
-import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet } from 'react-native';
+import { Image, Dimensions, View, Animated, TouchableOpacity, TextInput, Text, FlatList, StyleSheet, Alert } from 'react-native';
 import MyHeader from '../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
 import StarRating from 'react-native-star-rating-widget';
+import { imgURL } from '../configs/AxiosConfig';
+import { connect } from 'react-redux';
+import { AppMiddleware } from '../redux/middleware/AppMiddleware';
+
 
 // import {Colors} from '../../Styles';
 
@@ -21,37 +25,57 @@ import StarRating from 'react-native-star-rating-widget';
 
 const { width } = Dimensions.get('window');
 
-export default class Rating extends Component {
+class Rating extends Component {
     state = {
-        rate: 2.5,
-
+        rate: 0,
+        description: '',
     };
 
     componentDidMount() {
-        // Animated.timing(this.rotation, {
-        //   toValue: 1,
-        //   duration: 1000,
-        //   useNativeDriver: true,
-        // }).start();
+
     }
 
+    handleChangeDescription = value => {
+        this.setState({ description: value });
+    };
+    OnSubmit = () => {
+        let { rate, description } = this.state
+        if (rate == 0 || description == '') {
+            Alert.alert("Note", 'Please fill all fields.')
+        }
+        else {
+            let userData = {
+                rate,
+                comments: description,
+                provider_id: this.props.route?.params?.provider_id,
+            }
+            this.props.Submit_Rating({
+                userData,
+            })
+            this.props.navigation.goBack()
 
+        }
+    }
 
     render() {
-
+        console.warn('hello:', this.props?.route?.params?.UserImage)
+        let USER_IMAGE = this.props?.route?.params?.UserImage
+        let USER_NAME = this.props?.route?.params?.UserName
         return (
             <View style={styles.container}>
                 <MyHeader
-                     back notify profile navigation={this.props.navigation}
-                    title={this.props.route.name}
+                    back notify profile navigation={this.props.navigation}
+                    title={'Rating'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
-                <View style={{height:'100%',justifyContent:'center',padding:20}}>
-                    <View style={{ backgroundColor: '#eee', paddingVertical: 50, marginVertical: 5, alignItems: 'center' }}>
-                        <Image source={require('../assets/1.jpeg')} style={styles.profileImg} />
+                <View style={{ height: '100%', padding: 20 }}>
+                    <View style={{ backgroundColor: '#fff', alignItems: 'center' }}>
+                        <Image
+                            source={USER_IMAGE ? { uri: imgURL + USER_IMAGE } : require('../assets/user.png')}
+                            style={styles.profileImg} />
                         <View style={{ alignItems: 'center' }}>
                             <View>
-                                <Text style={styles.ProfileName}>Stacy Stratus</Text>
+                                <Text style={styles.ProfileName}>{USER_NAME}</Text>
                             </View>
                             <View style={{ flexDirection: 'row' }}>
                                 <View style={{ alignSelf: 'center' }}>
@@ -66,9 +90,15 @@ export default class Rating extends Component {
                                 </View>
                             </View>
                         </View>
+                        <TextInput
+                            placeholder="Description"
+                            style={[styles.input, { height: 235, textAlignVertical: 'top' }]}
+                            value={this.state.description}
+                            onChangeText={this.handleChangeDescription}
+                        />
                         <View>
                             <View style={{ marginVertical: 20 }}>
-                                <TouchableOpacity onPress={() => this.props.navigation.goBack()}
+                                <TouchableOpacity onPress={() => this.OnSubmit()}
                                     style={{ borderRadius: 2, backgroundColor: '#1872ea', alignItems: 'center', justifyContent: 'center', paddingVertical: 10, paddingHorizontal: 50 }}>
                                     <Text style={{ color: '#fff', fontSize: 14, fontWeight: 'bold' }}>Submit</Text>
                                 </TouchableOpacity>
@@ -80,7 +110,13 @@ export default class Rating extends Component {
         );
     }
 }
-
+const mapStateToProps = state => ({
+    user: state.AuthReducer.user,
+});
+const mapDispatchToProps = dispatch => ({
+    Submit_Rating: paylaod => dispatch(AppMiddleware.Submit_Rating(paylaod)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Rating);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -93,7 +129,7 @@ const styles = StyleSheet.create({
     teamContainer: {
         marginVertical: 8,
         marginHorizontal: 5,
-        backgroundColor: '#eee',
+        backgroundColor: '#fff',
         flex: 1,
         elevation: 2,
         alignItems: 'center',
@@ -110,7 +146,7 @@ const styles = StyleSheet.create({
     },
     ProfileName: {
         padding: 8,
-        fontSize: 16,
+        fontSize: 20,
         color: 'black',
         alignSelf: 'flex-start',
         fontWeight: '500',
@@ -121,5 +157,16 @@ const styles = StyleSheet.create({
         // color: 'black',
         alignSelf: 'flex-end',
         fontWeight: '500',
+    },
+    input: {
+        width: '100%',
+        marginVertical: 25,
+        paddingLeft: 12,
+        alignSelf: 'center',
+        backgroundColor: '#eee',
+        borderWidth: 0.5,
+        borderColor: 'black',
+
+
     },
 });
