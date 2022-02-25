@@ -29,12 +29,7 @@ const { width } = Dimensions.get('window');
 
 class Dashboard extends Component {
   state = {
-    data: [
-      { name: 'Realtors', img: require('../assets/realtor.jpg') },
-      { name: 'Artists', img: require('../assets/c1.jpeg') },
-      { name: 'Plumber', img: require('../assets/c3.jpeg') },
-      { name: 'Electrician', img: require('../assets/c2.jpeg') },
-    ],
+   
     online_friends: [
       { img: require('../assets/1.jpeg') },
       { img: require('../assets/2.jpeg') },
@@ -47,28 +42,13 @@ class Dashboard extends Component {
       { img: require('../assets/4.jpeg') },
       { img: require('../assets/5.jpeg') },
     ],
-    companies: [
-      {
-        name: 'Global World',
-        img: require('../assets/c1.jpeg'),
-        distance: '2 miles',
-      },
-      {
-        name: 'Strategic Solutions',
-        img: require('../assets/c2.jpeg'),
-        distance: '3 miles',
-      },
-      {
-        name: 'Trading Co',
-        img: require('../assets/c3.jpeg'),
-        distance: '2.5 miles',
-      },
-    ],
+    
     selectedButtonTop: null,
   };
 
   componentDidMount() {
-    this.props.getAllServices({ name: '' })
+    this.props.getAllServices({ name: '' });
+    this.props.getAllListedCompanies({ name: '' })
     // .then(() => this.setState({ loader: false }))
     // .catch(() => this.setState({ loader: false }));
   }
