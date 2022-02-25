@@ -13,16 +13,25 @@ import {
 import { View, Text, Image, StyleSheet } from 'react-native';
 import MyHeader from '../../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
+import { ItemClick } from 'native-base/lib/typescript/components/composites/Typeahead/useTypeahead/types';
+import { imgURL } from '../../configs/AxiosConfig';
 
 
 export default class ProductDetails extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
+    state = {
+        loader: true,
+        detailsData: [],
+    };
+
+    componentDidMount() {
+        let data = this.props.route.params.data
+        this.setState({ detailsData: data })
+
     }
 
     render() {
+        const { detailsData } = this.state;
+        // console.warn(detailsData?.user?.email);
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <MyHeader
@@ -35,23 +44,19 @@ export default class ProductDetails extends Component {
 
                     <ScrollView>
 
-                        <Image source={require('../../assets/realtor.jpg')} style={styles.ListImage} />
+                        <Image source={detailsData.image ?
+                            {
+                                uri: imgURL + detailsData.image
+                            } : require('../../assets/user.png')
+                        } style={styles.ListImage}  resizeMode="contain" />
                         <View>
-                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.ListName}>Electro Music Instrument</Text>
-                            <Text style={styles.sponsorPrice}>$500.50</Text>
+                            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.ListName}>{detailsData.name}</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={styles.sponsorPrice}>{detailsData.discounted_price}</Text>
+                                <Text style={styles.discountPrice}>{detailsData.price}</Text>
+                            </View>
 
-                            <Text style={styles.ListDescription}>
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                Lorem Ipsum has been the industry's standard dummy text ever since
-                                the 1500s, when an unknown printer took a galley of type and scrambled it to
-                                make a type specimen book.
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                Lorem Ipsum has been the industry's standard dummy text ever since
-                                the 1500s, when an unknown printer took a galley of type and scrambled it to
-                                make a type specimen book.
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-
-                            </Text>
+                            <Text style={styles.ListDescription}>{detailsData.description}</Text>
                         </View>
 
                         <HStack marginY={10} alignSelf={'center'} space={'md'}>
@@ -136,7 +141,16 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#1D9CD9',
         alignSelf: 'flex-start',
-        fontWeight: 'bold'
+        // fontWeight: 'bold',
+        marginHorizontal: 5,
+    },
+    discountPrice: {
+        fontSize: 14,
+        color: '#1D9CD9',
+        alignSelf: 'flex-start',
+        // fontWeight: 'bold',
+        textDecorationLine: 'line-through',
+        marginHorizontal: 5,
     },
 
 })

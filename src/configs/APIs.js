@@ -24,6 +24,21 @@ export const APIs = {
     next_page_url
       ? next_page_url
       : 'customers/getSeminars',
+  getCompanies: (next_page_url) =>
+    next_page_url
+      ? next_page_url
+      : 'customers/getCompanies',
+
+  marketPlaceSponsored: (next_page_url) =>
+    next_page_url
+      ? next_page_url
+      : 'customers/marketPlaceSponsored',
+  marketPlaceProducts: (next_page_url) =>
+    next_page_url
+      ? next_page_url
+      : 'customers/marketPlaceProducts',
+
+  storeProduct: `customers/storeProduct`,
 
   GET_SEMINAR: `getSeminars`,
   SERVICE_INDEX: `provider/serviceIndex`,

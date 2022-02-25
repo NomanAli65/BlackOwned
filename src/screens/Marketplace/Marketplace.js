@@ -10,57 +10,173 @@ import {
     VStack,
 } from 'native-base';
 import React, { Component } from 'react';
-import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet, Modal } from 'react-native';
+import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet, ActivityIndicator, RefreshControl, Modal } from 'react-native';
 import MyHeader from '../../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
+import Octicons from 'react-native-vector-icons/Octicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-
+import { connect } from 'react-redux';
+import { MarketPlaceMiddleware } from '../../redux/middleware/MarketPlaceMiddleware';
+import { imgURL } from '../../configs/AxiosConfig';
 // import {Colors} from '../../Styles';
 
 
 
 const { width } = Dimensions.get('window');
 
-export default class Marketplace extends Component {
+class MarketPlace extends Component {
+
     state = {
-        SponsorModal: true,
+        loader: true,
+        search: '',
     };
     componentDidMount() {
-        // Animated.timing(this.rotation, {
-        //   toValue: 1,
-        //   duration: 1000,
-        //   useNativeDriver: true,
-        // }).start();
+        this.props.getAllMarketPlaceSponsored({ name: '' }),
+            this.props.getAllMarketPlaceProducts({ name: '' })
+        // .then(() => this.setState({ loader: false }))
+        // .catch(() => this.setState({ loader: false }));
     }
 
-    renderSponsorList = item => (
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('ProductDetails')} style={styles.sponsorContainer}>
-            <Image source={item.img} style={styles.teamImage} />
-            <View style={{ position: 'absolute', right: 0, padding: 4, backgroundColor: '#fff', borderRadius: 8, margin: 5 }}>
-                {/* <TouchableOpacity onPress={() => console.warn('Touch')}> */}
-                <FontAwesome5 name={'crown'} size={15} color={'#1872ea'} />
-                {/* </TouchableOpacity> */}
-            </View>
-            <Text style={styles.sponsorName}>{item.name}</Text>
-            <Text style={styles.sponsorPrice}>$500.50</Text>
-        </TouchableOpacity>
+    onPressLoadMoreSponsored = () => {
+        this.setState({ loader: true }, () => {
+            const { getMarketPlaceSponsoredData } = this.props;
+            this.props
+                .getAllMarketPlaceSponsored(getMarketPlaceSponsoredData.next_page_url, '')
+                .then(() => this.setState({ loader: false }))
+                .catch(() => this.setState({ loader: false }));
+        });
+    };
+    onPressLoadMoreProducts = () => {
+        this.setState({ loader: true }, () => {
+            const { getMarketPlaceProductsData } = this.props;
+            this.props
+                .getAllMarketPlaceProducts(getMarketPlaceProductsData.next_page_url, '')
+                .then(() => this.setState({ loader: false }))
+                .catch(() => this.setState({ loader: false }));
+        });
+    };
+
+    renderLoaderMoreButtonSponosred = () => {
+        const { getMarketPlaceSponsoredData } = this.props;
+        const { loader } = this.state;
+        return getMarketPlaceSponsoredData.next_page_url ? (
+            loader ? (
+                <ActivityIndicator
+                    size={'large'}
+                    color={'#1D9CD9'}
+                    style={styles.loadMoreContentContainer}
+                />
+            ) : (
+                <TouchableOpacity
+                    style={{ width: 110, alignSelf: 'center', marginVertical: 13 }}
+                    onPress={this.onPressLoadMoreSponsored}>
+                    <View style={styles.loadMoreContainer}>
+                        <Text style={styles.loadMoreText}>Load more</Text>
+                    </View>
+                </TouchableOpacity>
+            )
+        ) : null;
+    };
+    renderLoaderMoreButtonProducts = () => {
+        const { getMarketPlaceProductsData } = this.props;
+        const { loader } = this.state;
+        return getMarketPlaceProductsData.next_page_url ? (
+            loader ? (
+                <ActivityIndicator
+                    size={'large'}
+                    color={'#1D9CD9'}
+                    style={styles.loadMoreContentContainer}
+                />
+            ) : (
+                <TouchableOpacity
+                    style={{ width: 110, alignSelf: 'center', marginVertical: 13 }}
+                    onPress={this.onPressLoadMoreProducts}>
+                    <View style={styles.loadMoreContainer}>
+                        <Text style={styles.loadMoreText}>Load more</Text>
+                    </View>
+                </TouchableOpacity>
+            )
+        ) : null;
+    };
+
+    onRefreshServicesSponsored = () => {
+        this.setState({ loader: true }, () => {
+            this.props.getAllMarketPlaceSponsored({ name: '' });
+            // this.props.getAllMarketPlaceProducts({ name: '' })
+        });
+        this.setState({ loader: true }, () => {
+            this.props.getAllMarketPlaceProducts({ name: '' })
+        });
+    };
+    // onRefreshServicesNotSponsored = () => {
+    //     this.setState({ loader: true }, () => {
+    //         this.props.getAllMarketPlacesNotSponsored({ name: '' })
+    //     });
+    // };
+    // onChangeSearchText = text => {
+    //     let { search } = this.state
+    //     this.setState({ loader: true, search: text }, () => {
+    //         console.log(this.state.search, text, 'TEXT====>');
+    //         this.props
+    //             .getAllServices({ search })
+
+    //     });
+    // };
+
+    // onChangeSearchText = text => {
+    //     clearTimeout(this.searchTimeout)
+    //     this.searchTimeout = setTimeout(() => {
+    //         this.setState({ loader: true, search: text }, () => {
+    //             console.log(this.state.search, text, 'TEXT====>');
+    //             // this.props
+    //             //     .getAllMarketPlacesSponsored({ name: text });
+    //             // .then(() => this.setState({ loader: false }))
+    //             // .catch(() => this.setState({ loader: false }));
+    //             this.props
+    //                 .getAllMarketPlacesProducts({ name: text })
+    //         });
+    //     }, 500)
+
+    // };
+    renderSponseredList = item => (
+        <View>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('ProductDetails', { data: item })} style={styles.ListContainer}>
+                <Image source={item?.image ?
+                    {
+                        uri: imgURL + item?.image
+                    } : require('../../assets/user.png')
+                } style={styles.teamImage} />
+                <View style={{ position: 'absolute', right: 0, padding: 4, backgroundColor: '#fff', borderRadius: 8, margin: 5 }}>
+                    {/* <TouchableOpacity onPress={() => console.warn('Touch')}> */}
+                    <FontAwesome5 name={'crown'} size={15} color={'#1872ea'} />
+                    {/* </TouchableOpacity> */}
+                </View>
+                <Text style={styles.sponsorName}>{item?.name}</Text>
+                <Text style={styles.sponsorPrice}>{item?.price}</Text>
+            </TouchableOpacity>
+        </View>
+
     );
 
-    renderProductList = item => (
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('ProductDetails')} style={styles.sponsorContainer}>
-            <Image source={item.img} style={styles.teamImage} />
-            {/* <View style={{ position: 'absolute', right: 0, padding: 4, backgroundColor: '#fff', borderRadius: 8, margin: 5 }}>
-                <TouchableOpacity onPress={() => console.warn('Touch')}>
-                    <Image source={require('../../assets/blueMarker.png')} style={{ width: 20, height: 20 }} />
-                </TouchableOpacity>
-            </View> */}
-            <Text style={styles.sponsorName}>{item.name}</Text>
-            <Text style={styles.sponsorPrice}>$500.50</Text>
-        </TouchableOpacity>
+    renderProductsList = item => (
+        <View>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('ProductDetails', { data: item })} style={styles.ListContainer}>
+                <Image source={item?.image ?
+                    {
+                        uri: imgURL + item?.image
+                    } : require('../../assets/user.png')
+                } style={styles.teamImage} />
+
+                <Text style={styles.sponsorName}>{item?.name}</Text>
+                <Text style={styles.sponsorPrice}>{item?.price}</Text>
+            </TouchableOpacity>
+        </View>
     );
 
     render() {
+        const { getMarketPlaceSponsoredData, getMarketPlaceSponsoredData_list, getMarketPlaceProductsData, getMarketPlaceProductsData_list, loader } = this.props;
+        console.warn('Dataa', getMarketPlaceSponsoredData_list);
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <MyHeader
@@ -69,23 +185,95 @@ export default class Marketplace extends Component {
                     title={'Market Place'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
-                <ScrollView style={styles.container}>
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={loader}
+                            onRefresh={this.onRefreshServicesSponsored}
+                        />
+                    }
+                // style={styles.container}
+                >
 
                     <View style={{ paddingHorizontal: 20 }}>
-                        <HStack
+                        {/* <HStack
                             backgroundColor="#eee"
                             marginTop="2"
                             borderRadius={10}
                             alignItems="center"
                             paddingX="3">
-                            <Icon as={Feather} name="search" size="sm" color="#aaa" />
-                            <Input fontSize={14} placeholder="Search" borderWidth={0} />
-                        </HStack>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', width: '90%' }}>
+                                    <Icon as={Feather} name="search" size="sm" color="#aaa" />
+                                    <Input fontSize={14} placeholder="Search Service Provider" borderWidth={0} onChangeText={this.onChangeSearchText} />
+                                </View>
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('ServicesFilter')}>
+                                    <Icon as={Octicons} name="settings" size="sm" color="#aaa" />
+                                </TouchableOpacity>
+                            </View>
+                        </HStack> */}
+
 
                         <View style={{ marginVertical: 10 }}>
-                            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Sponsored</Text>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Sponsored</Text>
                         </View>
-                        <FlatList
+                        {!getMarketPlaceSponsoredData ? (
+                            <ActivityIndicator
+                                size={'large'}
+                                color={'#1D9CD9'}
+                                style={styles.loadMoreContentContainer}
+                            />
+                        ) : null}
+                        {getMarketPlaceSponsoredData_list && getMarketPlaceSponsoredData_list?.length ? (
+                            <FlatList
+                                // refreshControl={
+                                //     <RefreshControl
+                                //         refreshing={loader}
+                                //         onRefresh={this.onRefreshServicesSponsored}
+                                //     />
+                                // }
+                                numColumns={2}
+                                columnWrapperStyle={styles.teamsListContainer}
+                                style={styles.flex1}
+                                showsVerticalScrollIndicator={false}
+                                data={getMarketPlaceSponsoredData_list}
+                                renderItem={({ item, index }) => this.renderSponseredList(item)}
+                                ListFooterComponent={this.renderLoaderMoreButtonSponosred()}
+                            // renderItem={({ item }) => this.renderList(item)}
+                            />
+                        ) : null}
+
+
+                        <View style={{ marginVertical: 10 }}>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Products</Text>
+                        </View>
+                        {!getMarketPlaceProductsData ? (
+                            <ActivityIndicator
+                                size={'large'}
+                                color={'#1D9CD9'}
+                                style={styles.loadMoreContentContainer}
+                            />
+                        ) : null}
+                        {getMarketPlaceProductsData_list && getMarketPlaceProductsData_list?.length ? (
+                            <FlatList
+                                // refreshControl={
+                                //     <RefreshControl
+                                //         refreshing={loader}
+                                //         onRefresh={this.onRefreshServicesNotSponsored}
+                                //     />
+                                // }
+                                numColumns={2}
+                                columnWrapperStyle={styles.teamsListContainer}
+                                // style={styles.flex1}
+                                showsVerticalScrollIndicator={false}
+                                data={getMarketPlaceProductsData_list}
+                                renderItem={({ item, index }) => this.renderProductsList(item)}
+                                ListFooterComponent={this.renderLoaderMoreButtonProducts()}
+                            // renderItem={({ item }) => this.renderList(item)}
+                            />
+                        ) : null}
+
+                        {/* <FlatList
                             numColumns={2}
                             columnWrapperStyle={styles.teamsListContainer}
                             style={styles.flex1}
@@ -96,32 +284,8 @@ export default class Marketplace extends Component {
 
                             ]}
                             renderItem={({ item }) => this.renderSponsorList(item)}
-                        />
+                        /> */}
 
-                        <View style={{ marginVertical: 10 }}>
-                            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Products</Text>
-                        </View>
-                        <FlatList
-                            numColumns={2}
-                            columnWrapperStyle={styles.teamsListContainer}
-                            style={styles.flex1}
-                            showsVerticalScrollIndicator={false}
-                            data={[
-                                { name: 'Realtors', img: require('../../assets/realtor.jpg') },
-                                { name: 'Artists', img: require('../../assets/c1.jpeg') },
-
-                                { name: 'Baby Sitter', img: require('../../assets/c2.jpeg') },
-
-                                { name: 'Beautician', img: require('../../assets/c1.jpeg') },
-                                { name: 'Realtors', img: require('../../assets/realtor.jpg') },
-                                { name: 'Artists', img: require('../../assets/c1.jpeg') },
-
-                                { name: 'Baby Sitter', img: require('../../assets/c2.jpeg') },
-                                { name: 'Electrition', img: require('../../assets/realtor.jpg') },
-                                { name: 'Beautician', img: require('../../assets/c1.jpeg') },
-                            ]}
-                            renderItem={({ item }) => this.renderProductList(item)}
-                        />
                     </View>
 
                 </ScrollView>
@@ -193,6 +357,28 @@ export default class Marketplace extends Component {
         );
     }
 }
+const mapStateToProps = state => {
+    console.warn('state', state);
+    return {
+        // role: state.Auth.role,
+        // user: state.Auth.user,
+        getMarketPlaceSponsoredData: state.MarketPlaceReducer.getMarketPlaceSponsoredData,
+        getMarketPlaceSponsoredData_list: state.MarketPlaceReducer.getMarketPlaceSponsoredData_list,
+        getMarketPlaceProductsData: state.MarketPlaceReducer.getMarketPlaceProductsData,
+        getMarketPlaceProductsData_list: state.MarketPlaceReducer.getMarketPlaceProductsData_list,
+    };
+};
+const mapDispatchToProps = dispatch => ({
+    // Login: data => dispatch(AuthMiddleware.Login(data)),
+    // Login: data => dispatch(AuthMiddleware.Login(data)),
+
+    getAllMarketPlaceSponsored: (payload) =>
+        dispatch(MarketPlaceMiddleware.getAllMarketPlacesSponsored(payload)),
+    getAllMarketPlaceProducts: (payload) =>
+        dispatch(MarketPlaceMiddleware.getAllMarketPlacesProducts(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace);
 
 const styles = StyleSheet.create({
     container: {
@@ -210,7 +396,7 @@ const styles = StyleSheet.create({
 
     },
     teamImage: {
-        width: '100%',
+        width: 100,
         height: 100,
         borderRadius: 5
     },

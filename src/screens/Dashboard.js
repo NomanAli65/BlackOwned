@@ -20,6 +20,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { ServicesMiddleware } from '../redux/middleware/ServicesMiddleware';
+import { ListedCompaniesMiddleware } from '../redux/middleware/ListedCompaniesMiddleware';
 import MyHeader from '../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
 import { imgURL } from '../configs/AxiosConfig';
@@ -109,20 +110,24 @@ class Dashboard extends Component {
     );
   };
 
-  _renderCompany = ({ item }) => {
+  _renderCompany = item => {
     return (
-      <View>
+      <TouchableOpacity onPress={() => this.props.navigation.navigate("LocalCompanyList")}>
         <HStack marginBottom="2">
           <Image
-            source={item.img}
+            source={item.profile_pic ?
+              {
+                uri: imgURL + item.profile_pic
+              } : require('../assets/user.png')
+            }
             style={{ width: 50, height: 45, borderRadius: 2 }}
           />
           <VStack marginLeft={3} justifyContent="center">
-            <Heading fontSize="md">{item.name}</Heading>
-            <Text style={{ fontSize: 12 }}>{item.distance}</Text>
+            <Heading fontSize="md">{item.company_name}</Heading>
+            <Text style={{ fontSize: 12 }}>2 miles</Text>
           </VStack>
         </HStack>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -130,7 +135,7 @@ class Dashboard extends Component {
 
   render() {
     let { selectedButtonTop } = this.state;
-    const { getServicesData_list, user } = this.props;
+    const { getServicesData_list, getLisetdCompaniesData_list, user } = this.props;
     console.warn('Dataa', user);
     return (
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -232,8 +237,9 @@ class Dashboard extends Component {
               </TouchableOpacity>
             </HStack>
             <FlatList
-              data={this.state.companies}
-              renderItem={this._renderCompany}
+              data={getLisetdCompaniesData_list}
+              renderItem={({ item, index }) => this._renderCompany(item)}
+            // renderItem={this._renderCompany}
             />
             <HStack marginY={3} alignSelf={'center'} space={'md'}>
               <Button
@@ -281,6 +287,8 @@ const mapStateToProps = state => {
     user: state.AuthReducer.user,
     getServicesData: state.ServicesReducer.getServicesData,
     getServicesData_list: state.ServicesReducer.getServicesData_list,
+    getLisetdCompaniesData: state.ListedCompaniesReducer.getLisetdCompaniesData,
+    getLisetdCompaniesData_list: state.ListedCompaniesReducer.getLisetdCompaniesData_list,
   };
 };
 const mapDispatchToProps = dispatch => ({
@@ -289,6 +297,8 @@ const mapDispatchToProps = dispatch => ({
 
   getAllServices: (payload) =>
     dispatch(ServicesMiddleware.getAllServices(payload)),
+  getAllListedCompanies: (payload) =>
+    dispatch(ListedCompaniesMiddleware.getAllListedCompanies(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

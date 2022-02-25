@@ -10,12 +10,14 @@ import {
     VStack,
 } from 'native-base';
 import React, { Component } from 'react';
-import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet, TextInput } from 'react-native';
+import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet, TextInput, Alert } from 'react-native';
 import MyHeader from '../../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { OpenImagePicker } from '../../configs';
-
+import { connect } from 'react-redux';
+import { MarketPlaceMiddleware } from '../../redux/middleware/MarketPlaceMiddleware';
+import { imgURL } from '../../configs/AxiosConfig';
 
 // import {Colors} from '../../Styles';
 
@@ -23,10 +25,12 @@ import { OpenImagePicker } from '../../configs';
 
 const { width } = Dimensions.get('window');
 
-export default class AddProduct extends Component {
+class AddProduct extends Component {
     state = {
-        email: '',
-        password: '',
+        name: '',
+        price: '',
+        discounted_price: '',
+        description: '',
         image: null,
     };
     componentDidMount() {
@@ -36,6 +40,43 @@ export default class AddProduct extends Component {
         //   useNativeDriver: true,
         // }).start();
     }
+
+    storeProduct = () => {
+        let {
+            name,
+            price,
+            discounted_price,
+            description,
+            image
+        } = this.state;
+
+        if (
+            !name ||
+            !price ||
+            !discounted_price ||
+            !description ||
+            !image
+        ) {
+            Alert.alert('Warning', 'Please enter all fileds!');
+        } else {
+            // console.warn(
+            //     name,
+            //     price,
+            //     discounted_price,
+            //     description,
+            //     image,
+            // );
+            this.props.storeProduct({
+                name,
+                price,
+                discounted_price,
+                description,
+                image,
+            });
+            this.props.navigation.goBack();
+        }
+    };
+
 
     uploadImage = () => {
         OpenImagePicker(img => {
@@ -78,18 +119,22 @@ export default class AddProduct extends Component {
                             <Input
                                 placeholder="Name"
                                 style={styles.input}
-                                onChangeText={email => this.setState({ email })}
+                                onChangeText={name => this.setState({ name: name })}
+                                value={this.state.name}
                             />
                             <Input
                                 placeholder="Price"
                                 keyboardType='numeric'
                                 style={styles.input}
-                                onChangeText={password => this.setState({ password })}
+                                onChangeText={price => this.setState({ price: price })}
+                                value={this.state.price}
                             />
                             <Input
                                 placeholder="Discount"
+                                keyboardType='numeric'
                                 style={styles.input}
-                                onChangeText={password => this.setState({ password })}
+                                onChangeText={discount => this.setState({ discounted_price: discount })}
+                                value={this.state.discount}
                             />
                             <TextInput
                                 placeholder={'Description'}
@@ -151,7 +196,7 @@ export default class AddProduct extends Component {
                                 </View>
                             </View>
                             <Button
-                                onPress={() => this.props.navigation.goBack()}
+                                onPress={this.storeProduct}
                                 backgroundColor="primary.100"
                                 style={{
                                     width: '80%',
@@ -161,28 +206,29 @@ export default class AddProduct extends Component {
                                 }}>
                                 Add Product
                             </Button>
-                            {/* <Pressable
-                                onPress={() =>
-                                    this.props.navigation.navigate('Development In Process')
-                                }
-                                style={{ padding: 5 }}>
-                                <Text style={{ color: '#000' }}>Forgot Password?</Text>
-                            </Pressable> */}
+
                         </View>
                     </View>
 
                 </ScrollView>
-                {/* <TouchableOpacity
-                    onPress={() => console.warn('touch')}
-                    activeOpacity={0.7}
-                    style={styles.fabBtn}>
-                    <Entypo name="plus" size={28} color={'#fff'} />
-                </TouchableOpacity> */}
+
             </View>
         );
     }
 }
+const mapStateToProps = state => {
+    return {
 
+        storeProductData: state.MarketPlaceReducer.storeProductData,
+    };
+};
+const mapDispatchToProps = dispatch => ({
+
+    storeProduct: payload => dispatch(MarketPlaceMiddleware.storeProduct(payload)),
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddProduct);
 const styles = StyleSheet.create({
     container: {
         flex: 1,

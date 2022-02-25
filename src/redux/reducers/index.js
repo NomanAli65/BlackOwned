@@ -5,8 +5,11 @@ import {ServicesReducer} from './ServicesReducer';
 import {BanksReducer} from './BanksReducer';
 import {NewsReducer} from './NewsReducer';
 import {SeminarsReducer} from './SeminarsReducer';
+import {ListedCompaniesReducer} from './ListedCompaniesReducer';
+import {MarketPlaceReducer} from './MarketPlaceReducer';
 
 
 
 
-export const reducer = combineReducers({AuthReducer, GeneralReducer, ServicesReducer, BanksReducer, NewsReducer, SeminarsReducer});
+
+export const reducer = combineReducers({AuthReducer, GeneralReducer, ServicesReducer, BanksReducer, NewsReducer, SeminarsReducer, ListedCompaniesReducer,MarketPlaceReducer});
