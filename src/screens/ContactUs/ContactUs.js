@@ -1,21 +1,44 @@
 
 import { Button } from 'native-base';
 import React, { Component } from 'react';
-import { Image, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Image, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
+import { connect } from 'react-redux';
 import MyHeader from '../../components/MyHeader';
+import { AppMiddleware } from '../../redux/middleware/AppMiddleware';
 
-export default class ContactUs extends Component {
+class ContactUs extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            country: ['Queries', 'Suggestions', 'Claims', 'Complaints'],
+            option: ['Queries', 'Suggestions', 'Claims', 'Complaints'],
             description: '',
+            selectedOption: '',
         };
     }
     handleChangeDescription = value => {
         this.setState({ description: value });
     };
+    OnClickSubmit = () => {
+
+        let { selectedOption, description } = this.state
+        console.warn("Hello", selectedOption, "description", description);
+        if (selectedOption == '' || description == '') {
+            Alert.alert('Note', 'Please fill all fields.')
+        }
+        else {
+            let userData = {
+                option: selectedOption,
+                description
+            }
+            this.props.Contact_us({
+                userData,
+            })
+            this.props.navigation.goBack()
+        }
+
+
+    }
     render() {
         return (
             <View style={styles.container}>
@@ -23,7 +46,7 @@ export default class ContactUs extends Component {
                 <View style={styles.body}>
                     <View style={styles.selectContainer}>
                         <SelectDropdown
-                            data={this.state.country}
+                            data={this.state.option}
                             // defaultValue={this.state.country[0]}
                             defaultButtonText="Select an option"
                             dropdownIconPosition="right"
@@ -39,7 +62,7 @@ export default class ContactUs extends Component {
                             buttonTextStyle={styles.dropDownBtnText}
                             buttonStyle={styles.btnStyle}
                             onSelect={(selectedItem, index) => {
-                                // this.setState({ selectedRole: selectedItem, selectedUsersIDs: [] });
+                                this.setState({ selectedOption: selectedItem });
                                 // this.props.getUsersByType({ role: selectedItem });
                             }}
                         />
@@ -52,7 +75,7 @@ export default class ContactUs extends Component {
                     />
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                         <Button
-                            onPress={() => this.props.navigation.goBack()}
+                            onPress={() => this.OnClickSubmit()}
                             backgroundColor="primary.100"
                             style={{
                                 width: '50%',
@@ -84,7 +107,15 @@ export default class ContactUs extends Component {
         );
     }
 }
+const mapStateToProps = state => ({
+    user: state.AuthReducer.user,
+});
+const mapDispatchToProps = dispatch => ({
+    Contact_us: paylaod => dispatch(AppMiddleware.Contact_us(paylaod)),
 
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactUs);
 const styles = StyleSheet.create({
     container: {
         flex: 1,

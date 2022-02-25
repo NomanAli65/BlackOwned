@@ -21,6 +21,18 @@ export const post = async (url, data, config) => {
     alert(error);
   }
 };
+export const POST = async (url, data, config) => {
+  try {
+    let request = await instance.post(url, data, config);
+    if (request.data.success == true) {
+      return request.data;
+    } else {
+      alert(request.data.message);
+    }
+  } catch (error) {
+    alert(error);
+  }
+};
 
 export const get = async (url, config) => {
   try {

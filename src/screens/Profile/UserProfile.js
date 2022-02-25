@@ -10,7 +10,7 @@ import {
     VStack,
 } from 'native-base';
 import React, { Component } from 'react';
-import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet } from 'react-native';
+import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet, RefreshControl } from 'react-native';
 import MyHeader from '../../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
 import StarRating from 'react-native-star-rating-widget';
@@ -39,6 +39,9 @@ class UserProfile extends Component {
     }
     componentDidMount() {
         this.Services_Index()
+    }
+    onRefresh = () => {
+        this.Services_Index();
     }
     Services_Index = () => {
         this.props.Service_Index({
@@ -78,7 +81,7 @@ class UserProfile extends Component {
 
     render() {
         let User = this.props?.user?.user
-        //console.warn("User:", this.props.user.user);
+        console.warn("User:", this.props.user.user.rating.rating);
         // let rotate = this.rotation.interpolate({
         //     inputRange: [0, 1],
         //     outputRange: ['0deg', '360deg'],
@@ -90,7 +93,16 @@ class UserProfile extends Component {
                     title={'Profile'}
                     onBackPress={() => this.props.navigation.goBack()}
                 />
-                <ScrollView>
+                <ScrollView
+                    showsHorizontalScrollIndicator={false}
+                    showsVerticalScrollIndicator={false}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this.onRefresh}
+                        />
+                    }
+                >
                     <View style={{ paddingHorizontal: 20 }}>
 
                         <View style={{ flexDirection: 'row', backgroundColor: '#eee', padding: 15, marginVertical: 5 }}>
@@ -100,7 +112,7 @@ class UserProfile extends Component {
                                 <View style={{ flexDirection: 'row' }}>
                                     <View style={{ alignSelf: 'center' }}>
                                         <StarRating
-                                            rating={4.5}
+                                            rating={User?.rating?.rating}
                                             onChange={() => null}
                                             color={'#1D9CD9'}
                                             starSize={13}
@@ -108,7 +120,7 @@ class UserProfile extends Component {
                                             starStyle={{ width: 3 }}
                                         />
                                     </View>
-                                    <Text style={{ marginHorizontal: 5, textAlignVertical: 'center' }}>(4.5)</Text>
+                                    <Text style={{ marginHorizontal: 5, textAlignVertical: 'center' }}>({User?.rating?.rating})</Text>
                                 </View>
                                 {/* <View style={{ flexDirection: 'row' }}>
                                     <Image source={require('../../assets/blueMarker.png')} style={{ width: 20, height: 20 }} />

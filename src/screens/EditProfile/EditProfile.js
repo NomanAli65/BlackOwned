@@ -62,48 +62,51 @@ class EditProfile extends Component {
             company_name, geoLocationAddress,
             provider_as, lat, lng, NewProfile_Image
         } = this.state
+        if (this.props.user?.user?.role == 'provider') {
 
-        if (name == '' || phone == '' || address == '' || zip == '' || selectedCity == '' || selectedState == '' || selectedgender == '' || provider_as == '') {
-            console.warn("name:", name, phone, address, zip, selectedCity, selectedState, selectedgender, provider_as);
-            Alert.alert("Note", "Please fill all fields.")
-        }
-        else if (provider_as == 'business') {
-            if (company_name == '' || geoLocationAddress == '') {
-                console.warn("Company name:", company_name, 'location:', geoLocationAddress);
-                Alert.alert("Note", "Please fill company details.")
+            if (name == '' || phone == '' || address == '' || zip == '' || selectedCity == '' || selectedState == '' || selectedgender == '' || provider_as == '') {
+                console.warn("name:", name, phone, address, zip, selectedCity, selectedState, selectedgender, provider_as);
+                Alert.alert("Note", "Please fill all fields.")
+            }
+            else if (provider_as == 'business') {
+                if (company_name == '' || geoLocationAddress == '') {
+                    console.warn("Company name:", company_name, 'location:', geoLocationAddress);
+                    Alert.alert("Note", "Please fill company details.")
+
+                }
+
 
             }
+            else {
+                console.warn("hello Api");
+                let userData = {
+                    username: name,
+                    phone,
+                    address,
+                    provider_as,
+                    ...provider_as == 'business' ?
+                        {
+                            company_name,
+                            company_address: geoLocationAddress,
+                            lat, lng
+                        } : {
+                            company_name: '',
+                            company_address: '',
+                            lat: '',
+                            lng: '',
 
+                        },
+                    gender: selectedgender,
+                    // country:selectedCountry
+                    state: selectedState,
+                    city: selectedCity,
+                    zip,
+                    ...NewProfile_Image == '' ?
+                        {} : { profile_pic: NewProfile_Image }
+                }
 
-        }
-        else {
-            console.warn("hello Api");
-            let userData = {
-                username: name,
-                phone,
-                address,
-                provider_as,
-                ...provider_as == 'business' ?
-                    {
-                        company_name,
-                        company_address: geoLocationAddress,
-                        lat, lng
-                    } : {
-                        company_name: '',
-                        company_address: '',
+                console.warn("UserData: ", userData);
 
-                    },
-                gender: selectedgender,
-                // country:selectedCountry
-                state: selectedState,
-                city: selectedCity,
-                zip,
-                ...NewProfile_Image == '' ?
-                    {} : { profile_pic: NewProfile_Image }
-            }
-
-            console.warn("UserData: ", userData);
-            this.props.user?.user?.role == 'provider' ?
 
                 this.props.UpdateProfileProvider({
                     userData,
@@ -118,10 +121,49 @@ class EditProfile extends Component {
                         }
                     },
                 })
-
-                :
-                null
+            }
         }
+        if (this.props.user?.user?.role == 'customer') {
+
+            if (name == '' || phone == '' || address == '' || zip == '' || selectedCity == '' || selectedState == '' || selectedgender == '') {
+                Alert.alert("Note", "Please fill all fields.")
+            }
+            else {
+
+                let userData = {
+                    username: name,
+                    phone,
+                    address,
+                    gender: selectedgender,
+                    // country:selectedCountry
+                    state: selectedState,
+                    city: selectedCity,
+                    zip,
+                    ...NewProfile_Image == '' ?
+                        {} : { profile_pic: NewProfile_Image }
+                }
+
+                console.warn("UserDataCustomer: ", userData);
+
+
+                this.props.UpdateProfileCustomer({
+                    userData,
+                    callback: response => {
+
+                        if (response) {
+                            console.warn("DATA:", response);
+                            this.props.navigation.goBack()
+                        } else {
+                            this.setState({ loading: false, refreshing: false, });
+
+                        }
+                    },
+                })
+            }
+        }
+
+
+
     }
     render() {
         console.warn("User", this.props.user.user);
@@ -401,6 +443,7 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
     UpdateProfileProvider: paylaod => dispatch(AppMiddleware.UpdateProfileProvider(paylaod)),
+    UpdateProfileCustomer: paylaod => dispatch(AppMiddleware.UpdateProfileCustomer(paylaod)),
 });
 
 
