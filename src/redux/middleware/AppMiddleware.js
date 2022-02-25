@@ -157,5 +157,31 @@ export const AppMiddleware = {
             } catch (error) { }
         };
     },
+    Submit_Rating: (userData, callback) => {
+        return async dispatch => {
+            try {
+                dispatch({ type: ActionTypes.ShowLoading });
+                let formData = new FormData();
+                console.warn('userData Middleware', userData?.userData);
+                formData.append('provider_id', userData?.userData?.provider_id);
+                formData.append('rating', userData?.userData?.rate);
+                formData.append('comments', userData?.userData?.comments);
+
+                console.warn('formDataa', formData);
+                let request = await POST(APIs.SUBMIT_RATING,
+                    formData,
+                    await getHeaders(),
+
+                );
+                console.warn("userData Data:", request);
+                if (request.success) {
+                    Alert.alert('Note', request?.message)
+                    dispatch({ type: ActionTypes.HideLoading });
+                }
+                dispatch({ type: ActionTypes.HideLoading });
+            } catch (error) { }
+        };
+    },
+
 
 };

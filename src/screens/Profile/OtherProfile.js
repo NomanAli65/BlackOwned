@@ -89,8 +89,8 @@ export default class OtherProfile extends Component {
                             </View>
                             <View>
                                 <View style={{ marginVertical: 20 }}>
-                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Rating')}
-                                        style={{ borderRadius: 10, backgroundColor: '#1872ea', alignItems: 'center', justifyContent: 'center', paddingVertical: 5, paddingHorizontal: 10 }}>
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Rating', { provider_id: 1, UserImage: require('../../assets/2.jpeg'), UserName: 'Param Name' })}
+                                        style={{ borderRadius: 6, backgroundColor: '#1872ea', alignItems: 'center', justifyContent: 'center', paddingVertical: 5, paddingHorizontal: 10 }}>
                                         <Text style={{ color: '#fff', fontSize: 14, fontWeight: 'bold' }}>Rate</Text>
                                     </TouchableOpacity>
                                 </View>
