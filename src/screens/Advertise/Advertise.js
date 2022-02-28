@@ -1,40 +1,64 @@
 import { Button, HStack, Icon, Input } from 'native-base';
 import React, { Component } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet, ActivityIndicator, RefreshControl, Modal } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
+import Entypo from 'react-native-vector-icons/Entypo';
 import MyHeader from '../../components/MyHeader';
 import CheckBox from '@react-native-community/checkbox';
 import { connect } from 'react-redux';
-
+import { MarketPlaceMiddleware } from '../../redux/middleware/MarketPlaceMiddleware';
+import { imgURL } from '../../configs/AxiosConfig';
 
 class Advertise extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            refreshing: true,
-        };
+    state = {
+        loader: true,
+        search: '',
+    };
+    componentDidMount() {
+        this.props.getAllUserProducts({ name: '' })
+        // .then(() => this.setState({ loader: false }))
+        // .catch(() => this.setState({ loader: false }));
     }
-    componentDidMount = () => {
-        this.GetAllProducts();
-    }
-    GetAllProducts = () => {
-        // this.props.getAllProducts({
-        //     callback: response => {
 
-        //         if (response) {
-        //             console.warn("All Product,", response);
-        //             this.setState({
+    onPressLoadMoreProducts = () => {
+        this.setState({ loader: true }, () => {
+            const { getUserProductsData } = this.props;
+            this.props
+                .getAllUserProducts(getUserProductsData.next_page_url, '')
+                .then(() => this.setState({ loader: false }))
+                .catch(() => this.setState({ loader: false }));
+        });
+    };
 
-        //                 refreshing: false,
-        //             })
 
-        //         } else {
-        //             this.setState({ loading: false, refreshing: false, });
-        //         }
-        //     },
-        // });
-    }
+    renderLoaderMoreButtonProducts = () => {
+        const { getUserProductsData } = this.props;
+        const { loader } = this.state;
+        return getUserProductsData.next_page_url ? (
+            loader ? (
+                <ActivityIndicator
+                    size={'large'}
+                    color={'#1D9CD9'}
+                    style={styles.loadMoreContentContainer}
+                />
+            ) : (
+                <TouchableOpacity
+                    style={{ width: 110, alignSelf: 'center', marginVertical: 13 }}
+                    onPress={this.onPressLoadMoreProducts}>
+                    <View style={styles.loadMoreContainer}>
+                        <Text style={styles.loadMoreText}>Load more</Text>
+                    </View>
+                </TouchableOpacity>
+            )
+        ) : null;
+    };
+
+    onRefreshProducts = () => {
+        this.setState({ loader: true }, () => {
+            this.props.getAllUserProducts({ name: '' })
+        });
+    };
     renderUsersList = item => (
         <TouchableOpacity
             activeOpacity={0.7} style={styles.ListContainer}>
@@ -43,21 +67,38 @@ class Advertise extends Component {
                 value={this.state.toggleCheckBox1}
             // onValueChange={(newValue) => this.setState({ toggleCheckBox1: newValue, toggleCheckBox2: false, toggleCheckBox3: false })}
             /> */}
-            <Image source={item.img} style={styles.ListImage} />
+            <Image source={item.image ?
+                {
+                    uri: imgURL + item.image
+                } : require('../../assets/user.png')
+            } style={styles.ListImage} />
             <View style={{ width: '70%', marginLeft: 2 }}>
                 <Text adjustsFontSizeToFit numberOfLines={1} style={styles.ListName}>{item.name}</Text>
                 <View style={styles.FlexRow}>
-                    <Text style={styles.ListDistances}>Price: <Text style={{ fontSize: 14, fontWeight: 'bold', color: "#1872ea" }}>$275.25</Text></Text>
-                    <TouchableOpacity style={styles.promoteButton}>
-                        <Text style={styles.promoteText}>Promote</Text>
-                    </TouchableOpacity>
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Text style={styles.ListDistances}>Price:</Text>
+                        <Text style={styles.sponsorPrice}>{'$'+item.discounted_price}</Text>
+                        <Text style={styles.discountPrice}>{'$'+item.price}</Text>
+                    </View>
+                    {item.is_sponsored == 0 ? (
+                        <TouchableOpacity style={styles.promoteButton}>
+                            <Text style={styles.promoteText}>Promote</Text>
+                        </TouchableOpacity>
+                    ) : (
+                        <TouchableOpacity style={styles.promotedButton}>
+                            <Text style={styles.promoteText}>Promoted</Text>
+                        </TouchableOpacity>
+                    )}
                 </View>
-                <Text numberOfLines={3} style={styles.ListDescription}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</Text>
+                <Text numberOfLines={3} style={styles.ListDescription}>{item.description}</Text>
             </View>
         </TouchableOpacity>
     );
 
     render() {
+        const { getUserProductsData, getUserProductsData_list, loader } = this.props;
+        console.warn('Dataa', getUserProductsData_list);
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <MyHeader
@@ -92,37 +133,46 @@ class Advertise extends Component {
                     Promote
                 </Button> */}
                 <View style={{ flex: 1, marginHorizontal: 15 }}>
-                    <FlatList
-                        style={styles.flex1}
-                        showsVerticalScrollIndicator={false}
-                        data={[
-                            { name: 'Realtors', img: require('../../assets/realtor.jpg') },
-                            { name: 'Artists', img: require('../../assets/c1.jpeg') },
-                            { name: 'Musicians', img: require('../../assets/realtor.jpg') },
-                            { name: 'Baby Sitter', img: require('../../assets/c2.jpeg') },
-                            { name: 'Electrition', img: require('../../assets/realtor.jpg') },
-                            { name: 'Beautician', img: require('../../assets/c1.jpeg') },
-                            { name: 'Realtors', img: require('../../assets/realtor.jpg') },
-                            { name: 'Artists', img: require('../../assets/c1.jpeg') },
-                            { name: 'Musicians', img: require('../../assets/realtor.jpg') },
-                            { name: 'Baby Sitter', img: require('../../assets/c2.jpeg') },
-                            { name: 'Electrition', img: require('../../assets/realtor.jpg') },
-                            { name: 'Beautician', img: require('../../assets/c1.jpeg') },
+                    {!getUserProductsData ? (
+                        <ActivityIndicator
+                            size={'large'}
+                            color={'#1D9CD9'}
+                            style={styles.loadMoreContentContainer}
+                        />
+                    ) : null}
+                    {getUserProductsData_list && getUserProductsData_list?.length ? (
+                        <FlatList
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={loader}
+                                    onRefresh={this.onRefreshProducts}
+                                />
+                            }
+                            style={styles.flex1}
+                            showsVerticalScrollIndicator={false}
+                            data={getUserProductsData_list}
+                            renderItem={({ item }) => this.renderUsersList(item)}
+                            ListFooterComponent={this.renderLoaderMoreButtonProducts()}
 
-                        ]}
-                        renderItem={({ item }) => this.renderUsersList(item)}
-                    />
+                        />
+                    ) : null}
                 </View>
             </View>
         );
     }
 }
-const mapStateToProps = state => ({
-    user: state.AuthReducer.user,
-});
+const mapStateToProps = state => {
+    console.warn('state', state);
+    return {
+
+        getUserProductsData: state.MarketPlaceReducer.getUserProductsData,
+        getUserProductsData_list: state.MarketPlaceReducer.getUserProductsData_list,
+    };
+};
 const mapDispatchToProps = dispatch => ({
 
-    //UpdateProfileCustomer: paylaod => dispatch(AppMiddleware.UpdateProfileCustomer(paylaod)),
+    getAllUserProducts: (payload) =>
+        dispatch(MarketPlaceMiddleware.getAllUserProducts(payload)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Advertise);
 
@@ -189,6 +239,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: "#1872ea",
     },
+    promotedButton: {
+        width: 80,
+        height: 35,
+        borderRadius: 4,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: "#ABABAB",
+    },
     promoteText: {
         color: '#fff',
         fontSize: 12,
@@ -196,5 +254,20 @@ const styles = StyleSheet.create({
     },
     flex1: {
         flex: 1,
+    },
+    sponsorPrice: {
+        fontSize: 14,
+        color: '#1D9CD9',
+        alignSelf: 'flex-start',
+        // fontWeight: 'bold',
+        marginHorizontal: 5,
+    },
+    discountPrice: {
+        fontSize: 14,
+        color: '#1D9CD9',
+        alignSelf: 'flex-start',
+        // fontWeight: 'bold',
+        textDecorationLine: 'line-through',
+        marginHorizontal: 5,
     },
 })

@@ -5,7 +5,9 @@ let initialState = {
     getMarketPlaceSponsoredData_list: [],
     getMarketPlaceProductsData: null,
     getMarketPlaceProductsData_list: [],
-    storeProductData:[],
+    storeProductData: [],
+    getUserProductsData: null,
+    getUserProductsData_list: [],
     loading: false,
 
 };
@@ -53,6 +55,26 @@ export const MarketPlaceReducer = (state = initialState, action) => {
 
         case ActionTypes.Store_Product:
             state = { ...state, storeProductData: action.payload };
+            break;
+
+        case ActionTypes.Get_UserProducts:
+            let getUserProductsData_list_copy = [];
+            getUserProductsData_list_copy = [
+                ...state.getUserProductsData_list,
+                ...action.payload.data,
+            ];
+            state = {
+                ...state,
+                getUserProductsData: action.payload,
+                getUserProductsData_list: getUserProductsData_list_copy,
+            };
+            break;
+        case ActionTypes.Reset_Get_UserProducts:
+            state = {
+                ...state,
+                getUserProductsData: null,
+                getUserProductsData_list: [],
+            };
             break;
 
         default:

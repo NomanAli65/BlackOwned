@@ -40,9 +40,13 @@ export const APIs = {
 
   storeProduct: `customers/storeProduct`,
 
+  getAllUserProducts: (next_page_url) =>
+    next_page_url
+      ? next_page_url
+      : 'customers/getAllProducts',
+
   GET_SEMINAR: `getSeminars`,
   SERVICE_INDEX: `provider/serviceIndex`,
   CONTACT_US: `customers/contactUs`,
-  ALL_PRODUCTS: `customers/getAllProducts`,
   SUBMIT_RATING: `customers/submitRating`,
 };
