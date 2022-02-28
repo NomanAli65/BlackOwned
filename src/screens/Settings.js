@@ -129,7 +129,7 @@ class Settings extends Component {
               {this.props.user?.user?.role == 'provider' ? (
                 <TouchableOpacity
                   onPress={() =>
-                    this.props.navigation.navigate('Development In Process')
+                    this.props.navigation.navigate('ProviderRating')
                   }>
                   <HStack space="md" alignItems="center" paddingY={3}>
                     <Icon size={'sm'} as={FontAwesome5} name="star-half-alt" />

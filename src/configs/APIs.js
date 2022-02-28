@@ -45,4 +45,6 @@ export const APIs = {
   CONTACT_US: `customers/contactUs`,
   ALL_PRODUCTS: `customers/getAllProducts`,
   SUBMIT_RATING: `customers/submitRating`,
+  PROVIDER_RATING: `provider/getProviderRating`,
+
 };

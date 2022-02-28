@@ -182,6 +182,25 @@ export const AppMiddleware = {
             } catch (error) { }
         };
     },
+    Provider_Rating: ({
+        callback,
+    }) => {
+        return async dispatch => {
+            try {
+                let response = await get(
+                    `${APIs.PROVIDER_RATING}`,
+                    await getHeaders(),
+                );
+                console.warn("Provider_Rating response: ", response);
+                if (response.success) {
+                    callback(response);
+                }
+            } catch (error) {
+                callback(false);
+                console.warn('err ', error);
+            }
 
+        };
+    },
 
 };

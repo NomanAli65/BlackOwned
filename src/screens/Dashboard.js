@@ -29,7 +29,7 @@ const { width } = Dimensions.get('window');
 
 class Dashboard extends Component {
   state = {
-   
+
     online_friends: [
       { img: require('../assets/1.jpeg') },
       { img: require('../assets/2.jpeg') },
@@ -42,7 +42,7 @@ class Dashboard extends Component {
       { img: require('../assets/4.jpeg') },
       { img: require('../assets/5.jpeg') },
     ],
-    
+
     selectedButtonTop: null,
   };
 
