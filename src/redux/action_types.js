@@ -19,6 +19,8 @@ export const ActionTypes = {
   Get_MarketPlacesProducts: 'Get_MarketPlacesProducts',
   Reset_Get_MarketPlacesProducts: 'Reset_Get_MarketPlacesProducts',
   Store_Product: 'Store_Product',
+  Get_UserProducts: 'Get_UserProducts',
+  Reset_Get_UserProducts: 'Reset_Get_UserProducts',
   ShowLoading: 'SHOW_LOADING',
   HideLoading: 'HIDE_LOADING',
   Update_Profile: 'UPDATE_PROFILE',
