@@ -18,9 +18,9 @@ const { width } = Dimensions.get('window');
 
 class Login extends Component {
   state = {
-    email: 'customer@gmail.com',
+    //email: 'customer@gmail.com',
     //email: 'test123@gmail.com',
-    //email: 'test@gmail.com',
+    email: 'test@gmail.com',
     password: 'admin123',
   };
 

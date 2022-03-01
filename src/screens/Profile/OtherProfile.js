@@ -10,7 +10,7 @@ import {
     VStack,
 } from 'native-base';
 import React, { Component } from 'react';
-import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet, Linking } from 'react-native';
+import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet, Linking, Modal } from 'react-native';
 import MyHeader from '../../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
 import StarRating from 'react-native-star-rating-widget';
@@ -19,7 +19,9 @@ import { imgURL } from '../../configs/AxiosConfig';
 // import {Colors} from '../../Styles';
 import { connect } from 'react-redux';
 import { ServicesMiddleware } from '../../redux/middleware/ServicesMiddleware';
-
+import { PostMiddleware } from '../../redux/middleware/PostMiddleware';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
 const { width } = Dimensions.get('window');
@@ -29,9 +31,13 @@ class OtherProfile extends Component {
     state = {
         loader: true,
         search: '',
+        Postdata: [],
+        modalVisible: false,
+        selectedItem: null,
     };
     componentDidMount() {
-        this.props.getAllServiceById({ providerid: this.props.route.params.data.provider_id })
+        this.props.getAllServiceById({ providerid: this.props.route.params?.data?.provider_id })
+        this.Show_Other_User_Post();
         // .then(() => this.setState({ loader: false }))
         // .catch(() => this.setState({ loader: false }));
     }
@@ -43,18 +49,57 @@ class OtherProfile extends Component {
         </View>
 
     );
+    Show_Other_User_Post = () => {
+
+        this.props.Show_Other_User_Post({
+            id: this.props.route.params?.data?.provider_id,
+            callback: response => {
+
+                if (response) {
+                    console.warn("Other,", response);
+                    this.setState({
+                        Postdata: response?.data
+                    })
+
+                } else {
+                    this.setState({ loading: false, refreshing: false, });
+                }
+            },
+        });
+    }
 
     renderPostsList = item => (
 
-        <TouchableOpacity >
-            <View style={{ margin: 3 }}>
-                <Image source={require('../../assets/c1.jpeg')} style={{ width: 100, height: 100, borderRadius: 5 }} />
-            </View>
+        <TouchableOpacity
+            onPress={() => {
+                this.setState({
+                    modalVisible: true,
+                    selectedItem: item,
+                })
+            }}
+        >
+            {item?.type == 0 ?
+                <View style={{ margin: 3 }}>
+                    <Image source={{ uri: imgURL + item.media }} style={{ width: 100, height: 100, borderRadius: 5, }} />
+                </View>
+                :
+                <View style={{ margin: 3 }}>
+                    <View style={{
+                        width: 100,
+                        height: 100,
+                        borderRadius: 5,
+                        backgroundColor: '#eee',
+                        alignItems: "center",
+                        justifyContent: 'center',
+                    }}>
+                        <FontAwesome name={'play-circle-o'} size={50} color={'#000'} />
+                    </View>
+                </View>
+            }
         </TouchableOpacity>
 
     );
     OnCallPress = () => {
-        console.warn("hello");
         let phoneNumber = '090078601'
         Linking.openURL(`tel:${phoneNumber}`)
     }
@@ -66,8 +111,8 @@ class OtherProfile extends Component {
 
     render() {
         let data = this.props.route.params.data
-        const { getServicesByIdData,  } = this.props;
-        console.warn('Dataa',  getServicesByIdData,);
+        const { getServicesByIdData, } = this.props;
+        //    / console.warn('Dataa', data,);
         return (
             <View style={styles.container}>
                 <MyHeader
@@ -97,7 +142,7 @@ class OtherProfile extends Component {
                                             starStyle={{ width: 2 }}
                                         />
                                     </View>
-                                    <Text style={{ marginHorizontal: 5, textAlignVertical: 'center' }}>{data?.rating?.rating}</Text>
+                                    <Text style={{ marginHorizontal: 5, textAlignVertical: 'center' }}> ({data?.rating?.rating})</Text>
                                 </View>
                                 <View style={{ flexDirection: 'row' }}>
                                     <Image source={require('../../assets/blueMarker.png')} style={{ width: 20, height: 20 }} />
@@ -195,20 +240,54 @@ class OtherProfile extends Component {
                             columnWrapperStyle={styles.PostListContainer}
                             style={styles.flex1}
                             showsVerticalScrollIndicator={false}
-                            data={[
-                                'Realtors',
-                                'Artists',
-                                'Musicians',
-                                'Baby Sitter',
-                                'Beautician',
-                                'Electrition',
-                                'Electrition',
-                                'Electrition',
-                            ]}
+                            data={this.state.Postdata}
                             renderItem={({ item }) => this.renderPostsList(item)}
                         />
                     </View>
                 </ScrollView>
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setState({ modalVisible: false });
+                    }}
+
+                >
+                    <View style={{
+                        marginTop: 100,
+                        height: 600,
+                        width: '90%',
+                        backgroundColor: '#000',
+                        alignSelf: 'center',
+                        borderRadius: 30,
+
+                    }}>
+                        <TouchableOpacity
+                            onPress={() => this.setState({ modalVisible: false })}
+                            style={{
+                                marginTop: 20,
+                                right: 20,
+                                position: 'absolute',
+                                alignSelf: 'flex-end',
+                                zIndex: 1,
+                            }}>
+                            <AntDesign name={'closecircle'} size={25} color={"#1872ea"} />
+                        </TouchableOpacity>
+                        {this.state?.selectedItem?.type == 0 ?
+                            <Image source={{ uri: imgURL + this.state?.selectedItem?.media }}
+                                style={{
+                                    height: 600,
+                                    width: '96%',
+                                    borderRadius: 6,
+                                    resizeMode: 'contain',
+                                    alignSelf: 'center',
+                                    justifyContent: 'center'
+                                }} />
+                            : null}
+                    </View>
+
+                </Modal>
             </View>
         );
     }
@@ -224,7 +303,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     // Login: data => dispatch(AuthMiddleware.Login(data)),
     // Login: data => dispatch(AuthMiddleware.Login(data)),
-
+    Show_Other_User_Post: payload => dispatch(PostMiddleware.Show_Other_User_Post(payload)),
     getAllServiceById: (payload) =>
         dispatch(ServicesMiddleware.getAllServiceById(payload)),
 });

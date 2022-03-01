@@ -19,6 +19,7 @@ import { OpenImagePicker } from '../../configs';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { connect } from 'react-redux';
 import { PostMiddleware } from '../../redux/middleware/PostMiddleware';
+import { createThumbnail } from "react-native-create-thumbnail";
 // import {Colors} from '../../Styles';
 
 
@@ -33,21 +34,43 @@ class Upload extends Component {
         loader: false,
         file: null,
         mediaType: null,
+        thumb: "",
     };
     componentDidMount() {
 
     }
 
-    postCreate = () => {
+    postCreate = async () => {
 
         let {
             image,
             mediaType,
         } = this.state;
+
+        let thumb = null;
+        if (image.type.includes("video")) {
+            let thumbnail = await createThumbnail({
+                url: image.uri
+            })
+            let thumb_name_array = thumbnail.path.split("/");
+            let thumb_name = thumb_name_array[thumb_name_array.length - 1]
+
+            thumb = {
+                name: thumb_name,
+                type: thumbnail?.mime,
+                uri: thumbnail?.path,
+                size: thumbnail?.size
+            }
+
+        }
+
+
         let userData = {
             media: image,
-            type: mediaType
+            type: mediaType,
+            ...thumb ? { thumbnail: thumb } : { thumbnail: null }
         }
+
         if (
             !image
         ) {
@@ -56,13 +79,19 @@ class Upload extends Component {
 
             this.props.Store_Post({
                 userData,
+                uploading: (sent, total) => {
+                    console.warn('sent', sent, 'total', total);
+                },
+                callback: () => {
+
+                }
             })
             this.props.navigation.navigate('UserProfile', { type: 'upload' })
         }
     };
 
     uploadImage = () => {
-        OpenImagePicker(img => {
+        OpenImagePicker = (img => {
             let uri_script = img.path.split('/');
             let name = uri_script[uri_script.length - 1];
 

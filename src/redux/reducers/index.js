@@ -15,4 +15,4 @@ import { ServicesReducer } from './ServicesReducer';
 
 
 export const reducer = combineReducers({ AuthReducer, GeneralReducer, ServicesReducer, BanksReducer, NewsReducer, SeminarsReducer, ListedCompaniesReducer, MarketPlaceReducer, PostReducer });
-export const reducer = combineReducers({ AuthReducer, GeneralReducer, ServicesReducer, BanksReducer, NewsReducer, SeminarsReducer, ListedCompaniesReducer, MarketPlaceReducer, JobsReducer });
+

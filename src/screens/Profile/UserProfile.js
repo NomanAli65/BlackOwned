@@ -370,22 +370,7 @@ class UserProfile extends Component {
                                 columnWrapperStyle={styles.PostListContainer}
                                 style={styles.flex1}
                                 showsVerticalScrollIndicator={false}
-                                data={this.props.ownPost
-                                    //     [
-                                    //     { name: 'Realtors', img: require('../../assets/realtor.jpg') },
-                                    //     { name: 'Artists', img: require('../../assets/c1.jpeg') },
-                                    //     { name: 'Musicians', img: require('../../assets/realtor.jpg') },
-                                    //     { name: 'Baby Sitter', img: require('../../assets/c2.jpeg') },
-                                    //     { name: 'Electrition', img: require('../../assets/realtor.jpg') },
-                                    //     { name: 'Beautician', img: require('../../assets/c1.jpeg') },
-                                    //     { name: 'Realtors', img: require('../../assets/realtor.jpg') },
-                                    //     { name: 'Artists', img: require('../../assets/c1.jpeg') },
-                                    //     { name: 'Musicians', img: require('../../assets/realtor.jpg') },
-                                    //     { name: 'Baby Sitter', img: require('../../assets/c2.jpeg') },
-                                    //     { name: 'Electrition', img: require('../../assets/realtor.jpg') },
-                                    //     { name: 'Beautician', img: require('../../assets/c1.jpeg') },
-                                    // ]
-                                }
+                                data={this.props.ownPost}
                                 renderItem={({ item }) => this.renderPostsList(item)}
                             />
                         </View>
