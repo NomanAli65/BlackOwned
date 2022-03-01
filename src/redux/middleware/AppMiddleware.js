@@ -66,6 +66,9 @@ export const AppMiddleware = {
                 formData.append('city', userData?.userData?.city);
                 formData.append('state', userData?.userData?.state);
                 formData.append('zip', userData?.userData?.zip);
+                formData.append('facebook', userData?.userData?.facebook);
+                formData.append('youtube', userData?.userData?.youtube);
+                formData.append('instagram', userData?.userData?.instagram);
                 formData.append('profile_pic', userData?.userData?.profile_pic)
                 console.warn('formDataa', formData);
                 let request = await post(APIs.UPDATEPROFILE,
@@ -200,6 +203,28 @@ export const AppMiddleware = {
                 console.warn('err ', error);
             }
 
+        };
+    },
+    UpdateUserLocation: userData => {
+        return async dispatch => {
+            try {
+                // dispatch({ type: ActionTypes.ShowLoading });
+                let formData = new FormData();
+
+                formData.append('lat', userData?.userData?.lat);
+                formData.append('lng', userData?.userData?.lng);
+
+                console.warn('formDataa', formData);
+                let request = await post(APIs.UPDATEPROFILE,
+                    formData,
+                    await getHeaders(),
+                );
+                console.warn("update user location:", request);
+                if (request) {
+                    dispatch({ type: ActionTypes.Update_Profile, payload: request });
+                }
+                //  dispatch({ type: ActionTypes.HideLoading });
+            } catch (error) { }
         };
     },
 

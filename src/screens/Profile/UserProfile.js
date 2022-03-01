@@ -10,7 +10,7 @@ import {
     VStack,
 } from 'native-base';
 import React, { Component } from 'react';
-import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet, RefreshControl } from 'react-native';
+import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet, RefreshControl, Alert, Platform, Linking } from 'react-native';
 import MyHeader from '../../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
 import StarRating from 'react-native-star-rating-widget';
@@ -19,7 +19,7 @@ import { connect } from 'react-redux';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { ServicesMiddleware } from '../../redux/middleware/ServicesMiddleware';
 import { imgURL } from '../../configs/AxiosConfig';
-
+import { WebView } from 'react-native-webview';
 // import {Colors} from '../../Styles';
 
 
@@ -78,10 +78,48 @@ class UserProfile extends Component {
         </TouchableOpacity>
 
     );
+    SocailButtonClick = (value) => {
+        // Linking.openURL('https://google.com')
+
+        console.warn("hell", value, this.props.user.user.facebook);
+        let URL = ''
+        if (value == 'facebook') {
+            var is_https = URL.startsWith('https');
+            if (!is_https) {
+                URL = 'https://' + this.props?.user?.user?.facebook
+            }
+            else {
+                URL = this.props?.user?.user?.facebook
+            }
+            Linking.openURL(URL)
+        }
+        else if (value == 'youtube') {
+            var is_https = URL.startsWith('https');
+            if (!is_https) {
+                URL = 'https://' + this.props?.user?.user?.youtube
+            }
+            else {
+                URL = this.props?.user?.user?.youtube
+            }
+            Linking.openURL(URL)
+        }
+        else if (value == 'instagram') {
+            var is_https = URL.startsWith('https');
+            if (!is_https) {
+                URL = 'https://' + this.props?.user?.user?.instagram
+            }
+            else {
+                URL = this.props?.user?.user?.instagram
+            }
+            Linking.openURL(URL)
+        }
+        else { }
+
+    }
 
     render() {
         let User = this.props?.user?.user
-        console.warn("User:", this.props.user.user.rating.rating);
+        // console.warn("User:", this.props.user.user?.rating?.rating);
         // let rotate = this.rotation.interpolate({
         //     inputRange: [0, 1],
         //     outputRange: ['0deg', '360deg'],
@@ -200,6 +238,31 @@ class UserProfile extends Component {
                                 </View>
                             </TouchableOpacity>
                             : null}
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                            {this.props?.user?.user?.facebook ?
+                                <TouchableOpacity
+                                    onPress={() => this.SocailButtonClick('facebook')}
+                                    style={styles.socialIconButton}>
+                                    <FontAwesome size={35} color={'#0010F3'} name={"facebook-square"} />
+                                </TouchableOpacity>
+                                : null}
+                            {this.props?.user?.user?.youtube ?
+                                <TouchableOpacity
+                                    onPress={() => this.SocailButtonClick('youtube')}
+                                    style={styles.socialIconButton}>
+                                    <Entypo size={35} color={'#FF0000'} name="youtube" />
+                                </TouchableOpacity>
+                                : null}
+                            {this.props?.user?.user?.instagram ?
+                                <TouchableOpacity
+                                    onPress={() => this.SocailButtonClick('instagram')}
+                                    style={styles.socialIconButton}>
+                                    <Entypo size={35} color={'#652C00'} name="instagram" />
+                                </TouchableOpacity>
+                                : null}
+
+                        </View>
 
                         <HStack marginY={3} alignSelf={'center'} space={'md'}>
                             <Button onPress={() => this.props.navigation.navigate('EditProfile')}
@@ -331,5 +394,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: "#1D9CD9",
         position: 'absolute',
+    },
+    socialIconButton: {
+        marginHorizontal: 6,
     },
 });

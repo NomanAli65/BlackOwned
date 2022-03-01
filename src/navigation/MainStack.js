@@ -36,6 +36,7 @@ import SubcriptionPlans from '../screens/SubcriptionPlans/SubcriptionPlans';
 import TermsAndConditions from '../screens/TermsAndConditions/TermsAndConditions';
 import BottomNavigation from './BottomNavigation';
 import ProviderRating from '../screens/ProviderRating/ProviderRating';
+import WebView from '../screens/webView';
 
 const MainStackNav = createStackNavigator();
 
@@ -78,6 +79,7 @@ const MainStack = () => {
       <MainStackNav.Screen name="ChatList" component={ChatList} />
       <MainStackNav.Screen name="LocalCompanyList" component={LocalCompanyList} />
       <MainStackNav.Screen name="ProviderRating" component={ProviderRating} />
+      <MainStackNav.Screen name="WebView" component={WebView} />
 
 
       <MainStackNav.Screen

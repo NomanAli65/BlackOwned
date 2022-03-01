@@ -10,7 +10,7 @@ import {
     ScrollView,
     VStack,
 } from 'native-base';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, Linking, TouchableOpacity } from 'react-native';
 import MyHeader from '../../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
 import { ItemClick } from 'native-base/lib/typescript/components/composites/Typeahead/useTypeahead/types';
@@ -27,6 +27,16 @@ export default class ProductDetails extends Component {
         let data = this.props.route.params.data
         this.setState({ detailsData: data })
 
+    }
+    OnCallPress = () => {
+        console.warn("hello");
+        let phoneNumber = '090078601'
+        Linking.openURL(`tel:${phoneNumber}`)
+    }
+    OnEmailPress = () => {
+        console.warn("hello email");
+        let email = 'Care@amazon.com'
+        Linking.openURL('mailto:' + email)
     }
 
     render() {
@@ -48,7 +58,7 @@ export default class ProductDetails extends Component {
                             {
                                 uri: imgURL + detailsData.image
                             } : require('../../assets/user.png')
-                        } style={styles.ListImage}  resizeMode="contain" />
+                        } style={styles.ListImage} resizeMode="contain" />
                         <View>
                             <Text adjustsFontSizeToFit numberOfLines={1} style={styles.ListName}>{detailsData.name}</Text>
                             <View style={{ flexDirection: 'row' }}>
@@ -71,7 +81,7 @@ export default class ProductDetails extends Component {
                                 </Heading>
                             </Button>
                             <Button
-                                onPress={this.onClick}
+                                onPress={this.OnEmailPress}
                                 flex={1}
                                 borderRadius={5}
                                 backgroundColor="#1872ea">
@@ -79,7 +89,9 @@ export default class ProductDetails extends Component {
                                     Email
                                 </Heading>
                             </Button>
+
                             <Button
+                                onPress={this.OnCallPress}
                                 flex={1}
                                 borderRadius={5}
                                 backgroundColor="#1872ea">
@@ -87,6 +99,7 @@ export default class ProductDetails extends Component {
                                     Call
                                 </Heading>
                             </Button>
+
                         </HStack>
                     </ScrollView>
 

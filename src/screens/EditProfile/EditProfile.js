@@ -37,6 +37,9 @@ class EditProfile extends Component {
             geoLocationCoordinates: [],
             lat: this.props?.user?.user?.company_lat ? this.props?.user?.user?.company_lat : '',
             lng: this.props?.user?.user?.company_lng ? this.props?.user?.user?.company_lng : '',
+            facebook: this.props?.user?.user?.facebook ? this.props?.user?.user?.facebook : '',
+            youtube: this.props?.user?.user?.youtube ? this.props?.user?.user?.youtube : '',
+            instagram: this.props?.user?.user?.instagram ? this.props?.user?.user?.instagram : '',
         };
     }
     uploadImage = () => {
@@ -60,7 +63,8 @@ class EditProfile extends Component {
             Profile_Image, selectedCountry,
             selectedCity, selectedState, selectedgender,
             company_name, geoLocationAddress,
-            provider_as, lat, lng, NewProfile_Image
+            provider_as, lat, lng, NewProfile_Image,
+            facebook, youtube, instagram,
         } = this.state
         if (this.props.user?.user?.role == 'provider') {
 
@@ -96,11 +100,15 @@ class EditProfile extends Component {
                             lng: '',
 
                         },
+
                     gender: selectedgender,
                     // country:selectedCountry
                     state: selectedState,
                     city: selectedCity,
                     zip,
+                    facebook,
+                    youtube,
+                    instagram,
                     ...NewProfile_Image == '' ?
                         {} : { profile_pic: NewProfile_Image }
                 }
@@ -368,6 +376,32 @@ class EditProfile extends Component {
                         value={this.state.zip}
                         keyboardType={'numeric'}
                     />
+                    {this.props.user?.user?.role == 'provider' ? (
+                        <>
+                            <Text style={{ marginVertical: 5, color: '#000' }}>Social media links:</Text>
+                            <Input
+                                placeholder='www.facebook.com/xxxx'
+                                style={styles.input}
+                                onChangeText={facebook => this.setState({ facebook })}
+                                value={this.state.facebook}
+
+                            />
+                            <Input
+                                placeholder='www.instagram.com/xxxx'
+                                style={styles.input}
+                                onChangeText={instagram => this.setState({ instagram })}
+                                value={this.state.instagram}
+
+                            />
+                            <Input
+                                placeholder='www.youtube.com/xxxx'
+                                style={styles.input}
+                                onChangeText={youtube => this.setState({ youtube })}
+                                value={this.state.youtube}
+
+                            />
+                        </>
+                    ) : null}
                     <TouchableOpacity
                         onPress={() => this.UpdateProfile()}
                         //backgroundColor="primary.100"

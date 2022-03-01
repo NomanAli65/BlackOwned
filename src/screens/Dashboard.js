@@ -17,6 +17,8 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
+  Platform,
+  PermissionsAndroid,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { ServicesMiddleware } from '../redux/middleware/ServicesMiddleware';
@@ -24,6 +26,9 @@ import { ListedCompaniesMiddleware } from '../redux/middleware/ListedCompaniesMi
 import MyHeader from '../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
 import { imgURL } from '../configs/AxiosConfig';
+import geolocation from 'react-native-geolocation-service';
+import { AppMiddleware } from '../redux/middleware/AppMiddleware';
+
 
 const { width } = Dimensions.get('window');
 
@@ -47,11 +52,92 @@ class Dashboard extends Component {
   };
 
   componentDidMount() {
+    this.requestLocationPermission();
     this.props.getAllServices({ name: '' });
     this.props.getAllListedCompanies({ name: '' })
     // .then(() => this.setState({ loader: false }))
     // .catch(() => this.setState({ loader: false }));
   }
+  requestLocationPermission = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
+          'title': 'Location Access Required',
+          'message': 'This App needs to Access your location'
+        }
+        )
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          //To Check, If Permission is granted
+          /// setGrantedPermission(true)
+          this.getCurrentLocation();
+        } else {
+          alert("Permission Denied");
+        }
+      } catch (err) {
+        alert("err", err);
+      }
+    }
+    // if (Platform.OS === 'ios') {
+    //     try {
+    //         const granted = await PermissionsAndroid.request(
+    //             PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
+    //             'title': 'Location Access Required',
+    //             'message': 'This App needs to Access your location'
+    //         }
+    //         )
+    //         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+    //             //To Check, If Permission is granted
+    //             /// setGrantedPermission(true)
+    //             this.getCurrentLocation();
+    //         } else {
+    //             alert("Permission Denied");
+    //         }
+    //     } catch (err) {
+    //         alert("err", err);
+    //     }
+    // }
+
+  }
+
+  getCurrentLocation = () => {
+
+    geolocation.getCurrentPosition(
+      (position) => {
+        console.warn("Region:", position);
+        this.UpdateUserLocation(position);
+      },
+      (error) => {
+        // See error code charts below.
+        console.warn('Code ', error.code, error.message);
+      },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000 }
+    )
+  }
+
+  UpdateUserLocation = (position) => {
+    console.warn("Position:", position?.coords?.longitude);
+    let lat = position?.coords?.latitude
+    let lng = position?.coords?.longitude
+
+    let userData = {
+      lat,
+      lng
+    }
+    this.props.UpdateUserLocation({
+      userData,
+      callback: response => {
+
+        if (response) {
+
+        } else {
+          this.setState({ loading: false, refreshing: false, });
+
+        }
+      },
+    })
+  }
+
 
   onClick = () => {
     this.props.navigation.navigate('Development In Process');
@@ -91,6 +177,7 @@ class Dashboard extends Component {
   };
 
   _renderCompany = item => {
+    console.warn("ITEM:", item);
     return (
       <TouchableOpacity onPress={() => this.props.navigation.navigate("LocalCompanyList")}>
         <HStack marginBottom="2">
@@ -116,7 +203,7 @@ class Dashboard extends Component {
   render() {
     let { selectedButtonTop } = this.state;
     const { getServicesData_list, getLisetdCompaniesData_list, user } = this.props;
-    console.warn('Dataa', user);
+    //console.warn('Dataa', user);
     return (
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
         <MyHeader title={'Home'} notify profile navigation={this.props.navigation} />
@@ -269,6 +356,7 @@ const mapStateToProps = state => {
     getServicesData_list: state.ServicesReducer.getServicesData_list,
     getLisetdCompaniesData: state.ListedCompaniesReducer.getLisetdCompaniesData,
     getLisetdCompaniesData_list: state.ListedCompaniesReducer.getLisetdCompaniesData_list,
+
   };
 };
 const mapDispatchToProps = dispatch => ({
@@ -279,6 +367,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(ServicesMiddleware.getAllServices(payload)),
   getAllListedCompanies: (payload) =>
     dispatch(ListedCompaniesMiddleware.getAllListedCompanies(payload)),
+  UpdateUserLocation: paylaod => dispatch(AppMiddleware.UpdateUserLocation(paylaod)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
