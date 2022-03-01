@@ -10,43 +10,109 @@ import {
     VStack,
 } from 'native-base';
 import React, { Component } from 'react';
-import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet } from 'react-native';
+import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet, ActivityIndicator, RefreshControl } from 'react-native';
 import MyHeader from '../../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
+import Octicons from 'react-native-vector-icons/Octicons';
 import StarRating from 'react-native-star-rating-widget';
-
+import { connect } from 'react-redux';
+import { ServicesMiddleware } from '../../redux/middleware/ServicesMiddleware';
+import { imgURL } from '../../configs/AxiosConfig';
 // import {Colors} from '../../Styles';
 
 
 
 const { width } = Dimensions.get('window');
 
-export default class ServiceDetails extends Component {
+class ServiceDetails extends Component {
+
     state = {
         loader: true,
+        search: '',
         detailsData: [],
     };
-
     componentDidMount() {
         let data = this.props.route.params.data
-        this.setState({ detailsData: data })
-        // console.warn(data);
-        // Animated.timing(this.rotation, {
-        //   toValue: 1,
-        //   duration: 1000,
-        //   useNativeDriver: true,
-        // }).start();
+        // this.setState({ detailsData: data })
+        this.props.getAllProviders({ name: '', serviceid: data?.id })
+        // .then(() => this.setState({ loader: false }))
+        // .catch(() => this.setState({ loader: false }));
     }
+
+    onPressLoadMore = () => {
+        this.setState({ loader: true }, () => {
+            const { getProvidersData } = this.props;
+            this.props
+                .getAllProviders(getProvidersData.next_page_url, '')
+                .then(() => this.setState({ loader: false }))
+                .catch(() => this.setState({ loader: false }));
+        });
+    };
+
+    renderLoaderMoreButton = () => {
+        const { getProvidersData } = this.props;
+        const { loader } = this.state;
+        return getProvidersData.next_page_url ? (
+            loader ? (
+                <ActivityIndicator
+                    size={'large'}
+                    color={'#1D9CD9'}
+                    style={styles.loadMoreContentContainer}
+                />
+            ) : (
+                <TouchableOpacity
+                    style={{ width: 110, alignSelf: 'center', marginVertical: 13 }}
+                    onPress={this.onPressLoadMore}>
+                    <View style={styles.loadMoreContainer}>
+                        <Text style={styles.loadMoreText}>Load more</Text>
+                    </View>
+                </TouchableOpacity>
+            )
+        ) : null;
+    };
+
+    onRefreshServices = () => {
+        this.setState({ loader: true }, () => {
+            this.props.getAllProviders({ name: '' })
+        });
+    };
+    // onChangeSearchText = text => {
+    //     let { search } = this.state
+    //     this.setState({ loader: true, search: text }, () => {
+    //         console.log(this.state.search, text, 'TEXT====>');
+    //         this.props
+    //             .getAllServices({ search })
+
+    //     });
+    // };
+
+    onChangeSearchText = text => {
+        clearTimeout(this.searchTimeout)
+        this.searchTimeout = setTimeout(() => {
+            this.setState({ loader: true, search: text }, () => {
+                console.log(this.state.search, text, 'TEXT====>');
+                this.props
+                    .getAllProviders({ name: text })
+                // .then(() => this.setState({ loader: false }))
+                // .catch(() => this.setState({ loader: false }));
+            });
+        }, 500)
+
+    };
 
     renderUsersList = item => (
 
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('OtherProfile')}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('OtherProfile', { data: item })}>
             <View style={{ flexDirection: 'row', backgroundColor: '#eee', padding: 10, marginVertical: 5, width: '100%' }}>
                 <View style={{ flexDirection: 'row', width: '70%' }}>
-                    <Image source={item.img} style={styles.profileImg} />
+                    <Image source={item?.profile_pic ?
+                        {
+                            uri: imgURL + item?.profile_pic
+                        } : require('../../assets/user.png')
+                    } style={styles.profileImg} />
 
                     <View style={{ paddingHorizontal: 10, justifyContent: 'center' }}>
-                        <Text style={styles.ProfileName}>{item.name}</Text>
+                        <Text style={styles.ProfileName}>{item?.username}</Text>
                         <View style={{ flexDirection: 'row', marginVertical: 10, alignItems: 'center' }}>
                             <Image source={require('../../assets/blueMarker.png')} style={{ width: 15, height: 15 }} />
                             <Text style={{ fontSize: 11 }}>8 miles away</Text>
@@ -55,11 +121,11 @@ export default class ServiceDetails extends Component {
                 </View>
 
                 <View style={{ width: '30%', justifyContent: 'center' }}>
-                    <Text style={styles.Profile}>Musician</Text>
+                    <Text style={styles.Profile}>{item?.service_name}</Text>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                         <View style={{ alignSelf: 'center', marginHorizontal: 5 }}>
                             <StarRating
-                                rating={4.5}
+                                rating={item?.rating?.rating}
                                 onChange={() => null}
                                 color={'#1D9CD9'}
                                 starSize={13}
@@ -67,7 +133,7 @@ export default class ServiceDetails extends Component {
                                 starStyle={{ width: 2 }}
                             />
                         </View>
-                        <Text style={{ textAlignVertical: 'center', fontSize: 12 }}>(4.5)</Text>
+                        <Text style={{ textAlignVertical: 'center', fontSize: 12 }}>{item?.rating?.rating}</Text>
                     </View>
                 </View>
             </View>
@@ -76,8 +142,10 @@ export default class ServiceDetails extends Component {
     );
 
     render() {
-        const { detailsData } = this.state;
-        console.warn(detailsData);
+        const { getProvidersData, getProvidersData_list, loader } = this.props;
+        console.warn('Dataa', getProvidersData_list, getProvidersData);
+        // const { detailsData } = this.state;
+        // console.warn(detailsData);
         return (
             <View style={styles.container}>
                 <MyHeader
@@ -93,34 +161,62 @@ export default class ServiceDetails extends Component {
                             borderRadius={10}
                             alignItems="center"
                             paddingX="3">
-                            <Icon as={Feather} name="search" size="sm" color="#aaa" />
-                            <Input fontSize={14} placeholder="Search Service Provider" borderWidth={0} />
+                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', width: '90%' }}>
+                                    <Icon as={Feather} name="search" size="sm" color="#aaa" />
+                                    <Input fontSize={14} placeholder="Search Service Provider" borderWidth={0} onChangeText={this.onChangeSearchText} />
+                                </View>
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('ServicesFilter')}>
+                                    <Icon as={Octicons} name="settings" size="sm" color="#aaa" />
+                                </TouchableOpacity>
+                            </View>
                         </HStack>
-                        <FlatList
-                            // numColumns={1}
-                            // columnWrapperStyle={styles.teamsListContainer}
-                            style={styles.flex1}
-                            showsVerticalScrollIndicator={false}
-                            data={[
-                                { name: 'Alex will', img: require('../../assets/1.jpeg') },
-                                { name: 'John will', img: require('../../assets/2.jpeg') },
-                                { name: 'Max will', img: require('../../assets/3.jpeg') },
-                                { name: 'Marry will', img: require('../../assets/4.jpeg') },
-                                { name: 'Janifer will', img: require('../../assets/3.jpeg') },
-                                { name: 'Alex will', img: require('../../assets/1.jpeg') },
-                                { name: 'John will', img: require('../../assets/2.jpeg') },
-                                { name: 'Max will', img: require('../../assets/5.jpeg') },
-                                { name: 'Marry will', img: require('../../assets/4.jpeg') },
-                                { name: 'Janifer will', img: require('../../assets/3.jpeg') },
-                            ]}
-                            renderItem={({ item }) => this.renderUsersList(item)}
-                        />
+                        {!getProvidersData ? (
+                            <ActivityIndicator
+                                size={'large'}
+                                color={'#1D9CD9'}
+                                style={styles.loadMoreContentContainer}
+                            />
+                        ) : null}
+                        {getProvidersData_list && getProvidersData_list?.length ? (
+                            <FlatList
+                                refreshControl={
+                                    <RefreshControl
+                                        refreshing={loader}
+                                        onRefresh={this.onRefreshServices}
+                                    />
+                                }
+                                style={styles.flex1}
+                                showsVerticalScrollIndicator={false}
+                                data={getProvidersData_list}
+                                renderItem={({ item, index }) => this.renderUsersList(item)}
+                                ListFooterComponent={this.renderLoaderMoreButton()}
+                            />
+                        ) : null}
+
                     </View>
                 </ScrollView>
             </View>
         );
     }
 }
+const mapStateToProps = state => {
+    return {
+        // role: state.Auth.role,
+        // user: state.Auth.user,
+        getProvidersData: state.ServicesReducer.getProvidersData,
+        getProvidersData_list: state.ServicesReducer.getProvidersData_list,
+    };
+};
+const mapDispatchToProps = dispatch => ({
+    // Login: data => dispatch(AuthMiddleware.Login(data)),
+    // Login: data => dispatch(AuthMiddleware.Login(data)),
+
+    getAllProviders: (payload) =>
+        dispatch(ServicesMiddleware.getAllProviders(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ServiceDetails);
 
 const styles = StyleSheet.create({
     container: {

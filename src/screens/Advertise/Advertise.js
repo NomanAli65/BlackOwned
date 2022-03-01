@@ -14,12 +14,43 @@ class Advertise extends Component {
     state = {
         loader: true,
         search: '',
+        getProductsDataCopy: [],
     };
     componentDidMount() {
         this.props.getAllUserProducts({ name: '' })
         // .then(() => this.setState({ loader: false }))
         // .catch(() => this.setState({ loader: false }));
     }
+
+    // promoteProduct = (item) => {
+
+    //     this.props.promoteProduct(
+    //         item.id,
+    //     );
+    // }
+
+    promoteProduct = item => {
+        // console.warn('stored', item);
+        let getProductsDataCopy = this.props.getUserProductsData_list;
+
+        let index = getProductsDataCopy.findIndex(val => val.id === item.id);
+
+        if (!getProductsDataCopy[index].stored) {
+            let updateItem = { ...item, is_sponsored: 1, };
+
+            getProductsDataCopy.splice(index, 1, updateItem);
+        } else {
+            let index = getProductsDataCopy.findIndex(val => val.id === item.id);
+            let updateItem = {
+                ...item,
+                is_sponsored: 0,
+            };
+
+            getProductsDataCopy.splice(index, 1, updateItem);
+        }
+        this.setState({ getProductsDataCopy });
+        this.props.promoteProduct({ productid: item.id });
+    };
 
     onPressLoadMoreProducts = () => {
         this.setState({ loader: true }, () => {
@@ -78,11 +109,11 @@ class Advertise extends Component {
 
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={styles.ListDistances}>Price:</Text>
-                        <Text style={styles.sponsorPrice}>{'$'+item.discounted_price}</Text>
-                        <Text style={styles.discountPrice}>{'$'+item.price}</Text>
+                        <Text style={styles.sponsorPrice}>{'$' + item.discounted_price}</Text>
+                        <Text style={styles.discountPrice}>{'$' + item.price}</Text>
                     </View>
                     {item.is_sponsored == 0 ? (
-                        <TouchableOpacity style={styles.promoteButton}>
+                        <TouchableOpacity onPress={() => this.promoteProduct(item)} style={styles.promoteButton}>
                             <Text style={styles.promoteText}>Promote</Text>
                         </TouchableOpacity>
                     ) : (
@@ -167,12 +198,16 @@ const mapStateToProps = state => {
 
         getUserProductsData: state.MarketPlaceReducer.getUserProductsData,
         getUserProductsData_list: state.MarketPlaceReducer.getUserProductsData_list,
+
+        promoteProductData: state.MarketPlaceReducer.promoteProductData,
     };
 };
 const mapDispatchToProps = dispatch => ({
 
     getAllUserProducts: (payload) =>
         dispatch(MarketPlaceMiddleware.getAllUserProducts(payload)),
+
+    promoteProduct: payload => dispatch(MarketPlaceMiddleware.promoteProduct(payload)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Advertise);
 

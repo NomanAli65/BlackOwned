@@ -15,26 +15,31 @@ import MyHeader from '../../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
 import StarRating from 'react-native-star-rating-widget';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { imgURL } from '../../configs/AxiosConfig';
 // import {Colors} from '../../Styles';
+import { connect } from 'react-redux';
+import { ServicesMiddleware } from '../../redux/middleware/ServicesMiddleware';
 
 
 
 const { width } = Dimensions.get('window');
 
-export default class OtherProfile extends Component {
+class OtherProfile extends Component {
 
+    state = {
+        loader: true,
+        search: '',
+    };
     componentDidMount() {
-        // Animated.timing(this.rotation, {
-        //   toValue: 1,
-        //   duration: 1000,
-        //   useNativeDriver: true,
-        // }).start();
+        this.props.getAllServiceById({ providerid: this.props.route.params.data.provider_id })
+        // .then(() => this.setState({ loader: false }))
+        // .catch(() => this.setState({ loader: false }));
     }
 
     renderServicesList = item => (
 
         <View >
-            <Text style={{ fontSize: 12, }}>{item}</Text>
+            <Text style={{ fontSize: 12, }}>{item?.name}</Text>
         </View>
 
     );
@@ -50,10 +55,9 @@ export default class OtherProfile extends Component {
     );
 
     render() {
-        // let rotate = this.rotation.interpolate({
-        //     inputRange: [0, 1],
-        //     outputRange: ['0deg', '360deg'],
-        // });
+        let data = this.props.route.params.data
+        const { getServicesByIdData,  } = this.props;
+        console.warn('Dataa',  getServicesByIdData,);
         return (
             <View style={styles.container}>
                 <MyHeader
@@ -65,13 +69,17 @@ export default class OtherProfile extends Component {
                     <View style={{ paddingHorizontal: 20 }}>
 
                         <View style={{ flexDirection: 'row', backgroundColor: '#eee', padding: 15, marginVertical: 5 }}>
-                            <Image source={require('../../assets/1.jpeg')} style={styles.profileImg} />
+                            <Image source={data?.profile_pic ?
+                                {
+                                    uri: imgURL + data?.profile_pic
+                                } : require('../../assets/user.png')
+                            } style={styles.profileImg} />
                             <View style={{ paddingHorizontal: 10, }}>
-                                <Text style={styles.ProfileName}>Stacy Stratus</Text>
+                                <Text style={styles.ProfileName}>{data?.username}</Text>
                                 <View style={{ flexDirection: 'row' }}>
                                     <View style={{ alignSelf: 'center' }}>
                                         <StarRating
-                                            rating={4.5}
+                                            rating={data?.rating?.rating}
                                             onChange={() => null}
                                             color={'#1D9CD9'}
                                             starSize={13}
@@ -79,7 +87,7 @@ export default class OtherProfile extends Component {
                                             starStyle={{ width: 2 }}
                                         />
                                     </View>
-                                    <Text style={{ marginHorizontal: 5, textAlignVertical: 'center' }}>(4.5)</Text>
+                                    <Text style={{ marginHorizontal: 5, textAlignVertical: 'center' }}>{data?.rating?.rating}</Text>
                                 </View>
                                 <View style={{ flexDirection: 'row' }}>
                                     <Image source={require('../../assets/blueMarker.png')} style={{ width: 20, height: 20 }} />
@@ -89,7 +97,7 @@ export default class OtherProfile extends Component {
                             </View>
                             <View>
                                 <View style={{ marginVertical: 20 }}>
-                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Rating', { provider_id: 1, UserImage: require('../../assets/2.jpeg'), UserName: 'Param Name' })}
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Rating', { provider_id: data?.provider_id, UserImage: data?.profile_pic, UserName: data?.username })}
                                         style={{ borderRadius: 6, backgroundColor: '#1872ea', alignItems: 'center', justifyContent: 'center', paddingVertical: 5, paddingHorizontal: 10 }}>
                                         <Text style={{ color: '#fff', fontSize: 14, fontWeight: 'bold' }}>Rate</Text>
                                     </TouchableOpacity>
@@ -105,21 +113,21 @@ export default class OtherProfile extends Component {
                                     <Entypo name={'briefcase'} size={15} color={'#1872ea'} />
 
                                     {/* <Image source={require('../../assets/blueMarker.png')} style={{ width: 15, height: 15 }} /> */}
-                                    <Text style={{ fontSize: 12, marginLeft: 5 }}>Realtor (Professional)</Text>
+                                    <Text style={{ fontSize: 12, marginLeft: 5 }}>{data?.service_name + ' (Professional)'}</Text>
                                 </View>
                                 <View style={{ flexDirection: 'row', marginBottom: 3 }}>
                                     <Entypo name={'mail'} size={15} color={'#1872ea'} />
-                                    <Text style={{ fontSize: 12, marginLeft: 5, }}>JohnDoe@Blackowned@gmail.com</Text>
+                                    <Text style={{ fontSize: 12, marginLeft: 5, }}>{data?.email}</Text>
                                 </View>
                             </View>
                             <View style={{}}>
                                 <View style={{ flexDirection: 'row', marginBottom: 3 }}>
                                     <Entypo name={'phone'} size={15} color={'#1872ea'} />
-                                    <Text style={{ fontSize: 12, marginLeft: 5, }}>(555)555-1234</Text>
+                                    <Text style={{ fontSize: 12, marginLeft: 5, }}>{data?.phone}</Text>
                                 </View>
                                 <View style={{ flexDirection: 'row', marginBottom: 3 }}>
                                     <Entypo name={'address'} size={15} color={'#1872ea'} />
-                                    <Text style={{ fontSize: 12, marginLeft: 5, }}>NewYork,USA</Text>
+                                    <Text style={{ fontSize: 12, marginLeft: 5, }}>{data?.address}</Text>
                                 </View>
                             </View>
                         </View>
@@ -136,14 +144,7 @@ export default class OtherProfile extends Component {
                                     columnWrapperStyle={styles.teamsListContainer}
                                     style={styles.flex1}
                                     showsVerticalScrollIndicator={false}
-                                    data={[
-                                        'Realtors',
-                                        'Artists',
-                                        'Musicians',
-                                        'Baby Sitter',
-                                        'Beautician',
-                                        'Electrition',
-                                    ]}
+                                    data={getServicesByIdData}
                                     renderItem={({ item }) => this.renderServicesList(item)}
                                 />
                             </View>
@@ -202,7 +203,23 @@ export default class OtherProfile extends Component {
         );
     }
 }
+const mapStateToProps = state => {
+    return {
+        // role: state.Auth.role,
+        // user: state.Auth.user,
+        getServicesByIdData: state.ServicesReducer.getServicesByIdData,
+        getServicesByIdData_list: state.ServicesReducer.getServicesByIdData_list,
+    };
+};
+const mapDispatchToProps = dispatch => ({
+    // Login: data => dispatch(AuthMiddleware.Login(data)),
+    // Login: data => dispatch(AuthMiddleware.Login(data)),
 
+    getAllServiceById: (payload) =>
+        dispatch(ServicesMiddleware.getAllServiceById(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(OtherProfile);
 const styles = StyleSheet.create({
     container: {
         flex: 1,

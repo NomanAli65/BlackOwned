@@ -117,5 +117,63 @@ export const ServicesMiddleware = {
       } catch (error) { }
       // });
     };
-  }
+  },
+
+  getAllProviders: ({ next_page_url, name, serviceid }) => {
+    return async dispatch => {
+
+      // return new Promise(async (resolve, reject) => {
+      try {
+        if (next_page_url == undefined || name) {
+          dispatch({ type: ActionTypes.Reset_Providers_Services, payload: request });
+        }
+        // dispatch({ type: ActionTypes.ShowLoading });
+        let formData = new FormData();
+        formData.append('search', name);
+        formData.append('serviceid', serviceid);
+        console.warn('search', formData)
+        let request = await post(
+          APIs.providerServicesByid(next_page_url),
+          formData,
+          await getHeaders(),
+        );
+        console.warn('request', request?.success);
+        if (request) {
+          dispatch({ type: ActionTypes.Providers_Services, payload: request });
+        } else {
+          dispatch({ type: ActionTypes.HideLoading });
+        }
+      } catch (error) { }
+      // });
+    };
+  },
+
+  getAllServiceById: ({ providerid }) => {
+    return async dispatch => {
+
+      // return new Promise(async (resolve, reject) => {
+      try {
+        // if (next_page_url == undefined || name) {
+        //   dispatch({ type: ActionTypes.Reset_Providers_Services, payload: request });
+        // }
+        // dispatch({ type: ActionTypes.ShowLoading });
+        let formData = new FormData();
+        // formData.append('search', name);
+        formData.append('providerid', providerid);
+        // console.warn('search', formData)
+        let request = await post(
+          APIs.serviceIndexByid,
+          formData,
+          await getHeaders(),
+        );
+        console.warn('request', request?.success);
+        if (request) {
+          dispatch({ type: ActionTypes.Services_ById, payload: request });
+        } else {
+          dispatch({ type: ActionTypes.HideLoading });
+        }
+      } catch (error) { }
+      // });
+    };
+  },
 };

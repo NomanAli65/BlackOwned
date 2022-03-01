@@ -9,6 +9,8 @@ import ContactUs from '../screens/ContactUs/ContactUs';
 import EditProfile from '../screens/EditProfile/EditProfile';
 import FriendList from '../screens/FriendList';
 import Jobs from '../screens/Jobs/Jobs';
+import AddJobCustomer from '../screens/Jobs/AddJobCustomer';
+import PostJobCustomer from '../screens/Jobs/PostJobCustomer';
 import LocalCompanyList from '../screens/LocalCompanyList/LocalCompanyList';
 import AddProduct from '../screens/Marketplace/AddProduct';
 import Marketplace from '../screens/Marketplace/Marketplace';
@@ -60,6 +62,8 @@ const MainStack = () => {
       <MainStackNav.Screen name="ProductDetails" component={ProductDetails} />
       <MainStackNav.Screen name="AddProduct" component={AddProduct} />
       <MainStackNav.Screen name="Jobs" component={Jobs} />
+      <MainStackNav.Screen name="AddJobCustomer" component={AddJobCustomer} />
+      <MainStackNav.Screen name="PostJobCustomer" component={PostJobCustomer} />
       <MainStackNav.Screen name="Notification" component={Notification} />
       <MainStackNav.Screen name="profileSettings" component={profileSettings} />
       <MainStackNav.Screen name="EditProfile" component={EditProfile} />
