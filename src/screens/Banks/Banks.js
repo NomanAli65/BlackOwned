@@ -16,8 +16,7 @@ class Banks extends Component {
     };
     componentDidMount() {
         this.props.getAllBanks({ name: '' })
-        // .then(() => this.setState({ loader: false }))
-        // .catch(() => this.setState({ loader: false }));
+        
     }
 
     onPressLoadMore = () => {
@@ -57,15 +56,7 @@ class Banks extends Component {
             this.props.getAllBanks({ name: '' })
         });
     };
-    // onChangeSearchText = text => {
-    //     let { search } = this.state
-    //     this.setState({ loader: true, search: text }, () => {
-    //         console.log(this.state.search, text, 'TEXT====>');
-    //         this.props
-    //             .getAllServices({ search })
-
-    //     });
-    // };
+    
 
     onChangeSearchText = text => {
         clearTimeout(this.searchTimeout)
@@ -74,15 +65,13 @@ class Banks extends Component {
                 console.log(this.state.search, text, 'TEXT====>');
                 this.props
                     .getAllBanks({ name: text })
-                // .then(() => this.setState({ loader: false }))
-                // .catch(() => this.setState({ loader: false }));
+               
             });
         }, 500)
 
     };
     renderUsersList = item => (
         <TouchableOpacity activeOpacity={0.7} style={styles.ListContainer}>
-            {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}> */}
             <Image source={item.image ?
                 {
                     uri: imgURL + item.image
@@ -93,7 +82,6 @@ class Banks extends Component {
                 <Text style={styles.ListDistances}>4 miles</Text>
             </View>
 
-            {/* </View> */}
         </TouchableOpacity>
     );
 
@@ -141,8 +129,6 @@ class Banks extends Component {
                                 />
                             }
                             style={styles.flex1}
-                            // numColumns={2}
-                            // columnWrapperStyle={styles.teamsListContainer}
                             showsVerticalScrollIndicator={false}
                             data={getBanksData_list}
                             renderItem={({ item, index }) => this.renderUsersList(item)}
@@ -151,37 +137,7 @@ class Banks extends Component {
                     ) : null}
 
                 </View>
-                {/* <View style={{ marginHorizontal: 10, justifyContent: 'center' }}>
-                    <HStack
-                        backgroundColor="#e1e1e1"
-                        marginTop="2.5"
-                        marginBottom={'2'}
-                        borderRadius={10}
-                        alignItems="center"
-                        paddingX="3"
-                    >
-                        <Icon as={Feather} name="search" size="sm" color="#aaa" />
-                        <Input fontSize={14} placeholder="Search" borderWidth={0} />
-                    </HStack>
-                    <FlatList
-                        style={styles.flex1}
-                        showsVerticalScrollIndicator={false}
-                        data={[
-                            { name: 'PNC Bank', img: require('../../assets/realtor.jpg') },
-                            { name: 'USA Bank', img: require('../../assets/c1.jpeg') },
-                            { name: 'Goldman', img: require('../../assets/realtor.jpg') },
-                            { name: 'Bank of America', img: require('../../assets/c2.jpeg') },
-                            { name: 'Standard Chartered', img: require('../../assets/realtor.jpg') },
-                            { name: 'City Bank', img: require('../../assets/c1.jpeg') },
-                            { name: 'Goldman', img: require('../../assets/realtor.jpg') },
-                            { name: 'Bank of America', img: require('../../assets/c2.jpeg') },
-                            { name: 'PNC Bank', img: require('../../assets/realtor.jpg') },
-                            { name: 'USA Bank', img: require('../../assets/c3.jpeg') },
-                            { name: 'Goldman', img: require('../../assets/realtor.jpg') },
-                        ]}
-                        renderItem={({ item }) => this.renderUsersList(item)}
-                    />
-                </View> */}
+               
             </View>
         );
     }

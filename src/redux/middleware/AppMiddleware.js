@@ -70,13 +70,13 @@ export const AppMiddleware = {
                 formData.append('youtube', userData?.userData?.youtube);
                 formData.append('instagram', userData?.userData?.instagram);
                 formData.append('profile_pic', userData?.userData?.profile_pic)
-                console.warn('formDataa', formData);
+                // console.warn('formDataa', formData);
                 let request = await post(APIs.UPDATEPROFILE,
                     formData,
                     await getHeaders(),
 
                 );
-                console.warn("userData Data:", request);
+                // console.warn("userData Data:", request);
                 if (request) {
                     dispatch({ type: ActionTypes.Update_Profile, payload: request });
 
@@ -90,7 +90,7 @@ export const AppMiddleware = {
             try {
                 dispatch({ type: ActionTypes.ShowLoading });
                 let formData = new FormData();
-                console.warn('userData Middleware', userData?.userData);
+                // console.warn('userData Middleware', userData?.userData);
                 formData.append('username', userData?.userData?.username);
                 formData.append('phone', userData?.userData?.phone);
                 formData.append('address', userData?.userData?.address);
@@ -100,13 +100,13 @@ export const AppMiddleware = {
                 formData.append('state', userData?.userData?.state);
                 formData.append('zip', userData?.userData?.zip);
                 formData.append('profile_pic', userData?.userData?.profile_pic)
-                console.warn('formDataa', formData);
+                // console.warn('formDataa', formData);
                 let request = await post(APIs.UPDATEPROFILE,
                     formData,
                     await getHeaders(),
 
                 );
-                console.warn("userData Data:", request);
+                // console.warn("userData Data:", request);
                 if (request) {
                     dispatch({ type: ActionTypes.Update_Profile, payload: request });
 
@@ -124,7 +124,7 @@ export const AppMiddleware = {
                     `${APIs.DATA}`,
                     await getHeaders(),
                 );
-                console.warn("Terms response: ", response);
+                // console.warn("Terms response: ", response);
                 if (response.success) {
                     callback(response);
                 }
@@ -140,17 +140,17 @@ export const AppMiddleware = {
             try {
                 dispatch({ type: ActionTypes.ShowLoading });
                 let formData = new FormData();
-                console.warn('userData Middleware', userData?.userData);
+                // console.warn('userData Middleware', userData?.userData);
                 formData.append('querry', userData?.userData?.option);
                 formData.append('description', userData?.userData?.description);
 
-                console.warn('formDataa', formData);
+                // console.warn('formDataa', formData);
                 let request = await POST(APIs.CONTACT_US,
                     formData,
                     await getHeaders(),
 
                 );
-                console.warn("userData Data:", request);
+                // console.warn("userData Data:", request);
                 if (request.success) {
                     Alert.alert('Note', request?.message)
                     // callback(request?.data)
@@ -165,18 +165,18 @@ export const AppMiddleware = {
             try {
                 dispatch({ type: ActionTypes.ShowLoading });
                 let formData = new FormData();
-                console.warn('userData Middleware', userData?.userData);
+                // console.warn('userData Middleware', userData?.userData);
                 formData.append('provider_id', userData?.userData?.provider_id);
                 formData.append('rating', userData?.userData?.rate);
                 formData.append('comments', userData?.userData?.comments);
 
-                console.warn('formDataa', formData);
+                // console.warn('formDataa', formData);
                 let request = await POST(APIs.SUBMIT_RATING,
                     formData,
                     await getHeaders(),
 
                 );
-                console.warn("userData Data:", request);
+                // console.warn("userData Data:", request);
                 if (request.success) {
                     Alert.alert('Note', request?.message)
                     dispatch({ type: ActionTypes.HideLoading });
@@ -194,7 +194,7 @@ export const AppMiddleware = {
                     `${APIs.PROVIDER_RATING}`,
                     await getHeaders(),
                 );
-                console.warn("Provider_Rating response: ", response);
+                // console.warn("Provider_Rating response: ", response);
                 if (response.success) {
                     callback(response);
                 }
@@ -214,12 +214,12 @@ export const AppMiddleware = {
                 formData.append('lat', userData?.userData?.lat);
                 formData.append('lng', userData?.userData?.lng);
 
-                console.warn('formDataa', formData);
+                // console.warn('formDataa', formData);
                 let request = await post(APIs.UPDATEPROFILE,
                     formData,
                     await getHeaders(),
                 );
-                console.warn("update user location:", request);
+                // console.warn("update user location:", request);
                 if (request) {
                     dispatch({ type: ActionTypes.Update_Profile, payload: request });
                 }

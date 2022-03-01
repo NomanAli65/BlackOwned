@@ -41,9 +41,9 @@ export const AuthMiddleware = {
         formData.append('email', userData.email);
         formData.append('password', userData.password);
         let request = await post(APIs.LOGIN, formData);
-        console.warn("Login Data:", request);
+        // console.warn("Login Data:", request);
         if (request) {
-          console.warn(request);
+          // console.warn(request);
           await Storage.setToken(request.token);
           await Storage.set("@BB-user", JSON.stringify(request))
           dispatch({ type: ActionTypes.Login, payload: request });

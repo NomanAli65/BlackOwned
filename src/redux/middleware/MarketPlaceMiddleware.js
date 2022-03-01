@@ -19,13 +19,13 @@ export const MarketPlaceMiddleware = {
         // dispatch({ type: ActionTypes.ShowLoading });
         let formData = new FormData();
         formData.append('search', name);
-        console.warn('search', formData)
+        // console.warn('search', formData)
         let request = await post(
           APIs.marketPlaceSponsored(next_page_url),
           formData,
           await getHeaders(),
         );
-        console.warn('request', request?.success);
+        // console.warn('request', request?.success);
         if (request) {
           dispatch({ type: ActionTypes.Get_MarketPlacesSponsored, payload: request });
         } else {
@@ -46,13 +46,13 @@ export const MarketPlaceMiddleware = {
         // dispatch({ type: ActionTypes.ShowLoading });
         let formData = new FormData();
         formData.append('search', name);
-        console.warn('search', formData)
+        // console.warn('search', formData)
         let request = await post(
           APIs.marketPlaceProducts(next_page_url),
           formData,
           await getHeaders(),
         );
-        console.warn('request', request?.success);
+        // console.warn('request', request?.success);
         if (request) {
           dispatch({ type: ActionTypes.Get_MarketPlacesProducts, payload: request });
         } else {
@@ -74,13 +74,13 @@ export const MarketPlaceMiddleware = {
         // dispatch({ type: ActionTypes.ShowLoading });
         let formData = new FormData();
         formData.append('search', name);
-        console.warn('search', formData)
+        // console.warn('search', formData)
         let request = await post(
           APIs.getAllUserProducts(next_page_url),
           formData,
           await getHeaders(),
         );
-        console.warn('request', request?.success);
+        // console.warn('request', request?.success);
         if (request) {
           dispatch({ type: ActionTypes.Get_UserProducts, payload: request });
         } else {
@@ -103,13 +103,13 @@ export const MarketPlaceMiddleware = {
         formData.append('discounted_price', discounted_price);
         formData.append('description', description);
         formData.append('image', image);
-        console.warn('formData', formData)
+        // console.warn('formData', formData)
         let request = await post(
           APIs.storeProduct,
           formData,
           await getHeaders(),
         );
-        console.warn("response=============", request?.success)
+        // console.warn("response=============", request?.success)
         if (request.success) {
           dispatch({ type: ActionTypes.Store_Product, payload: request });
         } else {
@@ -129,13 +129,13 @@ export const MarketPlaceMiddleware = {
         let formData = new FormData();
         formData.append('productid', productid);
         
-        console.warn('formData', formData)
+        // console.warn('formData', formData)
         let request = await post(
           APIs.updateProductStatus,
           formData,
           await getHeaders(),
         );
-        console.warn("response=============", request?.success)
+        // console.warn("response=============", request?.success)
         if (request.success) {
           dispatch({ type: ActionTypes.Promote_Product, payload: request });
         } else {

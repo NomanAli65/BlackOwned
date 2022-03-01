@@ -19,13 +19,13 @@ export const NewsMiddleware = {
         // dispatch({ type: ActionTypes.ShowLoading });
         let formData = new FormData();
         formData.append('search', name);
-        console.warn('search', formData)
+        // console.warn('search', formData)
         let request = await post(
           APIs.getNews(next_page_url),
           formData,
           await getHeaders(),
         );
-        console.warn('request', request?.success);
+        // console.warn('request', request?.success);
         if (request) {
           dispatch({ type: ActionTypes.Get_News, payload: request });
         } else {

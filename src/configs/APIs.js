@@ -60,7 +60,17 @@ export const APIs = {
   postJob: `customers/postJob`,
 
   serviceIndexByid: `provider/serviceIndexByid`,
+  userList: (next_page_url) =>
+    next_page_url
+      ? next_page_url
+      : 'custom/userList',
+  friendRequest: `custom/friendRequest`,
+  getNotificationByUser: (next_page_url) =>
+    next_page_url
+      ? next_page_url
+      : 'custom/getNotificationByUser',
 
+  friendRequestApproved: `custom/friendRequestApproved`,
   GET_SEMINAR: `getSeminars`,
   SERVICE_INDEX: `provider/serviceIndex`,
   CONTACT_US: `customers/contactUs`,

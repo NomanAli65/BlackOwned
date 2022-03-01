@@ -34,13 +34,13 @@ export const ServicesMiddleware = {
         // dispatch({ type: ActionTypes.ShowLoading });
         let formData = new FormData();
         formData.append('search', name);
-        console.warn('search', formData)
+        // console.warn('search', formData)
         let request = await post(
           APIs.CUSTOMER_SERVICES(next_page_url),
           formData,
           await getHeaders(),
         );
-        console.warn('request', request?.success);
+        // console.warn('request', request?.success);
         if (request) {
           dispatch({ type: ActionTypes.Customer_Services, payload: request });
         } else {
@@ -59,13 +59,13 @@ export const ServicesMiddleware = {
           `${APIs.SERVICE_INDEX}`,
           await getHeaders(),
         );
-        console.warn("ServicesIndex response: ", response);
+        // console.warn("ServicesIndex response: ", response);
         if (response.success) {
           callback(response);
         }
       } catch (error) {
         callback(false);
-        console.warn('err ', error);
+        // console.warn('err ', error);
       }
 
     };
@@ -78,13 +78,13 @@ export const ServicesMiddleware = {
       try {
         let formData = new FormData();
         formData.append('service_id', service_id);
-        console.warn('service_id', formData)
+        // console.warn('service_id', formData)
         let request = await post(
           APIs.storeService,
           formData,
           await getHeaders(),
         );
-        console.warn("response=============", request?.success)
+        // console.warn("response=============", request?.success)
         if (request.success) {
           dispatch({ type: ActionTypes.Store_Service, payload: request });
         } else {
@@ -102,13 +102,13 @@ export const ServicesMiddleware = {
       try {
         let formData = new FormData();
         formData.append('service_id', service_id);
-        console.warn('service_id', formData)
+        // console.warn('service_id', formData)
         let request = await post(
           APIs.removeService,
           formData,
           await getHeaders(),
         );
-        console.warn("response=============", request?.success)
+        // console.warn("response=============", request?.success)
         if (request.success) {
           dispatch({ type: ActionTypes.Remove_Service, payload: request });
         } else {
@@ -131,13 +131,13 @@ export const ServicesMiddleware = {
         let formData = new FormData();
         formData.append('search', name);
         formData.append('serviceid', serviceid);
-        console.warn('search', formData)
+        // console.warn('search', formData)
         let request = await post(
           APIs.providerServicesByid(next_page_url),
           formData,
           await getHeaders(),
         );
-        console.warn('request', request?.success);
+        // console.warn('request', request?.success);
         if (request) {
           dispatch({ type: ActionTypes.Providers_Services, payload: request });
         } else {
@@ -166,7 +166,7 @@ export const ServicesMiddleware = {
           formData,
           await getHeaders(),
         );
-        console.warn('request', request?.success);
+        // console.warn('request', request?.success);
         if (request) {
           dispatch({ type: ActionTypes.Services_ById, payload: request });
         } else {
