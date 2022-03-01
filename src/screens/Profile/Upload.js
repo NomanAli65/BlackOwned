@@ -10,73 +10,54 @@ import {
     VStack,
 } from 'native-base';
 import React, { Component } from 'react';
-import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet,TextInput, Alert } from 'react-native';
+import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet, TextInput, Alert } from 'react-native';
 import MyHeader from '../../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { OpenImagePicker } from '../../configs';
-
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { connect } from 'react-redux';
+import { PostMiddleware } from '../../redux/middleware/PostMiddleware';
 // import {Colors} from '../../Styles';
 
 
 
 const { width } = Dimensions.get('window');
 
-export default class Upload extends Component {
+class Upload extends Component {
     state = {
         description: '',
         title: '',
         image: null,
         loader: false,
+        file: null,
+        mediaType: null,
     };
     componentDidMount() {
-        // Animated.timing(this.rotation, {
-        //   toValue: 1,
-        //   duration: 1000,
-        //   useNativeDriver: true,
-        // }).start();
+
     }
 
     postCreate = () => {
+
         let {
-            // description,
-            // title,
             image,
+            mediaType,
         } = this.state;
-
-        // let productCategoryItem = this.props.getProductCategories.find(item => {
-        //   if (productType === item.productcategory_name) {
-        //     return item;
-        //   }
-        // });
-
+        let userData = {
+            media: image,
+            type: mediaType
+        }
         if (
-            // !description ||
-            // !title ||
             !image
         ) {
-            Alert.alert('Warning', 'Please enter all fileds!');
+            Alert.alert('Warning', 'Please select image/video!');
         } else {
-            // this.setState({ loader: true });
-            // this.props
-            //     .postCreate({
-            //         description,
-            //         title,
-            //         image,
-            //     })
-            // this.setState({ loader: false });
+
+            this.props.Store_Post({
+                userData,
+            })
             this.props.navigation.navigate('UserProfile', { type: 'upload' })
-            // this.props.navigation.navigate('UserProfile', {
-            //     type: 'upload',
-            // })
-            // .then(() => {
-            //   this.setState({ loader: false });
-            //   this.props.navigation.navigate('UserProfile')
-            // })
-            // .catch(error => {
-            //   this.setState({ loader: false });
-            // });
         }
     };
 
@@ -96,8 +77,105 @@ export default class Upload extends Component {
         });
     };
 
+    selectImage = () => {
+        Alert.alert("Select", "Please selection an option", [
+            {
+                text: "Cancel",
+            },
+            {
+                text: "Camera",
+                onPress: () => {
+                    try {
+                        launchCamera({
+                            mediaType: 'mixed'
+                        }, (response) => {
 
+                            if (!response.errorCode && !response.didCancel) {
+                                let img = response.assets[0];
+                                let mediaType = img?.type
+                                if (mediaType.startsWith('image')) {
+                                    this.setState({
+                                        mediaType: 0,
+                                    })
+
+                                }
+                                if (mediaType.startsWith('video')) {
+                                    this.setState({
+                                        mediaType: 1,
+                                    })
+                                }
+                                this.setState({
+                                    image: {
+                                        uri: img.uri,
+                                        name: img.fileName,
+                                        size: img.fileSize,
+                                        type: img.type
+                                    },
+
+                                    fileDimension: {
+                                        height: img.height,
+                                        width: img.width
+                                    },
+                                })
+                            } else if (response.didCancel) {
+                                console.warn("error", response);
+                            }
+                        })
+                    } catch (error) {
+                        console.warn("error", error);
+                    }
+                }
+            },
+            {
+                text: "Library",
+                onPress: () => {
+                    try {
+                        launchImageLibrary({
+                            mediaType: 'mixed'
+                        }, (response) => {
+                            //   console.warn("ImagePicker Reponces:", response);
+                            if (!response.errorCode && !response.didCancel) {
+                                let img = response.assets[0];
+
+                                let mediaType = img?.type
+                                if (mediaType.startsWith('image')) {
+                                    this.setState({
+                                        mediaType: 0,
+                                    })
+
+                                }
+                                if (mediaType.startsWith('video')) {
+                                    this.setState({
+                                        mediaType: 1,
+                                    })
+                                }
+
+                                this.setState({
+                                    image: {
+                                        uri: img.uri,
+                                        name: img.fileName,
+                                        size: img.fileSize,
+                                        type: img.type
+                                    },
+                                    filterModal: true,
+                                    fileDimension: {
+                                        height: img.height,
+                                        width: img.width
+                                    },
+                                })
+                            } else if (response.didCancel) {
+                                console.warn('error', response);
+                            }
+                        })
+                    } catch (error) {
+                        console.warn('error', error);
+                    }
+                }
+            },
+        ])
+    }
     render() {
+        //  console.warn("mediaType:", this.state.mediaType);
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <MyHeader
@@ -133,7 +211,9 @@ export default class Upload extends Component {
                                             width: 150,
                                             height: 150,
                                             borderRadius: 12,
-                                            elevation: 3,
+                                            // borderWidth: 1,
+                                            // borderColor: '#000'
+
                                         }}
                                     />
                                     <Text style={{ fontWeight: 'bold', fontSize: 18 }}>
@@ -143,7 +223,7 @@ export default class Upload extends Component {
                             ) : (
                                 <View>
                                     <TouchableOpacity
-                                        onPress={this.uploadImage}
+                                        onPress={this.selectImage}
                                         style={{
                                             backgroundColor: '#fff',
                                             alignItems: 'center',
@@ -197,7 +277,7 @@ export default class Upload extends Component {
                             />
                         </View> */}
 
-                        <View style={{ marginVertical: 0, marginHorizontal: 20,alignItems:'center' }}>
+                        <View style={{ marginVertical: 0, marginHorizontal: 20, alignItems: 'center' }}>
                             <Button
                                 onPress={this.postCreate}
                                 backgroundColor="primary.100"
@@ -222,7 +302,14 @@ export default class Upload extends Component {
         );
     }
 }
+const mapStateToProps = state => ({
 
+})
+const mapDispatchToProps = dispatch => ({
+    Store_Post: paylaod => dispatch(PostMiddleware.Store_Post(paylaod)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Upload);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
