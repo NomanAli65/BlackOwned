@@ -50,5 +50,7 @@ export const APIs = {
   CONTACT_US: `customers/contactUs`,
   SUBMIT_RATING: `customers/submitRating`,
   PROVIDER_RATING: `provider/getProviderRating`,
-
+  STORE_POST: `customers/storePost`,
+  SHOW_USER_POST: `customers/showUserPost`,
+  DELETE_POST: 'customers/deletePost',
 };

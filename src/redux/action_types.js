@@ -24,4 +24,5 @@ export const ActionTypes = {
   ShowLoading: 'SHOW_LOADING',
   HideLoading: 'HIDE_LOADING',
   Update_Profile: 'UPDATE_PROFILE',
+  Own_Post: 'Own_Post',
 };

@@ -10,7 +10,7 @@ import {
     VStack,
 } from 'native-base';
 import React, { Component } from 'react';
-import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet, RefreshControl, Alert, Platform, Linking } from 'react-native';
+import { Image, Modal, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet, RefreshControl, Alert, Platform, Linking } from 'react-native';
 import MyHeader from '../../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
 import StarRating from 'react-native-star-rating-widget';
@@ -20,8 +20,10 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { ServicesMiddleware } from '../../redux/middleware/ServicesMiddleware';
 import { imgURL } from '../../configs/AxiosConfig';
 import { WebView } from 'react-native-webview';
+import { PostMiddleware } from '../../redux/middleware/PostMiddleware';
 // import {Colors} from '../../Styles';
-
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 
 const { width } = Dimensions.get('window');
@@ -35,13 +37,19 @@ class UserProfile extends Component {
             Profile_Image: this.props?.user?.user?.profile_pic ?
                 { uri: imgURL + this.props?.user?.user?.profile_pic }
                 : require('../../assets/user.png'),
+            Posts: this.props.ownPost ? this.props.ownPost : [],
+            modalVisible: false,
+            selectedItem: [],
+            slectForDelete: null,
         };
     }
     componentDidMount() {
-        this.Services_Index()
+        this.Services_Index();
+        this.Show_User_Post();
     }
     onRefresh = () => {
         this.Services_Index();
+        this.Show_User_Post();
     }
     Services_Index = () => {
         this.props.Service_Index({
@@ -60,6 +68,9 @@ class UserProfile extends Component {
             },
         });
     }
+    Show_User_Post = () => {
+        this.props.Show_User_Post();
+    }
 
     renderServicesList = item => (
 
@@ -70,18 +81,75 @@ class UserProfile extends Component {
     );
 
     renderPostsList = item => (
+        <TouchableOpacity
+            onLongPress={() => this.setState({ slectForDelete: item?.id })}
+            onPress={() => { this.setState({ modalVisible: true, selectedItem: item, slectForDelete: null }) }}>
+            {this.state.slectForDelete == item.id ?
+                <TouchableOpacity
+                    onPress={() => this.OnDelClick(item?.id)}
+                    style={{
+                        position: 'absolute',
+                        zIndex: 1,
+                        backgroundColor: 'red',
+                        padding: 3,
+                        borderRadius: 4,
+                        marginTop: 5,
+                        marginLeft: 4,
+                    }}>
+                    <AntDesign name={'delete'} size={16} color={'#fff'} />
+                </TouchableOpacity>
+                : null}
+            {item?.type == 0 ?
+                <View style={{ margin: 3 }}>
+                    <Image source={{ uri: imgURL + item.media }} style={{ width: 100, height: 100, borderRadius: 5, }} />
+                </View>
+                :
+                <View style={{ margin: 3 }}>
+                    <View style={{
+                        width: 100,
+                        height: 100,
+                        borderRadius: 5,
+                        backgroundColor: '#eee',
+                        alignItems: "center",
+                        justifyContent: 'center',
+                    }}>
+                        <FontAwesome name={'play-circle-o'} size={50} color={'#000'} />
+                    </View>
+                </View>
+            }
 
-        <TouchableOpacity >
-            <View style={{ margin: 3 }}>
-                <Image source={item.img} style={{ width: 100, height: 100, borderRadius: 5 }} />
-            </View>
         </TouchableOpacity>
 
     );
+    OnDelClick = (id) => {
+        let userData = { id }
+        this.setState({
+            slectForDelete: null
+        })
+        Alert.alert(
+            "Waring",
+            "Do you want to delete.",
+            [
+                {
+                    text: "No",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                {
+                    text: "Yes", onPress: () => {
+
+                        this.props.Delete_Post({ userData })
+
+                    }
+                }
+            ]
+        );
+
+    }
     SocailButtonClick = (value) => {
         // Linking.openURL('https://google.com')
 
-        console.warn("hell", value, this.props.user.user.facebook);
+        // console.warn("hell", value, this.props.user.user.facebook);
         let URL = ''
         if (value == 'facebook') {
             var is_https = URL.startsWith('https');
@@ -119,7 +187,8 @@ class UserProfile extends Component {
 
     render() {
         let User = this.props?.user?.user
-        // console.warn("User:", this.props.user.user?.rating?.rating);
+        console.warn("User:", this.props.user);
+        //  console.warn("ownPost", this.props.ownPost);
         // let rotate = this.rotation.interpolate({
         //     inputRange: [0, 1],
         //     outputRange: ['0deg', '360deg'],
@@ -147,19 +216,20 @@ class UserProfile extends Component {
                             <Image source={this.state.Profile_Image} style={styles.profileImg} />
                             <View style={{ paddingHorizontal: 10, justifyContent: 'center' }}>
                                 <Text style={styles.ProfileName}>{User?.username}</Text>
-                                <View style={{ flexDirection: 'row' }}>
-                                    <View style={{ alignSelf: 'center' }}>
-                                        <StarRating
-                                            rating={User?.rating?.rating}
-                                            onChange={() => null}
-                                            color={'#1D9CD9'}
-                                            starSize={13}
-                                            maxStars={5}
-                                            starStyle={{ width: 3 }}
-                                        />
-                                    </View>
-                                    <Text style={{ marginHorizontal: 5, textAlignVertical: 'center' }}>({User?.rating?.rating})</Text>
-                                </View>
+                                {this.props.user.user?.rating ?
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <View style={{ alignSelf: 'center' }}>
+                                            <StarRating
+                                                rating={User?.rating?.rating}
+                                                onChange={() => null}
+                                                color={'#1D9CD9'}
+                                                starSize={13}
+                                                maxStars={5}
+                                                starStyle={{ width: 3 }}
+                                            />
+                                        </View>
+                                        <Text style={{ marginHorizontal: 5, textAlignVertical: 'center' }}>({User?.rating?.rating})</Text>
+                                    </View> : null}
                                 {/* <View style={{ flexDirection: 'row' }}>
                                     <Image source={require('../../assets/blueMarker.png')} style={{ width: 20, height: 20 }} />
                                     <Text style={{}}>8 miles away</Text>
@@ -300,20 +370,22 @@ class UserProfile extends Component {
                                 columnWrapperStyle={styles.PostListContainer}
                                 style={styles.flex1}
                                 showsVerticalScrollIndicator={false}
-                                data={[
-                                    { name: 'Realtors', img: require('../../assets/realtor.jpg') },
-                                    { name: 'Artists', img: require('../../assets/c1.jpeg') },
-                                    { name: 'Musicians', img: require('../../assets/realtor.jpg') },
-                                    { name: 'Baby Sitter', img: require('../../assets/c2.jpeg') },
-                                    { name: 'Electrition', img: require('../../assets/realtor.jpg') },
-                                    { name: 'Beautician', img: require('../../assets/c1.jpeg') },
-                                    { name: 'Realtors', img: require('../../assets/realtor.jpg') },
-                                    { name: 'Artists', img: require('../../assets/c1.jpeg') },
-                                    { name: 'Musicians', img: require('../../assets/realtor.jpg') },
-                                    { name: 'Baby Sitter', img: require('../../assets/c2.jpeg') },
-                                    { name: 'Electrition', img: require('../../assets/realtor.jpg') },
-                                    { name: 'Beautician', img: require('../../assets/c1.jpeg') },
-                                ]}
+                                data={this.props.ownPost
+                                    //     [
+                                    //     { name: 'Realtors', img: require('../../assets/realtor.jpg') },
+                                    //     { name: 'Artists', img: require('../../assets/c1.jpeg') },
+                                    //     { name: 'Musicians', img: require('../../assets/realtor.jpg') },
+                                    //     { name: 'Baby Sitter', img: require('../../assets/c2.jpeg') },
+                                    //     { name: 'Electrition', img: require('../../assets/realtor.jpg') },
+                                    //     { name: 'Beautician', img: require('../../assets/c1.jpeg') },
+                                    //     { name: 'Realtors', img: require('../../assets/realtor.jpg') },
+                                    //     { name: 'Artists', img: require('../../assets/c1.jpeg') },
+                                    //     { name: 'Musicians', img: require('../../assets/realtor.jpg') },
+                                    //     { name: 'Baby Sitter', img: require('../../assets/c2.jpeg') },
+                                    //     { name: 'Electrition', img: require('../../assets/realtor.jpg') },
+                                    //     { name: 'Beautician', img: require('../../assets/c1.jpeg') },
+                                    // ]
+                                }
                                 renderItem={({ item }) => this.renderPostsList(item)}
                             />
                         </View>
@@ -325,6 +397,49 @@ class UserProfile extends Component {
                     style={styles.fabBtn}>
                     <Entypo name="plus" size={28} color={'#fff'} />
                 </TouchableOpacity>
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setState({ modalVisible: false });
+                    }}
+
+                >
+                    <View style={{
+                        marginTop: 100,
+                        height: 600,
+                        width: '90%',
+                        backgroundColor: '#000',
+                        alignSelf: 'center',
+                        borderRadius: 30,
+
+                    }}>
+                        <TouchableOpacity
+                            onPress={() => this.setState({ modalVisible: false })}
+                            style={{
+                                marginTop: 20,
+                                right: 20,
+                                position: 'absolute',
+                                alignSelf: 'flex-end',
+                                zIndex: 1,
+                            }}>
+                            <AntDesign name={'closecircle'} size={25} color={"#1872ea"} />
+                        </TouchableOpacity>
+                        {this.state?.selectedItem?.type == 0 ?
+                            <Image source={{ uri: imgURL + this.state?.selectedItem?.media }}
+                                style={{
+                                    height: 600,
+                                    width: '96%',
+                                    borderRadius: 6,
+                                    resizeMode: 'contain',
+                                    alignSelf: 'center',
+                                    justifyContent: 'center'
+                                }} />
+                            : null}
+                    </View>
+
+                </Modal>
             </View >
         );
     }
@@ -332,10 +447,13 @@ class UserProfile extends Component {
 
 const mapStateToProps = state => ({
     user: state.AuthReducer.user,
+    ownPost: state.PostReducer.ownPost,
 });
 
 const mapDispatchToProps = dispatch => ({
     Service_Index: paylaod => dispatch(ServicesMiddleware.Service_Index(paylaod)),
+    Show_User_Post: payload => dispatch(PostMiddleware.Show_User_Post()),
+    Delete_Post: paylaod => dispatch(PostMiddleware.Delete_Post(paylaod))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
