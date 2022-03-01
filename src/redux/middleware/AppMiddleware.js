@@ -218,12 +218,10 @@ export const AppMiddleware = {
                 let request = await post(APIs.UPDATEPROFILE,
                     formData,
                     await getHeaders(),
-
                 );
                 console.warn("update user location:", request);
                 if (request) {
                     dispatch({ type: ActionTypes.Update_Profile, payload: request });
-
                 }
                 //  dispatch({ type: ActionTypes.HideLoading });
             } catch (error) { }

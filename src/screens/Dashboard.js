@@ -177,6 +177,7 @@ class Dashboard extends Component {
   };
 
   _renderCompany = item => {
+    console.warn("ITEM:", item);
     return (
       <TouchableOpacity onPress={() => this.props.navigation.navigate("LocalCompanyList")}>
         <HStack marginBottom="2">

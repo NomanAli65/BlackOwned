@@ -10,7 +10,7 @@ import {
     VStack,
 } from 'native-base';
 import React, { Component } from 'react';
-import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet } from 'react-native';
+import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet, Linking } from 'react-native';
 import MyHeader from '../../components/MyHeader';
 import Feather from 'react-native-vector-icons/Feather';
 import StarRating from 'react-native-star-rating-widget';
@@ -48,6 +48,16 @@ export default class OtherProfile extends Component {
         </TouchableOpacity>
 
     );
+    OnCallPress = () => {
+        console.warn("hello");
+        let phoneNumber = '090078601'
+        Linking.openURL(`tel:${phoneNumber}`)
+    }
+    // OnEmailPress = () => {
+    //     console.warn("hello email");
+    //     let email = 'Care@amazon.com'
+    //     Linking.openURL('mailto:' + email)
+    // }
 
     render() {
         // let rotate = this.rotation.interpolate({
@@ -151,7 +161,7 @@ export default class OtherProfile extends Component {
 
                         <HStack marginY={3} alignSelf={'center'} space={'md'}>
                             <Button
-                                onPress={this.onClick}
+                                onPress={this.OnCallPress}
                                 flex={1}
                                 borderRadius={5}
                                 paddingX={0}
