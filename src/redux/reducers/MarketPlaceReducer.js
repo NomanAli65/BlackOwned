@@ -8,6 +8,7 @@ let initialState = {
     storeProductData: [],
     getUserProductsData: null,
     getUserProductsData_list: [],
+    promoteProductData: [],
     loading: false,
 
 };
@@ -76,6 +77,10 @@ export const MarketPlaceReducer = (state = initialState, action) => {
                 getUserProductsData_list: [],
             };
             break;
+        case ActionTypes.Promote_Product:
+            state = { ...state, promoteProductData: action.payload };
+            break;
+
 
         default:
             break;

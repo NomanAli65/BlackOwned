@@ -45,6 +45,22 @@ export const APIs = {
       ? next_page_url
       : 'customers/getAllProducts',
 
+  updateProductStatus: `customers/updateProductStatus`,
+
+  providerServicesByid: (next_page_url) =>
+    next_page_url
+      ? next_page_url
+      : 'customers/providerServicesByid',
+
+  getUserJobs: (next_page_url) =>
+    next_page_url
+      ? next_page_url
+      : 'customers/getUserJobs',
+
+  postJob: `customers/postJob`,
+
+  serviceIndexByid: `provider/serviceIndexByid`,
+
   GET_SEMINAR: `getSeminars`,
   SERVICE_INDEX: `provider/serviceIndex`,
   CONTACT_US: `customers/contactUs`,

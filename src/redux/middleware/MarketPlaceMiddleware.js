@@ -91,7 +91,7 @@ export const MarketPlaceMiddleware = {
     };
   },
 
-  storeProduct: ({ name,price,discounted_price,description,image }) => {
+  storeProduct: ({ name, price, discounted_price, description, image }) => {
     // console.warn("ghgjgj", name);
     return async dispatch => {
       // return new Promise(async () => {
@@ -112,6 +112,32 @@ export const MarketPlaceMiddleware = {
         console.warn("response=============", request?.success)
         if (request.success) {
           dispatch({ type: ActionTypes.Store_Product, payload: request });
+        } else {
+          dispatch({ type: ActionTypes.HideLoading });
+        }
+      } catch (error) { }
+      // });
+    };
+  },
+
+  promoteProduct: ({ productid }) => {
+    // console.warn("ghgjgj", name);
+    return async dispatch => {
+      // return new Promise(async () => {
+      try {
+        dispatch({ type: ActionTypes.ShowLoading });
+        let formData = new FormData();
+        formData.append('productid', productid);
+        
+        console.warn('formData', formData)
+        let request = await post(
+          APIs.updateProductStatus,
+          formData,
+          await getHeaders(),
+        );
+        console.warn("response=============", request?.success)
+        if (request.success) {
+          dispatch({ type: ActionTypes.Promote_Product, payload: request });
         } else {
           dispatch({ type: ActionTypes.HideLoading });
         }

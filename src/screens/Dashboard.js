@@ -222,7 +222,7 @@ class Dashboard extends Component {
             </HStack> */}
             <HStack flex={1} marginY={3} alignSelf={'center'} space={'md'}>
               <Button
-                onPress={() => this.props.navigation.navigate('Jobs')}
+                onPress={() => this.props.navigation.navigate( user.user.role == 'provider' ? 'Jobs' : 'AddJobCustomer')}
                 flex={0.3}
                 borderRadius={5}
                 paddingX={0}
