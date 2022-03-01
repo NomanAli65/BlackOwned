@@ -1,60 +1,197 @@
 import { HStack, Icon, Input, Button } from 'native-base';
 import React, { Component } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { Image, Dimensions, View, Animated, TouchableOpacity, Text, FlatList, StyleSheet, ActivityIndicator, RefreshControl } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
+import Octicons from 'react-native-vector-icons/Octicons';
 import MyHeader from '../../components/MyHeader';
+import { connect } from 'react-redux';
+import { NotificationMiddleware } from '../../redux/middleware/NotificationMiddleware';
+import { imgURL } from '../../configs/AxiosConfig';
+
+class Notification extends Component {
+
+    state = {
+        loader: true,
+        search: '',
+        getUserNotificationsDataCopy: [],
+    };
 
 
-export default class Notification extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+    friendRequestApproved = item => {
+        let { getUserNotificationsDataCopy } = this.state;
+
+        getUserNotificationsDataCopy = this.props.getUserNotificationsData_list;
+        let index = getUserNotificationsDataCopy.findIndex(val => val.id === item.id);
+
+        let updateItem = {
+            ...item,
+            content_action: 'accept',
         };
+
+        getUserNotificationsDataCopy.splice(index, 1, updateItem);
+        this.setState({ getUserNotificationsDataCopy });
+
+        this.props.friendRequestApproved({
+            content_id: item.content_id,
+            notification_id: item.id,
+            status: 'accept',
+        });
+    };
+
+    friendRequestRejected = item => {
+        let { getUserNotificationsDataCopy } = this.state;
+
+        getUserNotificationsDataCopy = this.props.getUserNotificationsData_list;
+        let index = getUserNotificationsDataCopy.findIndex(val => val.id === item.id);
+
+        let updateItem = {
+            ...item,
+            content_action: 'reject',
+        };
+
+        getUserNotificationsDataCopy.splice(index, 1, updateItem);
+        this.setState({ getUserNotificationsDataCopy });
+
+        this.props.friendRequestApproved({
+            content_id: item.content_id,
+            notification_id: item.id,
+            status: 'reject',
+        });
+    };
+
+
+
+    componentDidMount() {
+        this.props.getNotificationByUser({ name: '' })
+        // .then(() => this.setState({ loader: false }))
+        // .catch(() => this.setState({ loader: false }));
     }
+
+    onPressLoadMore = () => {
+        this.setState({ loader: true }, () => {
+            const { getUserNotificationsData } = this.props;
+            this.props
+                .getNotificationByUser(getUserNotificationsData.next_page_url, '')
+                .then(() => this.setState({ loader: false }))
+                .catch(() => this.setState({ loader: false }));
+        });
+    };
+
+    renderLoaderMoreButton = () => {
+        const { getUserNotificationsData } = this.props;
+        const { loader } = this.state;
+        return getUserNotificationsData.next_page_url ? (
+            loader ? (
+                <ActivityIndicator
+                    size={'large'}
+                    color={'#1D9CD9'}
+                    style={styles.loadMoreContentContainer}
+                />
+            ) : (
+                <TouchableOpacity
+                    style={{ width: 110, alignSelf: 'center', marginVertical: 13 }}
+                    onPress={this.onPressLoadMore}>
+                    <View style={styles.loadMoreContainer}>
+                        <Text style={styles.loadMoreText}>Load more</Text>
+                    </View>
+                </TouchableOpacity>
+            )
+        ) : null;
+    };
+
+    onRefreshServices = () => {
+        this.setState({ loader: true }, () => {
+            this.props.getNotificationByUser({ name: '' })
+        });
+    };
+    // onChangeSearchText = text => {
+    //     let { search } = this.state
+    //     this.setState({ loader: true, search: text }, () => {
+    //         console.log(this.state.search, text, 'TEXT====>');
+    //         this.props
+    //             .getAllServices({ search })
+
+    //     });
+    // };
+
+    onChangeSearchText = text => {
+        clearTimeout(this.searchTimeout)
+        this.searchTimeout = setTimeout(() => {
+            this.setState({ loader: true, search: text }, () => {
+                console.log(this.state.search, text, 'TEXT====>');
+                this.props
+                    .getNotificationByUser({ name: text })
+                // .then(() => this.setState({ loader: false }))
+                // .catch(() => this.setState({ loader: false }));
+            });
+        }, 500)
+
+    };
     renderUsersList = item => (
         <View style={styles.ListContainer}>
-            <Image source={item.img} style={styles.ListImage} />
+            <Image source={item.profile_pic ?
+                {
+                    uri: imgURL + item.profile_pic
+                } : require('../../assets/user.png')
+            } style={styles.ListImage} />
             <View style={{ flex: 1, paddingHorizontal: 10 }}>
                 <View style={styles.inviteRecipientNameContainer}>
                     <Text style={styles.inviteRecipientName}>
-                        {item.name}
+                        {item.sendername}
                     </Text>
-                    <Text style={styles.fontSize16}>Wants to like this application</Text>
+                    <Text style={styles.fontSize16}>{item.title}</Text>
                     {/* <Text style={styles.inviteRecipientName}>
                         John Doe
                     </Text> */}
                 </View>
 
-                <View style={styles.flexRow}>
+                {item.content_action == 'pending' ? (
+                    <View style={styles.flexRow}>
+
+                        <Button
+                            onPress={()=> this.friendRequestApproved(item)}
+                            backgroundColor="primary.100"
+                            style={{
+                                width: 80,
+                                borderRadius: 5,
+                                marginHorizontal: 5,
+                                height: 40,
+                                elevation: 5,
+                            }}>
+                            Accept
+                        </Button>
+                        <Button
+                            onPress={()=> this.friendRequestRejected(item)}
+                            backgroundColor="grey"
+                            style={{
+                                width: 80,
+                                borderRadius: 5,
+                                marginHorizontal: 5,
+                                height: 40,
+                                elevation: 5,
+                            }}>
+                            Decline
+                        </Button>
+
+                    </View>
+                ) : (
                     <Button
-                        onPress={this.Login}
-                        backgroundColor="primary.100"
-                        style={{
-                            width: 80,
-                            borderRadius: 5,
-                            marginHorizontal: 5,
-                            height: 40,
-                            elevation: 5,
-                        }}>
-                        Accept
-                    </Button>
-                    <Button
-                        onPress={this.Login}
+                        // onPress={this.friendRequestRejected}
+                        disabled
                         backgroundColor="grey"
                         style={{
-                            width: 80,
+                            // width: 80,
                             borderRadius: 5,
                             marginHorizontal: 5,
                             height: 40,
                             elevation: 5,
                         }}>
-                        Decline
+                        {item.content_action == 'accept' ? (<Text style={{color:'#fff'}}>Accepted</Text>):(<Text style={{color:'#fff'}}>Rejected</Text>)}
                     </Button>
-
-                </View>
+                )}
                 <Text style={{ alignSelf: 'flex-end', fontSize: 10, fontWeight: 'bold' }}>
-                    8:30 pm
+                    {new Date(item.created_at).toLocaleDateString()}
                 </Text>
 
             </View>
@@ -62,6 +199,8 @@ export default class Notification extends Component {
     );
 
     render() {
+        const { getUserNotificationsData, getUserNotificationsData_list, loader } = this.props;
+        console.warn('Dataa', getUserNotificationsData_list, getUserNotificationsData);
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <MyHeader
@@ -71,27 +210,74 @@ export default class Notification extends Component {
                 />
 
 
-                <FlatList
-                    style={styles.flex1}
-                    showsVerticalScrollIndicator={false}
-                    data={[
-                        { name: 'Alex will', img: require('../../assets/1.jpeg') },
-                        { name: 'John will', img: require('../../assets/2.jpeg') },
-                        { name: 'Max will', img: require('../../assets/3.jpeg') },
-                        { name: 'Marry will', img: require('../../assets/4.jpeg') },
-                        { name: 'Janifer will', img: require('../../assets/3.jpeg') },
-                        { name: 'Alex will', img: require('../../assets/1.jpeg') },
-                        { name: 'John will', img: require('../../assets/2.jpeg') },
-                        { name: 'Max will', img: require('../../assets/5.jpeg') },
-                        { name: 'Marry will', img: require('../../assets/4.jpeg') },
-                        { name: 'Janifer will', img: require('../../assets/3.jpeg') },
-                    ]}
-                    renderItem={({ item }) => this.renderUsersList(item)}
-                />
+                <View style={{ paddingHorizontal: 10 }}>
+                    <HStack
+                        backgroundColor="#eee"
+                        marginTop="2"
+                        borderRadius={10}
+                        alignItems="center"
+                        paddingX="3">
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', width: '90%' }}>
+                                <Icon as={Feather} name="search" size="sm" color="#aaa" />
+                                <Input fontSize={14} placeholder="Search By User Name" borderWidth={0} onChangeText={this.onChangeSearchText} />
+                            </View>
+                            {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('ServicesFilter')}>
+                            <Icon as={Octicons} name="settings" size="sm" color="#aaa" />
+                        </TouchableOpacity> */}
+                        </View>
+                    </HStack>
+                    {!getUserNotificationsData ? (
+                        <ActivityIndicator
+                            size={'large'}
+                            color={'#1D9CD9'}
+                            style={styles.loadMoreContentContainer}
+                        />
+                    ) : null}
+                    {getUserNotificationsData_list && getUserNotificationsData_list?.length ? (
+                        <FlatList
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={loader}
+                                    onRefresh={this.onRefreshServices}
+                                />
+                            }
+                            // style={styles.flex1}
+                            showsVerticalScrollIndicator={false}
+                            data={getUserNotificationsData_list}
+                            renderItem={({ item, index }) => this.renderUsersList(item)}
+                            ListFooterComponent={this.renderLoaderMoreButton()}
+                        />
+                    ) : null}
+
+                </View>
             </View>
         );
     }
 }
+const mapStateToProps = state => {
+    return {
+        // role: state.Auth.role,
+        // user: state.Auth.user,
+        getUserNotificationsData: state.NotificationReducer.getUserNotificationsData,
+        getUserNotificationsData_list: state.NotificationReducer.getUserNotificationsData_list,
+
+        friendRequestApprovedData: state.NotificationReducer.friendRequestApprovedData,
+
+    };
+};
+const mapDispatchToProps = dispatch => ({
+    // Login: data => dispatch(AuthMiddleware.Login(data)),
+    // Login: data => dispatch(AuthMiddleware.Login(data)),
+
+    getNotificationByUser: (payload) =>
+        dispatch(NotificationMiddleware.getNotificationByUser(payload)),
+
+    friendRequestApproved: (payload) =>
+        dispatch(NotificationMiddleware.friendRequestApproved(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Notification);
 const styles = StyleSheet.create({
     container: {
         flex: 1,

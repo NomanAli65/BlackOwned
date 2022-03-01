@@ -104,19 +104,19 @@ class Dashboard extends Component {
 
     geolocation.getCurrentPosition(
       (position) => {
-        console.warn("Region:", position);
+        // console.warn("Region:", position);
         this.UpdateUserLocation(position);
       },
       (error) => {
         // See error code charts below.
-        console.warn('Code ', error.code, error.message);
+        // console.warn('Code ', error.code, error.message);
       },
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000 }
     )
   }
 
   UpdateUserLocation = (position) => {
-    console.warn("Position:", position?.coords?.longitude);
+    // console.warn("Position:", position?.coords?.longitude);
     let lat = position?.coords?.latitude
     let lng = position?.coords?.longitude
 
@@ -177,7 +177,7 @@ class Dashboard extends Component {
   };
 
   _renderCompany = item => {
-    console.warn("ITEM:", item);
+    // console.warn("ITEM:", item);
     return (
       <TouchableOpacity onPress={() => this.props.navigation.navigate("LocalCompanyList")}>
         <HStack marginBottom="2">

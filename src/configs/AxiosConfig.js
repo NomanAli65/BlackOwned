@@ -9,7 +9,7 @@ export const instance = axios.create({
   timeout: 1000,
   //headers: {Authorization: 'Bearer ' + ''},
 });
-export const imgURL = 'http://192.168.0.172/blackowned/public/images/'
+export const imgURL = 'http://202.142.180.146:90/blackowned/public/images/'
 
 export const post = async (url, data, config) => {
   try {
